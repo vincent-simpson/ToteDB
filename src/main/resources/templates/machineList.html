@@ -386,10 +386,10 @@
 								<form action="#" th:action="@{/bettingAreas/save}" th:object="${bettingArea}" th:method="POST">
 									<div class="form-row">
 										<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
-											<input type="text" th:field="*{areaName}" id="defaultForm-first-name"
+											<input type="text" th:field="*{areaName}" id="defaultForm-betting-area"
 												class="form-control"> <label
 												data-error="wrong" data-success="right"
-												for="defaultForm-first-name">Betting Area Name</label>
+												for="defaultForm-betting-area">Betting Area Name</label>
 										</div>
 
 									</div>
@@ -419,67 +419,54 @@
 																<button class="btn btn-link" type="button"
 																	data-toggle="collapse"
 																	th:attr="data-target=${'#accordian_' + tempBettingArea.id}, aria-controls=${'accordian_' + tempBettingArea.id}"
-																	aria-expanded="false"
+																	aria-expanded="true"
 																	th:text="${tempBettingArea.areaName}"></button>
+																	
+																<a th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}"
+																	class="btn btn-danger btn-sm"
+																	style="float: right;"
+																	onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
+																	<i class="material-icons">&#xE872;</i>		
+																</a>
+																
 															</h5>
 														</div>
 														
-														<div th:attr="id=${'accordian_' + tempBettingArea.id}" class="collapse show"
+														<div th:attr="id=${'accordian_' + tempBettingArea.id}" class="collapse"
 															aria-labelledby="headingOne" data-parent="#accordionExample">
-															<div class="card-body">Anim pariatur cliche
+															<div class="card-body">
+																<!-- TODO: NEED TO ADD BUTTONS REPRESENTING EACH MACHINE IN EACH AREA -->
+																
+																<table class="table table-bordered" id="machineTable" width="100%" cellspacing="0">
+																	
+																	<tbody>
+																		
+																		<tr th:each="tempMachine : ${machines}">
+																			<td th:text="${tempMachine.id}" />
+																			<td th:text="${tempMachine.lsnNumber}" />
+																			<td th:text="${tempMachine.bettingArea}" />
+																			<td th:text="${tempMachine.serialNumber}" />
+																		
+																		</tr>
+																		
+																	</tbody>
+																
+																</table>
+																
+																
+																Anim pariatur cliche
 																reprehenderit, enim eiusmod high life accusamus terry
 																richardson ad squid. 3 wolf moon officia aute, non
-																cupidatat skateboard dolor brunch. Food truck quinoa
-																nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-																aliqua put a bird on it squid single-origin coffee nulla
-																assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-																craft beer labore wes anderson cred nesciunt sapiente ea
-																proident. Ad vegan excepteur butcher vice lomo. Leggings
-																occaecat craft beer farm-to-table, raw denim aesthetic
-																synth nesciunt you probably haven't heard of them accusamus
-																labore sustainable VHS.</div>
+																cupidatat skateboard dolor brunch.</div>
 														</div>	
 																											
-													</div>
-													
-													
+													</div>			
+									
 												</tr>
-												<tr>
-													
-												</tr>	
+
 											</tbody>	
 											
-										</table>
-									
-										<div class="card">
-											<div class="card-header" id="headingOne">
-												<h5 class="mb-0">
-													<button class="btn btn-link" type="button"
-														data-toggle="collapse" data-target="#collapseOne"
-														aria-expanded="false" aria-controls="collapseOne">
-														Collapsible Group Item #1</button>
-													<button class="btn btn-link" type="button"
-															data-toggle="collapse" data-target="#collapseOne"
-															aria-expanded="false" aria-controls="collapseOne">Test Item 2</button>
-												</h5>
-											</div>
-
-											<div id="collapseOne" class="collapse show"
-												aria-labelledby="headingOne" data-parent="#accordionExample">
-												<div class="card-body">Anim pariatur cliche
-													reprehenderit, enim eiusmod high life accusamus terry
-													richardson ad squid. 3 wolf moon officia aute, non
-													cupidatat skateboard dolor brunch. Food truck quinoa
-													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
-													aliqua put a bird on it squid single-origin coffee nulla
-													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-													craft beer labore wes anderson cred nesciunt sapiente ea
-													proident. Ad vegan excepteur butcher vice lomo. Leggings
-													occaecat craft beer farm-to-table, raw denim aesthetic
-													synth nesciunt you probably haven't heard of them accusamus
-													labore sustainable VHS.</div>
-											</div>
-										</div>
+										</table>								
 
 									</div>
 

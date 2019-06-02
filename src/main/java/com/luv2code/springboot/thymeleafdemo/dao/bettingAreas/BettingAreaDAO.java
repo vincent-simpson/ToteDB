@@ -13,5 +13,7 @@ public interface BettingAreaDAO {
 	public void save(BettingArea bettingArea);
 	
 	public void save(List<BettingArea> bettingAreas);
+	
+	public void delete(int theId);
 
 }

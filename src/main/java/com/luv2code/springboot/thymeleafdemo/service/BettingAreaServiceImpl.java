@@ -43,4 +43,10 @@ public class BettingAreaServiceImpl implements BettingAreaService {
 		bettingDAO.save(bettingAreas);
 	}
 
+	@Override
+	@Transactional
+	public void delete(int theId) {
+		bettingDAO.delete(theId);
+	}
+
 }

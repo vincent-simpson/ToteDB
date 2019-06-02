@@ -65,6 +65,18 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 			currentSession.saveOrUpdate(bettingArea);
 		}
 		
+	}
+
+	@Override
+	public void delete(int theId) {
+		
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query theQuery = currentSession.createQuery("delete from betting_areas where id=:machineId");
+		theQuery.setParameter("machineId", theId);
+		
+		theQuery.executeUpdate();
+		
 	}	
 
 }
