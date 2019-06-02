@@ -49,4 +49,10 @@ public class BettingAreaServiceImpl implements BettingAreaService {
 		bettingDAO.delete(theId);
 	}
 
+	@Override
+	@Transactional
+	public BettingArea getById(int id) {
+		return bettingDAO.getById(id);
+	}
+
 }

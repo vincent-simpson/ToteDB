@@ -141,4 +141,14 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		return machines;
 	}
 
+	@Override
+	public void delete(int id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query theQuery = currentSession.createQuery("delete from Machine where id=:machineId");
+		theQuery.setParameter("machineId", id);
+		
+		theQuery.executeUpdate();
+	}
+
 }

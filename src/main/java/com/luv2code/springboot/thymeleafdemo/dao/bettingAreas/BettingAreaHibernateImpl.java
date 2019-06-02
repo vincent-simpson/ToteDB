@@ -39,8 +39,8 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("from betting_areas where name=:name");
-		theQuery.setParameter("name", name);
+		Query theQuery = currentSession.createQuery("from betting_areas where area_name=:areaName");
+		theQuery.setParameter("areaName", name);
 		
 		BettingArea theBettingArea = (BettingArea) theQuery.uniqueResult();
 		
@@ -77,6 +77,16 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		theQuery.executeUpdate();
 		
+	}
+
+	@Override
+	public BettingArea getById(int id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		BettingArea bettingArea = currentSession.get(BettingArea.class, id);
+		
+		
+		return bettingArea;
 	}	
 
 }

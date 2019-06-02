@@ -8,6 +8,8 @@ public interface BettingAreaService {
 	
 	public BettingArea getByName(String name);
 	
+	public BettingArea getById(int id);
+	
 	public List<BettingArea> getAll();
 	
 	public void save(BettingArea bettingArea);

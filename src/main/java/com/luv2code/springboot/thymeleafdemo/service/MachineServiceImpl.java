@@ -74,8 +74,15 @@ public class MachineServiceImpl implements MachineService {
 	}
 
 	@Override
+	@Transactional
 	public List<Machine> getAll() {
 		return machineDAO.getAll();
+	}
+
+	@Override
+	@Transactional
+	public void delete(int id) {
+		machineDAO.delete(id);
 	}
 
 }

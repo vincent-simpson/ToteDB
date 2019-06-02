@@ -25,5 +25,7 @@ public interface MachineService {
 	public void save(List<Machine> machines);
 	
 	public List<Machine> getAll();
+	
+	public void delete(int id);
 
 }

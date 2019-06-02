@@ -8,6 +8,8 @@ public interface BettingAreaDAO {
 	
 	public BettingArea getByName(String name);
 	
+	public BettingArea getById(int id);
+	
 	public List<BettingArea> getAll();
 	
 	public void save(BettingArea bettingArea);
@@ -15,5 +17,6 @@ public interface BettingAreaDAO {
 	public void save(List<BettingArea> bettingAreas);
 	
 	public void delete(int theId);
+	
 
 }

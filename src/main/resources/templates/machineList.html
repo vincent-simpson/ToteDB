@@ -367,117 +367,186 @@
 							<div class="card mb-4">
 								<div class="card-header py-3">
 									<h6 class="m-0 font-weight-bold text-primary">
-										List of Machines
 										<button class="btn btn-primary btn-sm"
-											data-target="#addBettingAreaForm" data-toggle="modal">Add Betting
-											Area</button>
+											data-target="#addBettingAreaForm" data-toggle="modal">Add
+											Betting Area</button>
 									</h6>
-									
-							<div class="modal fade" id="addBettingAreaForm" tabindex="-1"
-								role="dialog" aria-labelledby="addBettingAreaForm" aria-hidden="true">
-								
-							<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header text-center">
-									<h4 class="modal-title w-100 font-weight-bold">Add
-										Betting Area</h4>
 								</div>
-								<!-- TODO: CHANGE TO REFLECT MAPPING TO ADDING A NEW BETTING AREA -->
-								<form action="#" th:action="@{/bettingAreas/save}" th:object="${bettingArea}" th:method="POST">
-									<div class="form-row">
-										<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
-											<input type="text" th:field="*{areaName}" id="defaultForm-betting-area"
-												class="form-control"> <label
-												data-error="wrong" data-success="right"
-												for="defaultForm-betting-area">Betting Area Name</label>
+
+								<!-- Start of Add Betting Area form -->
+								<div class="modal fade" id="addBettingAreaForm" tabindex="-1"
+									role="dialog" aria-labelledby="addBettingAreaForm"
+									aria-hidden="true">
+
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header text-center">
+												<h4 class="modal-title w-100 font-weight-bold" style="padding-bottom:5px;">Add
+													Betting Area</h4>
+											</div>
+											<!-- TODO: CHANGE TO REFLECT MAPPING TO ADDING A NEW BETTING AREA -->
+											<form action="#" th:action="@{/bettingAreas/save}"
+												th:object="${bettingArea}" th:method="POST">
+												<div class="form-row">
+													<div
+														class="form-group col-md-6 justify-content-center cold-md-offset-3"
+														style="float: none; margin: auto;">
+														<input type="text" th:field="*{areaName}"
+															id="defaultForm-betting-area" class="form-control" style="padding-top:5px;">
+														<label data-error="wrong" data-success="right"
+															for="defaultForm-betting-area">Betting Area Name</label>
+													</div>
+
+												</div>
+												<div class="modal-footer d-flex justify-content-center">
+													<button type="submit" class="btn btn-primary"
+														id="add-employee-button">Add</button>
+
+													<button class="btn btn-primary" data-dismiss="modal"
+														aria-label="Close">Cancel</button>
+												</div>
+											</form>
 										</div>
-
 									</div>
-									<div class="modal-footer d-flex justify-content-center">
-										<button type="submit" class="btn btn-primary" id="add-employee-button">Add</button>
 
-										<button class="btn btn-primary" data-dismiss="modal"
-											aria-label="Close">Cancel</button>
-									</div>
-								</form>
+								</div>
+								<!-- End of Add Betting Area form -->
 							</div>
 						</div>
-								
-							</div> 
-							
-							
+					</div>
 
-									<div class="accordion" id="accordionExample">
-										<table class="table table-bordered" id="bettingAreaTable" width="100%"
-											cellspacing="0">
-											
-											<tbody>
-												<tr th:each="tempBettingArea : ${bettingAreas}">
-													<div class="card">
-														<div class="card-header" id="headingTwo">
-															<h5 class="mb-0">
-																<button class="btn btn-link" type="button"
-																	data-toggle="collapse"
-																	th:attr="data-target=${'#accordian_' + tempBettingArea.id}, aria-controls=${'accordian_' + tempBettingArea.id}"
-																	aria-expanded="true"
-																	th:text="${tempBettingArea.areaName}"></button>
-																	
-																<a th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}"
-																	class="btn btn-danger btn-sm"
-																	style="float: right;"
-																	onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
-																	<i class="material-icons">&#xE872;</i>		
-																</a>
-																
-															</h5>
-														</div>
+					<div class="row">
+
+						<div class="col-lg-6">
+
+							<div class="accordion" id="accordionExample">
+								<table class="table table-bordered" id="bettingAreaTable"
+									width="100%" cellspacing="0">
+
+									<tbody>
+										<tr th:each="tempBettingArea : ${bettingAreas}">
+											<td>
+												<div class="card">
+													<div class="card-header" id="headingTwo">
+														<h5 class="mb-0">
+															<button class="btn btn-link" type="button"
+																data-toggle="collapse"
+																th:attr="data-target=${'#accordian_' + tempBettingArea.id}, aria-controls=${'accordian_' + tempBettingArea.id}"
+																aria-expanded="true"
+																th:text="${tempBettingArea.areaName}"></button>
+
+															<a
+																th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}"
+																class="btn btn-danger btn-sm" style="float: right;"
+																onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
+																<i class="material-icons">&#xE872;</i>
+															</a>
+															
+															<button class="btn btn-primary btn-md"
+																data-target="#modalAddMachineForm" data-toggle="modal">Add Machine</button>
+
+														</h5>
 														
-														<div th:attr="id=${'accordian_' + tempBettingArea.id}" class="collapse"
-															aria-labelledby="headingOne" data-parent="#accordionExample">
-															<div class="card-body">
-																<!-- TODO: NEED TO ADD BUTTONS REPRESENTING EACH MACHINE IN EACH AREA -->
-																
-																<table class="table table-bordered" id="machineTable" width="100%" cellspacing="0">
+														<div class="modal fade" id="modalAddMachineForm" tabindex="-1"
+														role="dialog" aria-labelledby="modalAddMachine" aria-hidden="true">
+														
+														<div class="modal-dialog" role="document">
+														
+															<div class="modal-content">
+															
+																<div class="modal-header text-center">
+																	<h4 class="modal-title w-100 font-weight-bold">Add Machine</h4>
+																</div>
+																<form action="#" th:action="@{/machines/save}" th:object="${machine}" th:method="POST">
+																	<div class="form-row">
+																		<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
+																			<input type="text" th:field="*{lsnNumber}" id="addMachine-lsnNumber"
+																				class="form-control"><label data-error="wrong" data-success="right" for="addMachine-lsnNumber">LSN Number</label>
+																			
+																			<select class="form-control" id="chooseBettingArea" name="chooseBettingArea">
+																				<option value="">Select Betting Area</option>
+																				<option th:each="tempBettingArea : ${bettingAreas}"
+																						th:value="${tempBettingArea.id}"
+																						th:text="${tempBettingArea.areaName}"/>
+																			</select><label data-error="wrong" data-success="right" for="chooseBettingArea">Choose Betting Area</label>
+															
+																			
+																			<input type="text" th:field="*{serialNumber}" id="addMachine-serialNumber"
+																				class="form-control"><label data-error="wrong" data-success="right" for="addMachine-serialNumber">Serial Number</label>
+																		</div>
 																	
-																	<tbody>
-																		
-																		<tr th:each="tempMachine : ${machines}">
-																			<td th:text="${tempMachine.id}" />
-																			<td th:text="${tempMachine.lsnNumber}" />
-																			<td th:text="${tempMachine.bettingArea}" />
-																			<td th:text="${tempMachine.serialNumber}" />
-																		
-																		</tr>
-																		
-																	</tbody>
+																	</div>
+																	<div class="modal-footer d-flex justify-content-center">
+																		<button type="submit" class="btn btn-primary" id="add-machine-button">Add</button>
+																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
+																	</div>
 																
-																</table>
+																</form>
+															</div>
+														</div>
+															
+													</div>
+														
+														
+														
+													</div>
+
+													<div th:attr="id=${'accordian_' + tempBettingArea.id}"
+														class="collapse" aria-labelledby="headingOne"
+														data-parent="#accordionExample">
+														<div class="card-body">
+													
+															<table class="table table-bordered" id="machineTable"
+																width="100%" cellspacing="0">
 																
-																
-																Anim pariatur cliche
-																reprehenderit, enim eiusmod high life accusamus terry
-																richardson ad squid. 3 wolf moon officia aute, non
-																cupidatat skateboard dolor brunch.</div>
-														</div>	
-																											
-													</div>			
-									
-												</tr>
+																<thead>
+																	<tr>
+																		<th>Id</th>
+																		<th>LSN</th>
+																		<th>Betting Area</th>
+																		<th>Serial Number</th>
+																		<th>Action</th>
+																	</tr>																
+																</thead>
 
-											</tbody>	
-											
-										</table>								
+																<tbody>
 
-									</div>
+																	<tr th:each="tempMachine : ${machines}" th:if="${tempMachine.bettingArea == tempBettingArea.id}">
+																		<td th:text="${tempMachine.id}" />
+																		<td th:text="${tempMachine.lsnNumber}" />
+																		<td th:text="${tempBettingArea.areaName}" />
+																		<td th:text="${tempMachine.serialNumber}" />
+																		<td>								
+																			<a th:href="@{/machines/delete(machineId=${tempMachine.id})}" class="btn btn-danger btn-sm"
+																				onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
+																				<i class="material-icons">&#xE872;</i>
+																			</a>													
+																		</td>
 
-								</div>
+																	</tr>
+
+																</tbody>
+
+															</table>
+
+														</div>
+													</div>
+													
+													
+
+												</div>
+											</td>
+										</tr>
+
+									</tbody>
+
+								</table>
 
 							</div>
 
 						</div>
 
 					</div>
-
 				</div>
 				<!-- /.container-fluid -->
 
