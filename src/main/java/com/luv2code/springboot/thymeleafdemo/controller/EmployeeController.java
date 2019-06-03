@@ -34,7 +34,7 @@ public class EmployeeController {
 		
 		employeeService.save(employee);
 		
-		return "redirect:/employeeList";
+		return "redirect:/employees/list";
 	}
 	
 	@GetMapping("/delete")
