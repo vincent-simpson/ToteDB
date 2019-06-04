@@ -27,5 +27,9 @@ public interface MachineService {
 	public List<Machine> getAll();
 	
 	public void delete(int id);
+	
+	public String getNotesById(int id);
+	
+	public String getNotesByLSN(int LSN);
 
 }

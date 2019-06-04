@@ -151,4 +151,26 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		theQuery.executeUpdate();
 	}
 
+	@Override
+	public String getNotesById(int id) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query theQuery = currentSession.createQuery("SELECT notes FROM machines WHERE id=:machineId");
+		theQuery.setParameter("machineId", id);
+		
+		
+		return (String) theQuery.uniqueResult();
+	}
+
+	@Override
+	public String getNotesByLSN(int LSN) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query theQuery = currentSession.createQuery("SELECT notes FROM machines WHERE lsn_number=:lsnNumber");
+		theQuery.setParameter("lsnNumber", LSN);
+		
+		
+		return (String) theQuery.uniqueResult();
+	}
+
 }

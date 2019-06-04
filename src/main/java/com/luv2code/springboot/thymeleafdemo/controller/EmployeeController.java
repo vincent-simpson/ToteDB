@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,12 +40,10 @@ public class EmployeeController {
 	
 	@GetMapping("/delete")
 	public String deleteEmployee(@RequestParam("employeeId") int id) {
-		
-		logger.info("employee id " + id);
-		
+				
 		employeeService.deleteById(id);
 		
-		return "redirect:/employeeList";
+		return "redirect:/employees/list";
 	}
 	
 	@GetMapping("/list")
@@ -58,5 +57,29 @@ public class EmployeeController {
 		
 		return "employeeList";
 	}
+	
+	@PostMapping("/edit")
+	public String editEmployee(@RequestParam("employeeId") int id, Model model) {
+		
+		if(id == -1) {
+			logger.warn("The employee id is: " + id);
+			
+			model.addAttribute("employee", new Employee());
+			
+			return "employeeList :: modalEditEmployee";
+		} else {
+			logger.warn("The employee id is: " + id);
+			
+			Employee employee = employeeService.findById(id);
+			
+			model.addAttribute("employee", employee);
+			
+			return "employeeList :: modalEditEmployee";
+		}	
+		
+		
+	}
+
+	
 
 }

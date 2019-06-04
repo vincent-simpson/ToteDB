@@ -25,13 +25,17 @@ public class Machine {
 	@Column(name="serial_number")
 	private String serialNumber;
 	
+	@Column(name="notes")
+	private String notes;
+	
 	public Machine() {}
 
-	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber) {
+	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber, String notes) {
 		this.id = id;
 		this.lsnNumber = lsnNumber;
 		this.bettingArea = bettingArea;
 		this.serialNumber = serialNumber;
+		this.notes = notes;
 	}
 
 	public int getId() {
@@ -65,6 +69,15 @@ public class Machine {
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+	
 	
 	
 

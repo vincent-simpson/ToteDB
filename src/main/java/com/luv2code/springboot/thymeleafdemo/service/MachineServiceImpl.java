@@ -85,4 +85,16 @@ public class MachineServiceImpl implements MachineService {
 		machineDAO.delete(id);
 	}
 
+	@Override
+	@Transactional
+	public String getNotesById(int id) {
+		return machineDAO.getNotesById(id);
+	}
+
+	@Override
+	@Transactional
+	public String getNotesByLSN(int LSN) {
+		return machineDAO.getNotesByLSN(LSN);
+	}
+
 }
