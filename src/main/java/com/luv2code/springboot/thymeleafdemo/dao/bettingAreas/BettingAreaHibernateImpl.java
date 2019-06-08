@@ -3,9 +3,12 @@ package com.luv2code.springboot.thymeleafdemo.dao.bettingAreas;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -37,12 +40,17 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 	@Override
 	public BettingArea getByName(String name) {
 		
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+
+		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("from betting_areas where area_name=:areaName");
-		theQuery.setParameter("areaName", name);
+		Query<BettingArea> theQuery = currentSession.createQuery("from betting_areas where area_name=:areaNameValue");
+		theQuery.setParameter("areaNameValue", name);
+				
+		BettingArea theBettingArea = theQuery.uniqueResult();
 		
-		BettingArea theBettingArea = (BettingArea) theQuery.uniqueResult();
+		logger.warn(theBettingArea + " inside getByName()");
 		
 		return theBettingArea;
 	}
@@ -52,16 +60,16 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("from betting_areas where id=:bettingAreaId");
+		Query<BettingArea> theQuery = currentSession.createQuery("from betting_areas where id=:bettingAreaId");
 		theQuery.setParameter("bettingAreaId", bettingArea.getId());
 		
-		BettingArea bettingArea2 = (BettingArea) theQuery.getSingleResult();
-		
-		if(bettingArea2 == null) {
-			currentSession.save(bettingArea);
-		} else {
+		try {
+			BettingArea bettingArea2 = theQuery.getSingleResult();
+			
 			currentSession.evict(bettingArea2);
 			currentSession.update(bettingArea);
+		} catch (NoResultException e) {
+			currentSession.save(bettingArea);
 		}
 				
 	}
@@ -79,13 +87,27 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 
 	@Override
 	public void delete(int theId) {
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("delete from betting_areas where id=:machineId");
-		theQuery.setParameter("machineId", theId);
-		
+		Query<BettingArea> theQuery = currentSession.createQuery("delete from betting_areas where id=:machineId");
+		theQuery.setParameter("machineId", theId);	
 		theQuery.executeUpdate();
+		
+		
+		Query<BettingArea> emptyTableQuery = currentSession.createQuery("from betting_areas");
+		List<BettingArea> temp = emptyTableQuery.getResultList();
+		
+		if (temp.isEmpty()) {
+			logger.warn("in if statement");
+			
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER TABLE betting_areas AUTO_INCREMENT=0");
+			autoIncrementZero.executeUpdate();
+		} else {
+			logger.warn(emptyTableQuery.getResultList().toString());
+		}
 		
 	}
 

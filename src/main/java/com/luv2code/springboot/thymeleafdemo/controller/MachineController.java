@@ -33,12 +33,20 @@ public class MachineController {
 	}
 	
 	@PostMapping("/save")
-	public String saveMachine(@ModelAttribute("machine") Machine machine, @RequestParam("chooseBettingArea") String bettingArea,
-			@RequestParam("machineId2") int id) {
+	public String saveMachine(@ModelAttribute("machine") Machine machine, 
+			@RequestParam("machineId2") int id,
+			@RequestParam("bettingAreaButtonText") String bettingAreaButtonText) {
 		
-		logger.info(bettingArea);
+		logger.warn(bettingAreaButtonText + "  betting area button text");
+				
+		int bettingArea = machine.getBettingArea();
 		
-		BettingArea temp = bettingAreaService.getById(Integer.parseInt(bettingArea));
+		logger.info(bettingArea + "");
+		
+		BettingArea temp = bettingAreaService.getByName(bettingAreaButtonText);
+		
+		logger.warn(temp + "");
+		logger.warn(temp.toString());
 		
 		machine.setBettingArea(
 				temp.getId());

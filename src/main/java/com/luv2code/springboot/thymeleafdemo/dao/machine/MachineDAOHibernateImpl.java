@@ -3,12 +3,16 @@ package com.luv2code.springboot.thymeleafdemo.dao.machine;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.luv2code.springboot.thymeleafdemo.entity.Employee;
 import com.luv2code.springboot.thymeleafdemo.entity.Machine;
 
 @Repository
@@ -119,15 +123,15 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		Query theQuery = currentSession.createQuery("from machines where id=:machineId");
 		theQuery.setParameter("machineId", machine.getId());
 		
-		Machine machine2 = (Machine) theQuery.getSingleResult();
+		Machine machine2;
 		
-		if(machine2 == null) {
-			currentSession.save(machine);
-		} else {
+		try {
+			machine2 = (Machine) theQuery.getSingleResult();
 			currentSession.evict(machine2);
 			currentSession.update(machine);
-		}
-		
+		} catch (NoResultException e) {
+			currentSession.save(machine);
+		}		
 		
 	}
 
@@ -161,6 +165,18 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		theQuery.setParameter("machineId", id);
 		
 		theQuery.executeUpdate();
+		
+		Query emptyTableQuery = currentSession.createQuery("from machines");
+		List<Machine> temp = emptyTableQuery.getResultList();
+		
+		if(temp.isEmpty()) {
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER TABLE machines AUTO_INCREMENT=0");
+			autoIncrementZero.executeUpdate();
+		} else {
+			Logger logger = LoggerFactory.getLogger(this.getClass());
+			logger.warn(temp.toString());
+		}
+		
 	}
 
 	@Override
