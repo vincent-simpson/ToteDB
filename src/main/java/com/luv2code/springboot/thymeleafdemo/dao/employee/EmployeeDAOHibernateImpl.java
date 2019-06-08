@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.luv2code.springboot.thymeleafdemo.entity.Employee;
@@ -45,10 +47,28 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		// get the current session
 		Session currentSession = entityManager.unwrap(Session.class);
-	
 		
-		// save employee
-		currentSession.saveOrUpdate(employee);
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+		
+		logger.warn(employee.getId() + "");
+		
+		Query theQuery = currentSession.createQuery("from Employee where id=:employeeId");
+		theQuery.setParameter("employeeId", employee.getId());
+		
+		logger.warn("query employee id: " + employee.getId());
+		
+		Employee employee2 = (Employee) theQuery.getSingleResult();
+				
+		if(employee2 == null) {
+			currentSession.save(employee);
+			logger.warn("employee is null. Saving it now");
+		} else {
+			currentSession.evict(employee2); //remove employee2 because it also references the same object as the employee parameter
+			currentSession.update(employee);
+			logger.warn("employee is not null. updating...");
+		}
+		
+	
 		
 	}
 
@@ -74,7 +94,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		//delete object with primary key
-		Query theQuery = currentSession.createQuery("delete from Employee where id=:employeeId");
+		Query<Employee> theQuery = currentSession.createQuery("delete from Employee where id=:employeeId");
 		theQuery.setParameter("employeeId", theId);
 		
 		theQuery.executeUpdate();

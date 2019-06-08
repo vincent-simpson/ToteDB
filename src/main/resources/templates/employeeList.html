@@ -461,11 +461,13 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header text-center">
-									<h4 class="modal-title w-100 font-weight-bold">Add
+									<h4 id="add-employee-title" class="modal-title w-100 font-weight-bold">Add
 										Employee</h4>
 								</div>
-								<form action="#" th:action="@{/employees/save}"
-									th:object="${employee}" th:method="POST">
+								<form action="#" 
+									th:object="${employee}" 
+									th:action="@{/employees/save(employeeId2=${employee.id})}"
+									th:method="POST">
 									<div class="form-row">
 										<div
 											class="form-group col-md-6 justify-content-center cold-md-offset-3"
@@ -626,6 +628,10 @@
 					var nomArea = data;
 
 					$("#employeeModalHolder").html(nomArea);
+					
+					$("#employeeModalHolder #add-employee-button").html("Save");
+					$("#employeeModalHolder #add-employee-title").html("Edit Employee");
+					
 					$("#modalEmployeeForm").modal("show");
 					
 					

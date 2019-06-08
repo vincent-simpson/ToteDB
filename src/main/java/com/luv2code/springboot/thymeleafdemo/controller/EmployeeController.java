@@ -30,8 +30,13 @@ public class EmployeeController {
 		this.employeeService = theEmployeeService;
 	}
 	
-	@PostMapping("/save")
-	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
+	@RequestMapping("/save")
+	public String saveEmployee(@ModelAttribute("employee") Employee employee, @RequestParam("employeeId2") int id) {
+		
+		logger.warn("employee controller employee id: " + employee);
+		logger.warn("id: " + id);
+		
+		employee.setId(id);
 		
 		employeeService.save(employee);
 		
@@ -49,6 +54,8 @@ public class EmployeeController {
 	@GetMapping("/list")
 	public String employeeList(Model theModel) {
 		
+		logger.warn("In list mapping");
+		
 		List<Employee> employees = employeeService.findAll();
 		Employee employee = new Employee();
 		
@@ -62,15 +69,16 @@ public class EmployeeController {
 	public String editEmployee(@RequestParam("employeeId") int id, Model model) {
 		
 		if(id == -1) {
-			logger.warn("The employee id is: " + id);
+			logger.warn("The employee id is negative 1: " + id);
 			
 			model.addAttribute("employee", new Employee());
 			
 			return "employeeList :: modalEditEmployee";
 		} else {
-			logger.warn("The employee id is: " + id);
+			logger.warn("The employee id is not negative 1: " + id);
 			
 			Employee employee = employeeService.findById(id);
+			logger.warn("employee service employee id: " + employee.getId());
 			
 			model.addAttribute("employee", employee);
 			
