@@ -368,20 +368,27 @@
 									</h6>
 								</div>
 
+								<div id="bettingAreaModalHolder" th:fragment="modalAddBettingArea">
+								</div>
+
 								<!-- Start of Add Betting Area form -->
 								<div class="modal fade" id="addBettingAreaForm" tabindex="-1"
 									role="dialog" aria-labelledby="addBettingAreaForm"
-									aria-hidden="true">
+									aria-hidden="true"
+									th:fragment="modalAddBettingArea">
 
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
 											<div class="modal-header text-center">
-												<h4 class="modal-title w-100 font-weight-bold" style="padding-bottom:5px;">Add
+												<h4 id="add-bettingArea-title" class="modal-title w-100 font-weight-bold" style="padding-bottom:5px;"
+												onclick="javascript:openBettingAreaModal('-1');">Add
 													Betting Area</h4>
 											</div>
 											<!-- TODO: CHANGE TO REFLECT MAPPING TO ADDING A NEW BETTING AREA -->
-											<form action="#" th:action="@{/bettingAreas/save}"
-												th:object="${bettingArea}" th:method="POST">
+											<form action="#" 
+											th:object="${bettingArea}"
+											th:action="@{/bettingAreas/save(bettingAreaId2=${bettingArea.id})}"
+												 th:method="POST">
 												<div class="form-row">
 													<div
 														class="form-group col-md-6 justify-content-center cold-md-offset-3"
@@ -395,7 +402,7 @@
 												</div>
 												<div class="modal-footer d-flex justify-content-center">
 													<button type="submit" class="btn btn-primary"
-														id="add-employee-button">Add</button>
+														id="add-bettingArea-button">Add</button>
 
 													<button class="btn btn-primary" data-dismiss="modal"
 														aria-label="Close">Cancel</button>
@@ -437,28 +444,44 @@
 																<i class="material-icons">&#xE872;</i>
 															</a>
 															
+															<!-- TODO -->
+															<a
+															
+																href="#"
+																class="btn btn-primary btn-sm"
+																style="float:right;"
+																id="editBettingAreaButton"
+																th:onclick="'javascript:openBettingAreaModal(\'' + ${tempBettingArea.id} + '\');'">
+																	<i class="material-icons">&#xE254;</i>
+															</a>
+															
 															<button class="btn btn-primary btn-md"
 																data-target="#modalAddMachineForm" data-toggle="modal">Add Machine</button>
 
 														</h5>
 														
+														<div id="machineModalHolder" th:fragment="modalAddMachine">
+														</div>
+														
 														<div class="modal fade" id="modalAddMachineForm" tabindex="-1"
-														role="dialog" aria-labelledby="modalAddMachine" aria-hidden="true">
+														role="dialog" aria-labelledby="modalAddMachine" aria-hidden="true" th:fragment="modalAddMachine">
 														
 														<div class="modal-dialog" role="document">
 														
 															<div class="modal-content">
 															
 																<div class="modal-header text-center">
-																	<h4 class="modal-title w-100 font-weight-bold">Add Machine</h4>
+																	<h4 id="add-machine-title" class="modal-title w-100 font-weight-bold">Add Machine</h4>
 																</div>
-																<form action="#" th:action="@{/machines/save}" th:object="${machine}" th:method="POST">
+																<form action="#" th:object="${machine}" th:action="@{/machines/save(machineId2=${machine.id})}"  th:method="POST">
 																	<div class="form-row">
 																		<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
 																			<input type="text" th:field="*{lsnNumber}" id="addMachine-lsnNumber"
 																				class="form-control"><label data-error="wrong" data-success="right" for="addMachine-lsnNumber">LSN Number</label>
 																			
-																			<select class="form-control" id="chooseBettingArea" name="chooseBettingArea">
+																			<!-- TODO -->
+																			<select class="form-control"
+																				th:field="*{machine.bettingArea}">
 																				<option value="">Select Betting Area</option>
 																				<option th:each="tempBettingArea : ${bettingAreas}"
 																						th:value="${tempBettingArea.id}"
@@ -468,11 +491,13 @@
 																			
 																			<input type="text" th:field="*{serialNumber}" id="addMachine-serialNumber"
 																				class="form-control"><label data-error="wrong" data-success="right" for="addMachine-serialNumber">Serial Number</label>
+																			
+			
 																		</div>
 																	
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
-																		<button type="submit" class="btn btn-primary" id="add-machine-button">Add</button>
+																		<button type="submit" class="btn btn-primary" id="add-machine-button" onclick="javascript:openMachineModal('-1');">Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
 																
@@ -500,6 +525,7 @@
 																		<th>LSN</th>
 																		<th>Betting Area</th>
 																		<th>Serial Number</th>
+																		<th>Notes</th>
 																		<th>Action</th>
 																	</tr>																
 																</thead>
@@ -511,11 +537,25 @@
 																		<td th:text="${tempMachine.lsnNumber}" />
 																		<td th:text="${tempBettingArea.areaName}" />
 																		<td th:text="${tempMachine.serialNumber}" />
-																		<td>								
+																		<td th:text="${tempMachine.notes}"/>
+																		<td>	
+																		
+																			<a
+																				href="#"
+																				class="btn btn-primary btn-sm"
+																				id="editMachineButton"
+																				th:onclick="'javascript:openMachineModal(\'' + ${tempMachine.id} + '\');'">
+																					<i class="material-icons">&#xE254;</i>
+																			</a>
+																									
 																			<a th:href="@{/machines/delete(machineId=${tempMachine.id})}" class="btn btn-danger btn-sm"
 																				onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
 																				<i class="material-icons">&#xE872;</i>
-																			</a>													
+																			</a>
+																			
+																			<!-- TODO -->
+																			
+																																
 																		</td>
 
 																	</tr>
@@ -612,6 +652,70 @@
 
 	<!-- Page level custom scripts -->
 	<script th:src="@{/js/demo/datatables-demo.js}" type="text/javascript"></script>
+	
+	<script type="text/javascript">
+	
+	var rh = rh || {};
+	rh.mq = rh.mq || {};
+
+	rh.mq.attachEventHandlers = function() {
+		$("#addBettingAreaForm").on('shown.bs.modal', function() {
+			$("#defaultForm-betting-area").focus();
+			
+		});
+		
+		$("#modalAddMachineForm").on('shown.bs.modal', function() {
+			$("#addMachine-lsnNumber").focus();
+		})
+
+	};
+	
+	$(document).ready(function() {
+		rh.mq.attachEventHandlers();
+
+	});
+	
+	function openBettingAreaModal(id) {
+		$.ajax({
+			type : 'POST',
+			url : "/bettingAreas/edit?bettingAreaId=" + id,
+			success : function(data) {
+				var nomArea = data;
+
+				$("#bettingAreaModalHolder").html(nomArea);
+				
+				$("#bettingAreaModalHolder #add-bettingArea-button").html("Save");
+				$("#bettingAreaModalHolder #add-bettingArea-title").html("Edit Betting Area");
+				
+				$("#addBettingAreaForm").modal("show");
+				
+				
+				
+			}
+		});
+	};
+	
+	function openMachineModal(id) {
+		$.ajax({
+			type : 'POST',
+			url : "/machines/edit?machineId=" + id,
+			success : function(data) {
+				var nomArea = data;
+
+				$("#machineModalHolder").html(nomArea);
+				
+				$("#machineModalHolder #add-machine-button").html("Save");
+				$("#machineModalHolder #add-machine-title").html("Edit Machine");
+				
+				$("#modalAddMachineForm").modal("show");
+				
+			}
+		});
+	}
+
+	
+	
+	</script>
 
 </body>
 

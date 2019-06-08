@@ -49,7 +49,10 @@ public class BettingAreaController {
 	}
 	
 	@PostMapping("/save")
-	public String saveBettingArea(@ModelAttribute("bettingArea") BettingArea bettingArea) {
+	public String saveBettingArea(@ModelAttribute("bettingArea") BettingArea bettingArea,
+			@RequestParam("bettingAreaId2") int id) {
+		bettingArea.setId(id);
+		
 		bettingAreaService.save(bettingArea);
 		
 		return "redirect:/bettingAreas/list";
@@ -62,6 +65,28 @@ public class BettingAreaController {
 		
 		
 		return "redirect:/bettingAreas/list";
+	}
+	
+	
+	@PostMapping("/edit")
+	public String editBettingArea(@RequestParam("bettingAreaId") int id, Model model) {
+		
+		if(id == -1) {
+			model.addAttribute("bettingArea", new BettingArea());
+			
+			return "machineList :: modalAddBettingArea";
+		} else {
+			BettingArea bettingArea = bettingAreaService.getById(id);
+			
+			model.addAttribute("bettingArea", bettingArea);
+			
+			return "machineList :: modalAddBettingArea";
+		}
+		
+		
+		
+		
+		
 	}
 
 }

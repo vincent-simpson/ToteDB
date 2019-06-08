@@ -116,7 +116,19 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public void save(Machine machine) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		currentSession.saveOrUpdate(machine);
+		Query theQuery = currentSession.createQuery("from machines where id=:machineId");
+		theQuery.setParameter("machineId", machine.getId());
+		
+		Machine machine2 = (Machine) theQuery.getSingleResult();
+		
+		if(machine2 == null) {
+			currentSession.save(machine);
+		} else {
+			currentSession.evict(machine2);
+			currentSession.update(machine);
+		}
+		
+		
 	}
 
 	@Override
@@ -134,7 +146,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Query<Machine> theQuery = 
-				currentSession.createQuery("from Machine", Machine.class);
+				currentSession.createQuery("from machines", Machine.class);
 		
 		List<Machine> machines = theQuery.getResultList();
 		
@@ -145,7 +157,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public void delete(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("delete from Machine where id=:machineId");
+		Query theQuery = currentSession.createQuery("delete from machines where id=:machineId");
 		theQuery.setParameter("machineId", id);
 		
 		theQuery.executeUpdate();

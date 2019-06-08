@@ -587,14 +587,8 @@
 			$("#modalEmployeeForm").on('shown.bs.modal', function() {
 				$("#defaultForm-first-name").focus();
 				
-				if($("#modalEmployeeForm .modal-title:contains('Add')")) {
-					console.log(' > 0');
-				} else {
-					console.log('not');
-				}
 				
 				$("#addEmployeeButton").click(function() {
-					console.log('here');
 					$("#modalEmployeeForm .modal-title").html("Add an Employee");
 					$("#modalEmployeeForm #add-employee-button").html("Add");
 
@@ -602,7 +596,6 @@
 				
 				
 				$("#editEmployeeButton").click(function() {
-					console.log('here2');
 					$("#modalEmployeeForm .modal-title").html("Edit an Employee");
 					$("#modalEmployeeForm #add-employee-button").html("Finish");
 

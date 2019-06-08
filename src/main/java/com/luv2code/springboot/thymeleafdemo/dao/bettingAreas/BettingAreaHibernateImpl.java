@@ -52,8 +52,18 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		currentSession.saveOrUpdate(bettingArea);
+		Query theQuery = currentSession.createQuery("from betting_areas where id=:bettingAreaId");
+		theQuery.setParameter("bettingAreaId", bettingArea.getId());
 		
+		BettingArea bettingArea2 = (BettingArea) theQuery.getSingleResult();
+		
+		if(bettingArea2 == null) {
+			currentSession.save(bettingArea);
+		} else {
+			currentSession.evict(bettingArea2);
+			currentSession.update(bettingArea);
+		}
+				
 	}
 
 	@Override

@@ -33,7 +33,8 @@ public class MachineController {
 	}
 	
 	@PostMapping("/save")
-	public String saveMachine(@ModelAttribute("machine") Machine machine, @RequestParam("chooseBettingArea") String bettingArea) {
+	public String saveMachine(@ModelAttribute("machine") Machine machine, @RequestParam("chooseBettingArea") String bettingArea,
+			@RequestParam("machineId2") int id) {
 		
 		logger.info(bettingArea);
 		
@@ -41,6 +42,8 @@ public class MachineController {
 		
 		machine.setBettingArea(
 				temp.getId());
+		
+		machine.setId(id);
 		
 		machineService.save(machine);
 		
@@ -64,6 +67,24 @@ public class MachineController {
 		machineService.delete(id);
 		
 		return "redirect:/bettingAreas/list";
+	}
+	
+	@PostMapping("/edit")
+	public String editMachine(@RequestParam("machineId") int id, Model model) {
+		
+		if(id == -1) {
+			model.addAttribute("machine", new Machine());
+			
+			return "machineList :: modalAddMachine";
+		} else {
+			Machine machine = machineService.getByPrimaryId(id);
+			
+			model.addAttribute("machine", machine);
+			
+			return "machineList :: modalAddMachine";
+		}
+		
+		
 	}
 
 }

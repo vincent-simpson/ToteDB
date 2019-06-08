@@ -7,7 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import com.luv2code.springboot.thymeleafdemo.service.BettingAreaService;
+
+@Entity(name="machines")
 @Table(name="machines")
 public class Machine {
 	
@@ -27,9 +33,9 @@ public class Machine {
 	
 	@Column(name="notes")
 	private String notes;
-	
+		
 	public Machine() {}
-
+	
 	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber, String notes) {
 		this.id = id;
 		this.lsnNumber = lsnNumber;
@@ -59,6 +65,8 @@ public class Machine {
 	}
 
 	public void setBettingArea(int bettingArea) {
+		
+		
 		this.bettingArea = bettingArea;
 	}
 
