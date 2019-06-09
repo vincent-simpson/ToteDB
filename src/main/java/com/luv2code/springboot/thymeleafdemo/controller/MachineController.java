@@ -35,18 +35,18 @@ public class MachineController {
 	@PostMapping("/save")
 	public String saveMachine(@ModelAttribute("machine") Machine machine, 
 			@RequestParam("machineId2") int id,
-			@RequestParam("bettingAreaButtonText") String bettingAreaButtonText) {
+			@RequestParam("bettingAreaButtonText") String bettingAreaButtonText,
+			Model model) {
+		
+		if(id == -1) {
+			model.addAttribute("machine", new Machine());
+		}
 		
 		logger.warn(bettingAreaButtonText + "  betting area button text");
-				
-		int bettingArea = machine.getBettingArea();
-		
-		logger.info(bettingArea + "");
-		
+						
 		BettingArea temp = bettingAreaService.getByName(bettingAreaButtonText);
 		
-		logger.warn(temp + "");
-		logger.warn(temp.toString());
+		logger.warn("temp to string: " + temp.toString());
 		
 		machine.setBettingArea(
 				temp.getId());
@@ -94,5 +94,33 @@ public class MachineController {
 		
 		
 	}
+	
+	@PostMapping("/bind") 
+		public String bindButttonText(@ModelAttribute("machine") Machine machine,
+				@RequestParam("bettingAreaButtonText") String buttonText,
+				@RequestParam("machineId") int id) {
+		
+			logger.warn("inside bind function " + "::: " + buttonText + "::: " + id + "::: " + machine.toString());
+			
+//			if(id != -1) {
+//				machine = machineService.getByPrimaryId(id);
+//			} else {
+//				machine = new Machine();
+//			}
+			
+			BettingArea bettingArea = bettingAreaService.getByName(buttonText);
+						
+			machine.setBettingArea(bettingArea.getId());
+			
+			logger.warn("machine = " + machine.toString());
+			logger.warn("betting area = " + bettingArea.toString());
+			
+			machineService.save(machine);
+			
+			return "redirect:/bettingAreas/list";
+
+			
+		}
+	
 
 }

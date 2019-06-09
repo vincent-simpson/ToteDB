@@ -457,7 +457,10 @@
 															</a>
 															
 															<button class="btn btn-primary btn-md"
-																data-target="#modalAddMachineForm" data-toggle="modal" th:onclick="javascript:receiveId(1);">Add Machine</button>
+																data-target="#modalAddMachineForm" data-toggle="modal"
+																th:data-buttonText="${tempBettingArea.areaName}"
+																onclick="javascript:bindParentButtonText(this.getAttribute('data-buttonText'));"
+																>Add Machine</button>
 
 														</h5>
 														
@@ -474,8 +477,9 @@
 																<div class="modal-header text-center">
 																	<h4 id="add-machine-title" class="modal-title w-100 font-weight-bold">Add Machine</h4>
 																</div>
-																<form action="#" th:object="${machine}" th:action="@{/machines/save(machineId2=${machine.id})}"  
-																	th:method="POST">
+																<!-- @{/machines/save(machineId2=${machine.id})} -->
+																<form action="#" th:object="${machine}" 
+																	>
 																	<div class="form-row">
 																		<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
 																			<input type="text" th:field="*{lsnNumber}" id="addMachine-lsnNumber"
@@ -494,7 +498,7 @@
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
 																		<button type="submit" class="btn btn-primary" id="add-machine-button" 
-																		onclick="javascript:openMachineModal('-1');">
+																		> <!-- javascript:openMachineModal('-1');  -->
 																		Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
@@ -664,18 +668,6 @@
 		
 		$("#modalAddMachineForm").on('shown.bs.modal', function() {
 			$("#addMachine-lsnNumber").focus();
-			console.log('here');
-			
-			var bettingAreaButtonText = $("#betting-area-header").text();
-			console.log(bettingAreaButtonText); //works
-			
-			$.ajax({
-				type : 'POST',
-				url : "/machines/save?bettingAreaButtonText='" + bettingAreaButtonText + "'" + "&machineId2=1",
-				success : function(data) {
-					console.log('success');
-				}
-			});
 			
 		});
 
@@ -705,6 +697,22 @@
 			}
 		});
 	};
+	
+	function bindParentButtonText(buttonText) {
+		console.log('parent button text ' + buttonText);
+		console.log('id ' + id);
+		
+		var id = -1;
+		
+		$.ajax({
+			type : 'POST',
+			url : "/machines/bind?bettingAreaButtonText='" + buttonText + "'" + "&machineId=" + id,
+			success : function(data) {
+				console.log(data);
+			}
+			
+		});
+	}
 	
 	
 	function openMachineModal(id) {

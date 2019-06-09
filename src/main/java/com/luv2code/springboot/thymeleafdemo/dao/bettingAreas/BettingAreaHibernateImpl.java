@@ -5,7 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +47,10 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<BettingArea> theQuery = currentSession.createQuery("from betting_areas where area_name=:areaNameValue");
-		theQuery.setParameter("areaNameValue", name);
+		NativeQuery theQuery = currentSession.createSQLQuery("SELECT * FROM betting_areas where area_name = " + name);
+		theQuery.addEntity(BettingArea.class);	
 				
-		BettingArea theBettingArea = theQuery.uniqueResult();
+		BettingArea theBettingArea = (BettingArea) theQuery.uniqueResult();
 		
 		logger.warn(theBettingArea + " inside getByName()");
 		

@@ -85,6 +85,12 @@ public class Machine {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
+
+	@Override
+	public String toString() {
+		return "Machine [id=" + id + ", lsnNumber=" + lsnNumber + ", bettingArea=" + bettingArea + ", serialNumber="
+				+ serialNumber + ", notes=" + notes + "]";
+	}
 	
 	
 	
