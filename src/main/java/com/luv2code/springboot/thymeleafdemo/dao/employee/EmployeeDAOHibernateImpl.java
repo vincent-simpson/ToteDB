@@ -57,7 +57,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		logger.warn("query employee id: " + employee.getId());
 		
-		Employee employee2 = (Employee) theQuery.getSingleResult();
+		Employee employee2 = (Employee) theQuery.uniqueResult();
 				
 		if(employee2 == null) {
 			currentSession.save(employee);
