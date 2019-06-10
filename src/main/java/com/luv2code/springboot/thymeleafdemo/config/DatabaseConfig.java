@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.cfg.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,7 @@ public class DatabaseConfig {
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
         basicDataSource.setDriverClassName("org.postgresql.Driver");
+        basicDataSource.addConnectionProperty(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
 
         return basicDataSource;
     }
