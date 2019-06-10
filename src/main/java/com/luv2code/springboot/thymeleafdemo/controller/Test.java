@@ -20,6 +20,9 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Controller
 public class Test {
+	
+	@Autowired
+	private DataSource dataSource;
 
 	@RequestMapping("/db")
 	String db(Map<String, Object> model) {
@@ -41,4 +44,5 @@ public class Test {
 			return "error";
 		}
 	}
+
 }
