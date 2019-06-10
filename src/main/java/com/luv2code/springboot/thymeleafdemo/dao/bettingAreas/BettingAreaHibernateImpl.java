@@ -105,7 +105,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		if (temp.isEmpty()) {
 			logger.warn("in if statement");
 			
-			Query autoIncrementZero = currentSession.createSQLQuery("ALTER TABLE betting_areas AUTO_INCREMENT=0");
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE betting_areas_id_seq RESTART WITH 1");
 			autoIncrementZero.executeUpdate();
 		} else {
 			logger.warn(emptyTableQuery.getResultList().toString());

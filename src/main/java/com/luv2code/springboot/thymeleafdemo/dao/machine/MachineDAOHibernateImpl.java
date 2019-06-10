@@ -170,7 +170,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		List<Machine> temp = emptyTableQuery.getResultList();
 		
 		if(temp.isEmpty()) {
-			Query autoIncrementZero = currentSession.createSQLQuery("ALTER TABLE machines AUTO_INCREMENT=0");
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_id_seq RESTART WITH 1");
 			autoIncrementZero.executeUpdate();
 		} else {
 			Logger logger = LoggerFactory.getLogger(this.getClass());
