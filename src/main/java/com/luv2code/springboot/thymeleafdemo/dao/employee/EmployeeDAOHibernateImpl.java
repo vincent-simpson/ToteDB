@@ -32,7 +32,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		// create a query
 		Query<Employee> theQuery = 
-				currentSession.createQuery("from employee", Employee.class);
+				currentSession.createQuery("from Employee", Employee.class);
 		
 		// execute query and get result list
 		List<Employee> employees = theQuery.list();
@@ -52,7 +52,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		logger.warn(employee.getId() + "");
 		
-		Query theQuery = currentSession.createQuery("from employee where id=:employeeId");
+		Query theQuery = currentSession.createQuery("from Employee where id=:employeeId");
 		theQuery.setParameter("employeeId", employee.getId());
 		
 		logger.warn("query employee id: " + employee.getId());
@@ -94,7 +94,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		//delete object with primary key
-		Query<Employee> theQuery = currentSession.createQuery("delete from employee where id=:employeeId");
+		Query<Employee> theQuery = currentSession.createQuery("delete from Employee where id=:employeeId");
 		theQuery.setParameter("employeeId", theId);
 		
 		theQuery.executeUpdate();
