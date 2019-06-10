@@ -49,7 +49,7 @@ public class Test {
 	}
 
 	@Bean
-	public DataSource dataSource() throws SQLException {
+	public DataSource dataSource2() throws SQLException {
 		if (dbUrl == null || dbUrl.isEmpty()) {
 			return new HikariDataSource();
 		} else {
