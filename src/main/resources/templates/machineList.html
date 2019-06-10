@@ -459,7 +459,7 @@
 															<button class="btn btn-primary btn-md"
 																data-target="#modalAddMachineForm" data-toggle="modal"
 																th:data-buttonText="${tempBettingArea.areaName}"
-																onclick="javascript:bindParentButtonText(this.getAttribute('data-buttonText'));"
+																
 																>Add Machine</button>
 
 														</h5>
@@ -498,10 +498,14 @@
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
 																		<button type="submit" class="btn btn-primary" id="add-machine-button" 
-																		> <!-- javascript:openMachineModal('-1');  -->
+																		th:onclick="'javascript:bindParentButtonText(this.getAttribute('data-buttonText'),
+																						\'' + ${machine.id} + '\' );'">
 																		Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
+																	
+																			<!-- javascript:openMachineModal('-1');  -->
+																	
 																
 																</form>
 															</div>

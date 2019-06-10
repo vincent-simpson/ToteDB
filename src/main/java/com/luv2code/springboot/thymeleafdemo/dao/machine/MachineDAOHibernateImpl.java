@@ -154,6 +154,9 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		List<Machine> machines = theQuery.getResultList();
 		
+		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+		setUpSequences.executeUpdate();
+		
 		return machines;
 	}
 
