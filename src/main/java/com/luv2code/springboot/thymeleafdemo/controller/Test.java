@@ -21,12 +21,6 @@ import com.zaxxer.hikari.HikariDataSource;
 @Controller
 public class Test {
 
-	@Value("${spring.datasource.url")
-	private String dbUrl;
-
-	@Autowired
-	private DataSource dataSource;
-
 	@RequestMapping("/db")
 	String db(Map<String, Object> model) {
 
@@ -47,16 +41,4 @@ public class Test {
 			return "error";
 		}
 	}
-
-	@Bean
-	public DataSource dataSource2() throws SQLException {
-		if (dbUrl == null || dbUrl.isEmpty()) {
-			return new HikariDataSource();
-		} else {
-			HikariConfig config = new HikariConfig();
-			config.setJdbcUrl(dbUrl);
-			return new HikariDataSource(config);
-		}
-	}
-
 }
