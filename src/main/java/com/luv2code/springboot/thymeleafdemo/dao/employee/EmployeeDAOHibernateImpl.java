@@ -38,7 +38,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		List<Employee> employees = theQuery.list();
 		
 		
-		Query setUpSequences = currentSession.createNativeQuery("SELECT current_setting('search_path') AS my_path \\gset SET search_path TO monmouth, public");
+		Query setUpSequences = currentSession.createNativeQuery("SELECT current_setting('search_path') SET search_path TO monmouth, public");
 		setUpSequences.executeUpdate();
 		
 		// return the results
