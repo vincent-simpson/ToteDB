@@ -99,11 +99,11 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		theQuery.executeUpdate();
 		
-		Query emptyTableQuery = currentSession.createQuery("from employee");
+		Query emptyTableQuery = currentSession.createQuery("from Employee");
 		List<Employee> temp = emptyTableQuery.getResultList();
 		
 		if(temp.isEmpty()) {
-			Query autoIncrementZero = currentSession.createSQLQuery("ALTER TABLE employee AUTO_INCREMENT=0");
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER TABLE monmouth.employee AUTO_INCREMENT=0");
 			autoIncrementZero.executeUpdate();
 		}
 		
