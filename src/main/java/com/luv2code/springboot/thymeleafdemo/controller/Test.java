@@ -38,7 +38,7 @@ public class Test {
 				output.add("Read from DB: " + rs.getTimestamp("tick"));
 			}
 			model.put("records", output);
-			return "db";
+			return "machineList";
 		} catch (Exception e) {
 			model.put("message", e.getMessage());
 			return "error";
