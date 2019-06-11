@@ -32,8 +32,8 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
 		setUpSequences.executeUpdate();
-		
-		// create a query
+//		
+//		// create a query
 		Query<Employee> theQuery = 
 				currentSession.createQuery("from Employee", Employee.class);
 		

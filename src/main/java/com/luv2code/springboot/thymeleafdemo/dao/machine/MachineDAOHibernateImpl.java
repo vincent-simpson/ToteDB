@@ -130,6 +130,8 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 			currentSession.evict(machine2);
 			currentSession.update(machine);
 		} catch (NoResultException e) {
+			Logger logger = LoggerFactory.getLogger(this.getClass());
+			logger.warn("saving machine... : " + machine.toString());
 			currentSession.save(machine);
 		}		
 		

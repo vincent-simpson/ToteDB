@@ -33,7 +33,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
 		setUpSequences.executeUpdate();
-		
+//		
 		Query<BettingArea> theQuery = 
 				currentSession.createQuery("from betting_areas", BettingArea.class);
 		
