@@ -499,7 +499,7 @@
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
 																		<button type="submit" class="btn btn-primary" id="add-machine-button" 
-																		th:onclick="|bindParentButtonText('${machine}');|">
+																		th:onclick="|bindParentButtonText('${machine.id}, ${machine.lsnNumber}');|">
 																		Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
@@ -702,7 +702,7 @@
 		});
 	};
 	
-	function bindParentButtonText(id) {
+	function bindParentButtonText(id, secondId) {
 		
 		var e = document.getElementById("betting-area-name-button");
 		
@@ -711,6 +711,7 @@
 		
 		console.log('parent button text ' + buttonText);
 		console.log('id ' + id);
+		console.log('secondId=lsnNumber ' + secondId);
 		
 		if(id2.getId() == 0) {
 			id2 = -1;
