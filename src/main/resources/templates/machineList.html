@@ -765,11 +765,11 @@
 					type : 'GET',
 					url : "/bettingAreas/delete?bettingAreaId=" + id,
 					success : function(result) {
-						if(result == 0) {
-							alert('Cannot delete');
-						} else if(result == 1) {
+						
 							alert('Deleted!');
-						}
+					},
+					error : function(result) {
+						alert('Cannot delete!');
 					}
 				});
 				
