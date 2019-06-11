@@ -43,6 +43,11 @@ public class Machine {
 		this.serialNumber = serialNumber;
 		this.notes = notes;
 	}
+	
+	public Machine(int lsnNumber, String serialNumber) {
+		this.lsnNumber = lsnNumber;
+		this.serialNumber = serialNumber;
+	}
 
 	public int getId() {
 		return id;

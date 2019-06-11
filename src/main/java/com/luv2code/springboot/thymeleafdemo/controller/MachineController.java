@@ -38,8 +38,12 @@ public class MachineController {
 			@RequestParam("bettingAreaButtonText") String bettingAreaButtonText,
 			Model model) {
 		
+		Machine machine2;
+		
 		if(id == -1) {
-			model.addAttribute("machine", new Machine());
+			machine2 = new Machine(machine.getLsnNumber(), machine.getSerialNumber());
+		} else {
+			machine2 = machine;
 		}
 		
 		logger.warn(bettingAreaButtonText + "  betting area button text");
@@ -48,10 +52,12 @@ public class MachineController {
 		
 		logger.warn("temp to string: " + temp.toString());
 		
-		machine.setBettingArea(
+		machine2.setBettingArea(
 				temp.getId());
 		
-		machine.setId(id);
+		machine2.setId(id);
+		
+		model.addAttribute("machine", machine2);
 		
 		machineService.save(machine);
 		
