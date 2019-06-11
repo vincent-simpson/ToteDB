@@ -767,8 +767,9 @@
 					success : function(result) {
 						if(result == 0) {
 							alert('Cannot delete');
+						} else if(result == 1) {
+							alert('Deleted!');
 						}
-						return false;
 					}
 				});
 				

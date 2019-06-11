@@ -93,7 +93,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 	}
 
 	@Override
-	public void delete(int theId) {
+	public int delete(int theId) {
 		Logger logger = LoggerFactory.getLogger(this.getClass());
 
 		
@@ -104,7 +104,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		try {
 			theQuery.executeUpdate();
 		} catch (Exception e) {
-			
+			return 0;
 		}
 		
 		
@@ -119,7 +119,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		} else {
 			logger.warn(emptyTableQuery.getResultList().toString());
 		}
-		
+		return 1;
 	}
 
 	@Override
