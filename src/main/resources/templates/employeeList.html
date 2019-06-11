@@ -417,17 +417,19 @@
 												<td th:text="${tempEmployee.lastName}" />
 												<td th:text="${tempEmployee.email}" />
 												<td th:text="${tempEmployee.phoneNumber}" />
-												<td><a
-													th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
-													class="btn btn-danger btn-sm"
-													onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
-														<i class="material-icons">&#xE872;</i>
-												</a> <a
+												<td> <a
 													href="#"
 													class="btn btn-primary btn-sm"
 													id="editEmployeeButton"
 													th:onclick="'javascript:openEmployeeModal(\'' + ${tempEmployee.id} + '\');'">
 														<i class="material-icons">&#xE254;</i>
+												</a>
+												
+												<a
+													th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"
+													class="btn btn-danger btn-sm"
+													onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
+														<i class="material-icons">&#xE872;</i>
 												</a>
 
 												</td>
