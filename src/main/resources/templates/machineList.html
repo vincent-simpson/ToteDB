@@ -443,6 +443,7 @@
 
 															<a
 																class="btn btn-danger btn-sm" style="float: right;"
+																id="#deleteBettingAreaButton"
 																th:onclick="|deleteBettingArea('${tempBettingArea.id}')|">
 																
 																<i class="material-icons">&#xE872;</i>
@@ -757,7 +758,7 @@
 	}
 	
 	function deleteBettingArea(id) {
-		$('.btn-danger').click(function(e) {
+		$('#deleteBettingAreaButton').click(function(e) {
 			if(window.confirm("Are you sure?")) {
 				
 				$.ajax({
