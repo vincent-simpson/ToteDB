@@ -499,7 +499,7 @@
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
 																		<button type="submit" class="btn btn-primary" id="add-machine-button" 
-																		th:onclick="|bindParentButtonText('${machine.id}');|">
+																		th:onclick="|bindParentButtonText('${machine}');|">
 																		Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
@@ -712,7 +712,7 @@
 		console.log('parent button text ' + buttonText);
 		console.log('id ' + id);
 		
-		if(id2 == 0) {
+		if(id2.getId() == 0) {
 			id2 = -1;
 		}
 		
