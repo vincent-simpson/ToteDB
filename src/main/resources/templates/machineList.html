@@ -498,8 +498,7 @@
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
 																		<button type="submit" class="btn btn-primary" id="add-machine-button" 
-																		th:onclick="'javascript:bindParentButtonText(this.getAttribute('data-buttonText'),
-																						\'' + ${machine.id} + '\' );'">
+																		th:onclick="|bindParentButtonText(this.getAttribute('data-buttonText'), '${machine.id}');|">
 																		Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
