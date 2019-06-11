@@ -149,13 +149,15 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
+		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+		setUpSequences.executeUpdate();
+		
 		Query<Machine> theQuery = 
 				currentSession.createQuery("from machines", Machine.class);
 		
 		List<Machine> machines = theQuery.getResultList();
 		
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
+		
 		
 		return machines;
 	}
