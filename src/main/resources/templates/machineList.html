@@ -459,6 +459,7 @@
 															<button class="btn btn-primary btn-md"
 																data-target="#modalAddMachineForm" data-toggle="modal"
 																th:data-buttonText="${tempBettingArea.areaName}"
+																id="betting-area-name-button"
 																
 																>Add Machine</button>
 
@@ -498,7 +499,7 @@
 																	</div>
 																	<div class="modal-footer d-flex justify-content-center">
 																		<button type="submit" class="btn btn-primary" id="add-machine-button" 
-																		th:onclick="|bindParentButtonText(this.getAttribute('data-buttonText'), '${machine.id}');|">
+																		th:onclick="|bindParentButtonText('${machine.id}');|">
 																		Add</button>
 																		<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
 																	</div>
@@ -701,15 +702,25 @@
 		});
 	};
 	
-	function bindParentButtonText(buttonText, id) {
-		console.log('parent button text ' + buttonText);
+	function bindParentButtonText(id) {
+		
+		var e = document.getElementById("betting-area-name-button");
+		
+		var d = e.getAttribute("data-buttonText");
+		var id2 = id;
+		
+		console.log('parent button text ' + d);
 		console.log('id ' + id);
+		
+		if(id2 == 0) {
+			id2 = -1;
+		}
 		
 		//var id = -1;
 		
 		$.ajax({
 			type : 'POST',
-			url : "/machines/bind?bettingAreaButtonText='" + buttonText + "'" + "&machineId=" + id,
+			url : "/machines/bind?bettingAreaButtonText='" + buttonText + "'" + "&machineId=" + id2,
 			success : function(data) {
 				console.log(data);
 			}
