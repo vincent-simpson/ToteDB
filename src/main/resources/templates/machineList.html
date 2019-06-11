@@ -442,7 +442,7 @@
 															<!-- 	th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}" -->
 
 															<a
-																class="btn btn-danger btn-sm" style="float: right;"
+																class="btn btn-danger btn-sm" style="float: right; color:white;"
 																id="#deleteBettingAreaButton"
 																th:onclick="|deleteBettingArea('${tempBettingArea.id}')|">
 																
@@ -679,7 +679,6 @@
 			$("#addMachine-lsnNumber").focus();
 			
 		});
-
 	};
 	
 	$(document).ready(function() {
@@ -758,7 +757,6 @@
 	}
 	
 	function deleteBettingArea(id) {
-		$('#deleteBettingAreaButton').click(function(e) {
 			if(window.confirm("Are you sure?")) {
 				
 				$.ajax({
@@ -767,6 +765,7 @@
 					success : function(result) {
 						
 							alert('Deleted!');
+							window.location = '/bettingAreas/list';
 					},
 					error : function(result) {
 						alert('Cannot delete!');
@@ -774,7 +773,6 @@
 				});
 				
 			}
-		})
 	}
 
 	

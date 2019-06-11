@@ -30,8 +30,8 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
+//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+//		setUpSequences.executeUpdate();
 //		
 //		// create a query
 		Query<Employee> theQuery = 
@@ -109,8 +109,8 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		List<Employee> temp = emptyTableQuery.getResultList();
 		
 		if(temp.isEmpty()) {
-			Query autoIncrementZero = currentSession.createNativeQuery("ALTER SEQUENCE employee_auto_increment RESTART WITH 1");
-			autoIncrementZero.executeUpdate();
+//			Query autoIncrementZero = currentSession.createNativeQuery("ALTER SEQUENCE employee_auto_increment RESTART WITH 1");
+//			autoIncrementZero.executeUpdate();
 		}
 		
 	}
