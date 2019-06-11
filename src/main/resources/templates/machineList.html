@@ -437,11 +437,14 @@
 																th:attr="data-target=${'#accordian_' + tempBettingArea.id}, aria-controls=${'accordian_' + tempBettingArea.id}"
 																aria-expanded="true"
 																th:text="${tempBettingArea.areaName}"></button>
+																
+																
+															<!-- 	th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}" -->
 
 															<a
-																th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}"
 																class="btn btn-danger btn-sm" style="float: right;"
-																onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
+																th:onclick="|deleteBettingArea('${tempBettingArea.id}')|">
+																
 																<i class="material-icons">&#xE872;</i>
 															</a>
 															
@@ -752,6 +755,26 @@
 	function receiveId(id) {
 		console.log(id);
 	}
+	
+	$(function deleteBettingArea(id) {
+		$('.btn-danger').click(function(e) {
+			e.preventDefault();
+			if(window.confirm("Are you sure?")) {
+				
+				$.ajax({
+					type : 'GET',
+					url : "/bettingAreas/delete?bettingAreaId=" + id,
+					success : function(result) {
+						if(result == 0) {
+							alert('Cannot delete');
+						}
+						return false;
+					}
+				});
+				
+			}
+		})
+	})
 
 	
 	

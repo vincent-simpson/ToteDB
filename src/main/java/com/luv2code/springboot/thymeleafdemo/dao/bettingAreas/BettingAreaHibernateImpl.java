@@ -100,8 +100,12 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Query<BettingArea> theQuery = currentSession.createQuery("delete from betting_areas where id=:machineId");
-		theQuery.setParameter("machineId", theId);	
-		theQuery.executeUpdate();
+		theQuery.setParameter("machineId", theId);
+		try {
+			theQuery.executeUpdate();
+		} catch (Exception e) {
+			
+		}
 		
 		
 		Query<BettingArea> emptyTableQuery = currentSession.createQuery("from betting_areas");
