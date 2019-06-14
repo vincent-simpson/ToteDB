@@ -1,17 +1,16 @@
 package com.luv2code.springboot.thymeleafdemo.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import com.luv2code.springboot.thymeleafdemo.service.BettingAreaService;
 
 @Entity(name="machines")
 @Table(name="machines")
@@ -19,7 +18,6 @@ public class Machine {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
 	private int id;
 	
 	@Column(name="lsn_number")
@@ -31,22 +29,31 @@ public class Machine {
 	@Column(name="serial_number")
 	private String serialNumber;
 	
-	@Column(name="notes")
-	private String notes;
-		
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="mid")
+	private List<Notes> notes;
+	
+	
 	public Machine() {}
 	
-	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber, String notes) {
+	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber) {
 		this.id = id;
 		this.lsnNumber = lsnNumber;
 		this.bettingArea = bettingArea;
 		this.serialNumber = serialNumber;
-		this.notes = notes;
 	}
 	
 	public Machine(int lsnNumber, String serialNumber) {
 		this.lsnNumber = lsnNumber;
 		this.serialNumber = serialNumber;
+	}
+
+	public List<Notes> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(List<Notes> notes) {
+		this.notes = notes;
 	}
 
 	public int getId() {
@@ -83,18 +90,10 @@ public class Machine {
 		this.serialNumber = serialNumber;
 	}
 
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
 	@Override
 	public String toString() {
 		return "Machine [id=" + id + ", lsnNumber=" + lsnNumber + ", bettingArea=" + bettingArea + ", serialNumber="
-				+ serialNumber + ", notes=" + notes + "]";
+				+ serialNumber + "]";
 	}
 	
 	

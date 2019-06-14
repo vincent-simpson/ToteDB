@@ -474,7 +474,7 @@
 														<div class="modal fade" id="modalAddNotesForm" tabindex="-1" role="dialog"
 															aria-labelledby="modalAddNotes" aria-hidden="true" th:fragment="modalAddNotes">
 															
-															<div class="modal-dialog" role="document">
+															<div class="modal-dialog modal-lg" role="document">
 															
 																<div class="modal-content">
 																	<div class="modal-header text-center">
@@ -484,8 +484,31 @@
 																	<form action="#" th:object="${machine}"
 																		th:action="@{/machines/addNotes(machineId=${machine.id})}">
 																		
-																		<div class="form-row">
-																			<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
+																		<div class="form-row" style="border:0;border-left-width: 0px;border-left-style: solid;padding-left: 5px;padding-right: 5px;">
+																			<div class="form-group  flex-fill " style="float:none;margin:auto;">
+																			
+																				<table class="table" width="100%" cellspacing="0">	
+																					<thead>
+																						<tr>
+																							<th>Date</th>
+																							<th class="w-100">Notes</th>
+																						</tr>
+																	
+																					</thead>																				
+																					<tbody>
+																					
+																						<tr style="border:0;">
+																							
+																							<td>
+																								
+																							
+																							</td>
+																							
+																						</tr>
+																					
+																					</tbody>
+																				
+																				</table>
 																			
 																			</div>
 																		

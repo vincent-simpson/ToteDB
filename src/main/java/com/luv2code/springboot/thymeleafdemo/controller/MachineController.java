@@ -96,8 +96,20 @@ public class MachineController {
 			model.addAttribute("machine", machine);
 			
 			return "machineList :: modalAddMachine";
-		}
+		}		
+	}
+	
+	@PostMapping("/addNotes")
+	public String addNotes(@RequestParam("machineId") int id, Model theModel) {
 		
+		if (id == -1) {
+			theModel.addAttribute("machine", new Machine());
+			return "machineList :: modalAddNotes";
+		} else {
+			Machine machine = machineService.getByPrimaryId(id);
+			theModel.addAttribute("machine", machine);
+			return "machineList :: modalAddNotes";
+		}
 		
 	}
 	
