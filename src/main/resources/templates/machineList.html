@@ -469,6 +469,35 @@
 
 														</h5>
 														
+														<div id="notesModalHolder" th:fragment="modalAddNotes"></div>
+														
+														<div class="modal fade" id="modalAddNotesForm" tabindex="-1" role="dialog"
+															aria-labelledby="modalAddNotes" aria-hidden="true" th:fragment="modalAddNotes">
+															
+															<div class="modal-dialog" role="document">
+															
+																<div class="modal-content">
+																	<div class="modal-header text-center">
+																		<h4 id="add-notes-title" class="modal-title w-100 font-weight-bold">Add Notes</h4>
+																	</div>
+																	
+																	<form action="#" th:object="${machine}"
+																		th:action="@{/machines/addNotes(machineId=${machine.id})}">
+																		
+																		<div class="form-row">
+																			<div class="form-group col-md-6 justify-content-center cold-md-offset-3" style="float:none;margin:auto;">
+																			
+																			</div>
+																		
+																		</div>
+																		
+																	</form>
+																
+																</div>
+															
+															</div>														
+														</div>
+														
 														<div id="machineModalHolder" th:fragment="modalAddMachine">
 														</div>
 														
@@ -552,7 +581,8 @@
 																			
 																			<a href="#"
 																				class="btn btn-primary btn-sm"
-																				id="addNotesButton">
+																				id="addNotesButton"
+																				th:onclick="'javascript:openNotesModal(\'' + ${tempMachine.id} + '\');'">
 																				<i class="material-icons">&#xE89C;</i>
 																			
 																			</a>
@@ -737,13 +767,7 @@
 	}
 	
 	
-	function openMachineModal(id) {
-		
-		console.log('here');
-		
-		var bettingAreaButtonText = $("#betting-area-header").text();
-		console.log(bettingAreaButtonText);
-		
+	function openMachineModal(id) {		
 		$.ajax({
 			type : 'POST',
 			url : "/machines/edit?machineId=" + id,
@@ -758,6 +782,26 @@
 				$("#modalAddMachineForm").modal("show");
 				
 			}
+		});
+	}
+	
+	function openNotesModal(id) {
+		
+		$.ajax({
+			type: 'POST',
+			url: '/machines/addNotes?machineId=' + id,
+			success : function(data) {
+				var nomArea = data;
+				
+				$('#notesModalHolder').html(nomArea);
+				
+				$("#modalAddNotesForm").modal("show");
+			},
+			
+			error : function(data) {
+				console.log(data);
+			}
+			
 		});
 	}
 	
