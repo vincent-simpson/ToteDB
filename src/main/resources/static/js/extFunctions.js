@@ -156,6 +156,8 @@ function addRow() {
 			saveButton.setAttribute('style', 'color : white; cursor : pointer;');
 			saveButton.setAttribute('onclick', 'submit()');
 			saveButton.setAttribute('id', 'notes-save-button');
+			
+
 
 			var v = document.createTextNode('Save');
 			saveButton.appendChild(v);
@@ -184,12 +186,23 @@ function addRow() {
 	}
 }
 
-function removeRow(oButton) {
+function removeRow(oButton, id) {
 	var empTab = document.getElementById('notesTable');
-	empTab.deleteRow(oButton.parentNode.parentNode.rowIndex);       // BUTTON
-	// -> TD
-	// ->
-	// TR.
+	empTab.deleteRow(oButton.parentNode.parentNode.rowIndex);
+	
+	$.ajax({
+		
+		type: 'POST',
+		url : '/machines/deleteNotes?noteId=' + id,
+		success : function(data) {
+			alert('Note deleted successfully');
+		},
+		error : function(data) {
+			alert('Cannot delete note!');
+		}
+		
+		
+	});
 }
 
 // EXTRACT AND SUBMIT TABLE DATA.
@@ -211,10 +224,10 @@ function submit() {
 				if(c == 1) { // we're in the date selector cell
 					var t = $("#notes-date-input");
 					console.log('notes date input : ' + t.val());
-					values.push("'" + t.val() + "'");
+					values.push("" + t.val() + "");
 				} else {
 					var t = element.childNodes[0];
-					values.push("'" + element.childNodes[0].value + "'");
+					values.push("" + element.childNodes[0].value + "");
 				}
 
 

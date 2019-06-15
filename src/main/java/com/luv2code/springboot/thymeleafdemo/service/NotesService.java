@@ -13,5 +13,8 @@ public interface NotesService  {
 	public void save(Note noteToAdd);
 	
 	public List<Note> getNotes(int machineId);
+	
+	public int deleteById(int theId);
+
 
 }

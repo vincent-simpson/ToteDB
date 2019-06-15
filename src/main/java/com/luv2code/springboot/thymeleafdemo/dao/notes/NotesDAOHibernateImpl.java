@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.luv2code.springboot.thymeleafdemo.entity.Machine;
 import com.luv2code.springboot.thymeleafdemo.entity.Note;
 
 @Repository
@@ -57,10 +58,24 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Query<Note> theQuery = 
-				currentSession.createQuery("from notes", Note.class);
+				currentSession.createQuery("from notes where machineId =:machineIdParam", Note.class);
+		
+		theQuery.setParameter("machineIdParam", new Machine(machineId));
 		
 		List<Note> notes = theQuery.getResultList();
 		return notes;
+	}
+
+	@Override
+	public int deleteById(int theId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		
+		Query<Note> deleteQuery = currentSession.createQuery("delete from notes where id=:noteId");
+		deleteQuery.setParameter("noteId", theId);
+		
+		int num = deleteQuery.executeUpdate();
+		
+		return num;
 	}
 
 }

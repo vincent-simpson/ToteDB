@@ -44,4 +44,10 @@ public class NotesServiceImpl implements NotesService {
 		return notesDAO.getNotes(machineId);
 	}
 
+	@Override
+	@Transactional
+	public int deleteById(int theId) {
+		return notesDAO.deleteById(theId);
+	}
+
 }

@@ -471,7 +471,7 @@
 
 														</h5>
 
-														<div id="blockOfHtml" style="display:none;">
+														<div id="blockOfHtml" style="display: none;">
 															<div class="form-group row">
 																<div class="col-10">
 																	<input class="form-control" type="date"
@@ -501,14 +501,13 @@
 																		</h4>
 																	</div>
 
-																	<form th:object=${machine}>
+																	<form th:object=${notes}>
 
 																		<div class="form-row"
 																			style="border: 0; border-left-width: 0px; border-left-style: solid; padding-left: 5px; padding-right: 5px;">
 																			<div class="form-group  flex-fill "
 																				style="float: none; margin: auto;">
-																				<input id="notes-modal-machine-id" type="hidden"
-																					th:field="*{id}">
+
 
 																				<div id="cont"></div>
 
@@ -524,6 +523,16 @@
 																					</thead>
 																					<tbody>
 																						<!-- Open notes modal > machine bound to current model. Set machineId = machine.id -->
+
+																						<tr th:each="tempNote : ${notes}">
+																							<td><input type="button" value="Remove"
+																								class="btn btn-primary btn-sm"
+																								style="margin-bottom: 5px;"
+																								th:onclick="|removeRow(this, '${tempNote.id}')|">
+																							</td>
+																							<td th:text="${tempNote.date}" />
+																							<td th:text="${tempNote.note}" />
+																						</tr>
 
 
 																					</tbody>

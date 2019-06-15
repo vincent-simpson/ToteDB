@@ -1,5 +1,6 @@
 package com.luv2code.springboot.thymeleafdemo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -76,9 +77,15 @@ public class MachineController {
 	@GetMapping("/list")
 	public String machineList(Model theModel) {
 		List<Machine> machines = machineService.getAll();
+		Machine machine = new Machine();
 		
 		theModel.addAttribute("machines", machines);
-		theModel.addAttribute("machine", new Machine());
+		theModel.addAttribute("machine", machine);
+		
+		List<Note> notes = new ArrayList<Note>();
+		
+		theModel.addAttribute("notes", notes);
+
 		
 		return "machineList";
 	}
@@ -115,10 +122,23 @@ public class MachineController {
 			Machine machine = new Machine();
 			theModel.addAttribute("machine", machine);
 			
+			logger.warn("MACHINEID IS -1");
+			
+			List<Note> notes = notesService.getNotes(machine.getId());
+			
+			theModel.addAttribute("notes", notes);
+			
 			return "machineList :: modalAddNotes";
 		} else {
 			Machine machine = machineService.getByPrimaryId(id);
 			theModel.addAttribute("machine", machine);	
+			
+			logger.warn("MACHINE ID IS NOT -1: " + id);
+			logger.warn("MACHINE ID : " + machine.getId());
+			
+			List<Note> notes = notesService.getNotes(machine.getId());
+			
+			theModel.addAttribute("notes", notes);
 			
 			return "machineList :: modalAddNotes";
 		}
@@ -143,6 +163,18 @@ public class MachineController {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	@PostMapping("/deleteNotes")
+	public ResponseEntity deleteNotes(@RequestParam("noteId") int id) {
+		
+		if(id != 0) {
+			notesService.deleteById(id);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		} else {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	  

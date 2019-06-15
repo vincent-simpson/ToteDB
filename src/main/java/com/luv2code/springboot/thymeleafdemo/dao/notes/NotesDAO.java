@@ -14,5 +14,7 @@ public interface NotesDAO {
 	
 	public List<Note> getNotes(int machineId);
 	
+	public int deleteById(int theId);
+	
 
 }
