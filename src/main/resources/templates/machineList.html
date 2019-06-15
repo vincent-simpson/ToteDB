@@ -28,7 +28,13 @@
 
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 
 </head>
 
@@ -478,33 +484,36 @@
 															
 																<div class="modal-content">
 																	<div class="modal-header text-center">
-																		<h4 id="add-notes-title" class="modal-title w-100 font-weight-bold">Add Notes</h4>
+																		<h4 id="add-notes-title" class="modal-title w-100 font-weight-bold">
+																			Add Notes
+																			<a onclick="addRow()"
+																				class="btn btn-success btn-xs"
+																				id="addDateButton">
+																				<i class="material-icons">note_add</i>	
+																			</a>
+																		</h4>
 																	</div>
 																	
-																	<form action="#" th:object="${machine}"
-																		th:action="@{/machines/addNotes(machineId=${machine.id})}">
+																	<form
+																		>
 																		
 																		<div class="form-row" style="border:0;border-left-width: 0px;border-left-style: solid;padding-left: 5px;padding-right: 5px;">
 																			<div class="form-group  flex-fill " style="float:none;margin:auto;">
 																			
-																				<table class="table" width="100%" cellspacing="0">	
+																			<div id="cont"></div>
+																			
+																				<table id="notesTable" class="table" width="100%" cellspacing="0">	
 																					<thead>
 																						<tr>
-																							<th>Date</th>
-																							<th class="w-100">Notes</th>
+																							<th width="10%">
+																							<th width="30%">Date</th>
+																							<th class="text-center" width="60%">Notes</th>
 																						</tr>
 																	
 																					</thead>																				
 																					<tbody>
 																					
-																						<tr style="border:0;">
-																							
-																							<td>
-																								
-																							
-																							</td>
-																							
-																						</tr>
+																						
 																					
 																					</tbody>
 																				
@@ -605,7 +614,7 @@
 																			<a href="#"
 																				class="btn btn-primary btn-sm"
 																				id="addNotesButton"
-																				th:onclick="'javascript:openNotesModal(\'' + ${tempMachine.id} + '\');'">
+																				th:onclick="'javascript:openNotesModal(\'' + ${tempMachine.id} + '\'); createEmptyNotesTable();'">
 																				<i class="material-icons">&#xE89C;</i>
 																			
 																			</a>
@@ -741,6 +750,8 @@
 			$("#addMachine-lsnNumber").focus();
 			
 		});
+		
+		
 	};
 	
 	$(document).ready(function() {
@@ -850,9 +861,145 @@
 				
 			}
 	}
+	
+	function addRow() {
+		var empTab = document.getElementById("notesTable");
+		
+		var rowCnt = empTab.rows.length;        // GET TABLE ROW COUNT.
+		var colCnt = 3;
+        var tr = empTab.insertRow(rowCnt);      // TABLE ROW.
+        tr = empTab.insertRow(rowCnt);
+
+        for (var c = 0; c < colCnt; c++) {
+            var td = document.createElement('td');          // TABLE DEFINITION.
+            td = tr.insertCell(c);
+
+            if (c == 0) {           // FIRST COLUMN.
+                // ADD A BUTTON.
+                var removeButton = document.createElement('input');
+
+                // SET INPUT ATTRIBUTE.
+                removeButton.setAttribute('type', 'button');
+                removeButton.setAttribute('value', 'Remove');
+                removeButton.setAttribute('class', 'btn btn-primary btn-sm');
+                removeButton.setAttribute('style', 'margin-bottom : 5px;');
+
+                // ADD THE BUTTON's 'onclick' EVENT.
+                removeButton.setAttribute('onclick', 'removeRow(this)');
+
+                td.appendChild(removeButton);
+                
+                var saveButton = document.createElement('a');
+                saveButton.setAttribute('class', 'btn btn-primary btn-sm');
+                saveButton.setAttribute('style', 'color : white; cursor : pointer;');
+                saveButton.setAttribute('onclick', 'submit()');
+                saveButton.setAttribute('id', 'notes-save-button');
+                
+                var v = document.createTextNode('Save');
+                saveButton.appendChild(v);
+                
+                td.appendChild(saveButton);
+            }
+            else {
+                // CREATE AND ADD TEXTBOX IN EACH CELL.
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'text');
+                ele.setAttribute('value', '');
+                
+                if(c == 2) {
+                	ele.setAttribute('style', 'width : 400px;');
+                	
+                	td.appendChild(ele);
+
+                } else if (c == 1) {
+                	var div = document.createElement('div');
+                	div.innerHTML = document.getElementById('blockOfHtml').innerHTML;
+                	
+                	td.appendChild(div)
+                }
+
+            }
+        }
+		
+		
+	}
+	
+	function removeRow(oButton) {
+        var empTab = document.getElementById('notesTable');
+        empTab.deleteRow(oButton.parentNode.parentNode.rowIndex);       // BUTTON -> TD -> TR.
+    }
+
+    // EXTRACT AND SUBMIT TABLE DATA.
+    function submit() {
+    	console.log('submit');
+        var myTab = document.getElementById('notesTable');
+        var values = new Array();
+
+        // LOOP THROUGH EACH ROW OF THE TABLE.
+        for (row = 1; row < myTab.rows.length - 1; row++) {
+            for (c = 1; c < myTab.rows[row].cells.length; c++) {   // EACH CELL IN A ROW.
+
+                var element = myTab.rows.item(row).cells[c];
+            	var child = element.childNodes[0];
+
+                if (child.nodeType == 1) {
+                	
+                	if(c == 1) {
+                		var t = $("#notes-date-input");
+            			console.log('notes date input : ' + t.val());
+                        values.push("'" + t.val() + "'");
+                	} else {
+                		var t = element.childNodes[0];
+                		values.push("'" + element.childNodes[0].value + "'");
+                	}
+                	
+                	
+                } else {
+                	console.log('node Type is not 1');
+                }
+            }
+        }
+        
+        
+        
+        
+        
+			
+		
+    }
+	
+	function createEmptyNotesTable() {
+		console.log('createEmptyNotesTable');
+		var arrHead = new Array();
+	    arrHead = ['', 'Date', 'Note']; 
+		
+		var emptyTable = document.createElement('table');
+		emptyTable.setAttribute('id', 'notesTable');
+		
+		 var tr = emptyTable.insertRow(-1);
+
+	        for (var h = 0; h < arrHead.length; h++) {
+	            var th = document.createElement('th');          // TABLE HEADER.
+	            th.innerHTML = arrHead[h];
+	            tr.appendChild(th);
+	        }
+
+	        var div = document.getElementById('cont');
+	        div.appendChild(emptyTable); 
+	}
 
 	
 	
+	</script>
+	
+	<script id="blockOfHtml" type="text/html">
+
+		<div class="form-group row">
+  			<div class="col-10">
+    			<input class="form-control" type="date" value="2011-08-19" id="notes-date-input">
+ 			 </div>
+		</div>
+
 	</script>
 
 </body>
