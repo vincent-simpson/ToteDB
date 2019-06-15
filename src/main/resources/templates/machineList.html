@@ -475,7 +475,9 @@
 															<div class="form-group row">
 																<div class="col-10">
 																	<input class="form-control" type="date"
-																		value="2011-08-19" id="notes-date-input">
+																		id="notes-date-input"
+																		data-date-format="MM-dd-yyyy"
+																		value="">
 																</div>
 															</div>
 														</div>
@@ -507,12 +509,13 @@
 																			style="border: 0; border-left-width: 0px; border-left-style: solid; padding-left: 5px; padding-right: 5px;">
 																			<div class="form-group  flex-fill "
 																				style="float: none; margin: auto;">
+																			<input type="hidden" id="notes-modal-machine-id" th:value="${machine.id}">
 
 
 																				<div id="cont"></div>
 
 																				<table id="notesTable" class="table" width="100%"
-																					cellspacing="0">
+																					>
 																					<thead>
 																						<tr>
 																							<th width="10%">

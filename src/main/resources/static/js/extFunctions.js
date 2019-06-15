@@ -169,19 +169,33 @@ function addRow() {
 			var ele = document.createElement('input');
 			ele.setAttribute('type', 'text');
 			ele.setAttribute('value', '');
-
-			if(c == 2) {
-				ele.setAttribute('style', 'width : 100%;');
-
-				td.appendChild(ele);
-
-			} else if (c == 1) {
+			
+			switch(c) {
+			case 1:
 				var div = document.createElement('div');
+				
+				var today = new Date();
+				var dd = today.getDate();
+				var mm = today.getMonth()+1;
+				var yyyy = today.getFullYear();
+				var todayFormatted = mm + '-' + dd + '-' + yyyy;
+				console.log('todayFormatted : ' + todayFormatted);
+				
+				document.getElementById('notes-date-input').value = todayFormatted;
+				
+				console.log(document.getElementById('blockOfHtml').innerHTML);
+								
 				div.innerHTML = document.getElementById('blockOfHtml').innerHTML;
 
 				td.appendChild(div)
-			}
+				break;
+			case 2:
+				ele.setAttribute('style', 'width : 100%;');
 
+				td.appendChild(ele);
+				break;
+			
+			}
 		}
 	}
 }
