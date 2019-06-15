@@ -5,8 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,21 +18,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.luv2code.springboot.thymeleafdemo.entity.BettingArea;
 import com.luv2code.springboot.thymeleafdemo.entity.Machine;
+import com.luv2code.springboot.thymeleafdemo.entity.Note;
 import com.luv2code.springboot.thymeleafdemo.service.BettingAreaService;
 import com.luv2code.springboot.thymeleafdemo.service.MachineService;
+import com.luv2code.springboot.thymeleafdemo.service.NotesService;
 
 @Controller
 @RequestMapping("/machines")
 public class MachineController {
 	
 	private MachineService machineService;
+	private NotesService notesService;
 	private BettingAreaService bettingAreaService;
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	public MachineController(MachineService machineService, BettingAreaService bettingAreaService) {
+	public MachineController(MachineService machineService, BettingAreaService bettingAreaService,
+			NotesService notesService) {
 		this.machineService = machineService;
 		this.bettingAreaService = bettingAreaService;
+		this.notesService = notesService;
 	}
 	
 	@PostMapping("/save")
@@ -99,19 +107,45 @@ public class MachineController {
 		}		
 	}
 	
-	@PostMapping("/addNotes")
-	public String addNotes(@RequestParam("machineId") int id, Model theModel) {
+	@PostMapping("/addNotes/bind")
+	public String addNotes(@RequestParam("machineId") int id,
+			 Model theModel) {
 		
 		if (id == -1) {
-			theModel.addAttribute("machine", new Machine());
+			Machine machine = new Machine();
+			theModel.addAttribute("machine", machine);
+			
 			return "machineList :: modalAddNotes";
 		} else {
 			Machine machine = machineService.getByPrimaryId(id);
-			theModel.addAttribute("machine", machine);
+			theModel.addAttribute("machine", machine);	
+			
 			return "machineList :: modalAddNotes";
 		}
 		
 	}
+	
+	@PostMapping("/addNotes")
+	public ResponseEntity addNotes(@RequestParam(value="date") String date,
+							@RequestParam("note") String note,
+							@RequestParam("machineId") int id) {
+		
+		if (note != null && date != null) {
+			Note noteObj = new Note();
+			noteObj.setDate(date);
+			noteObj.setNote(note);
+			noteObj.setMachineId(new Machine(id));
+			
+			notesService.save(noteObj);
+			
+			return new ResponseEntity("redirect:/machines/list", HttpStatus.OK) ;
+		} else {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	  
 	
 	@PostMapping("/bind") 
 		public String bindButttonText(@ModelAttribute("machine") Machine machine,

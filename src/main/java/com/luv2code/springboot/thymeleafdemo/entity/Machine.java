@@ -17,8 +17,9 @@ import javax.persistence.Table;
 public class Machine {
 	
 	@Id
+	@Column(name="machineid")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int machineId;
 	
 	@Column(name="lsn_number")
 	private int lsnNumber;
@@ -29,18 +30,21 @@ public class Machine {
 	@Column(name="serial_number")
 	private String serialNumber;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="mid")
-	private List<Notes> notes;
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Note.class, orphanRemoval = true, mappedBy = "machineId")
+	private List<Note> notes;
 	
 	
 	public Machine() {}
 	
 	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber) {
-		this.id = id;
+		this.machineId = id;
 		this.lsnNumber = lsnNumber;
 		this.bettingArea = bettingArea;
 		this.serialNumber = serialNumber;
+	}
+	
+	public Machine(int id) {
+		this.machineId = id;
 	}
 	
 	public Machine(int lsnNumber, String serialNumber) {
@@ -48,20 +52,20 @@ public class Machine {
 		this.serialNumber = serialNumber;
 	}
 
-	public List<Notes> getNotes() {
+	public List<Note> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(List<Notes> notes) {
+	public void setNotes(List<Note> notes) {
 		this.notes = notes;
 	}
 
 	public int getId() {
-		return id;
+		return machineId;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.machineId = id;
 	}
 
 	public int getLsnNumber() {
@@ -92,7 +96,7 @@ public class Machine {
 
 	@Override
 	public String toString() {
-		return "Machine [id=" + id + ", lsnNumber=" + lsnNumber + ", bettingArea=" + bettingArea + ", serialNumber="
+		return "Machine [id=" + machineId + ", lsnNumber=" + lsnNumber + ", bettingArea=" + bettingArea + ", serialNumber="
 				+ serialNumber + "]";
 	}
 	

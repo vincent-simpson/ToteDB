@@ -487,18 +487,20 @@
 																		<h4 id="add-notes-title" class="modal-title w-100 font-weight-bold">
 																			Add Notes
 																			<a onclick="addRow()"
-																				class="btn btn-success btn-xs"
+																				class="btn btn-success btn-sm"
+																				style="color:white; cursor: pointer;"
 																				id="addDateButton">
 																				<i class="material-icons">note_add</i>	
 																			</a>
 																		</h4>
 																	</div>
 																	
-																	<form
+																	<form th:object=${machine}
 																		>
 																		
 																		<div class="form-row" style="border:0;border-left-width: 0px;border-left-style: solid;padding-left: 5px;padding-right: 5px;">
 																			<div class="form-group  flex-fill " style="float:none;margin:auto;">
+																			<input id="notes-modal-machine-id" type="hidden" th:field="*{id}">
 																			
 																			<div id="cont"></div>
 																			
@@ -512,7 +514,7 @@
 																	
 																					</thead>																				
 																					<tbody>
-																					
+																					<!-- Open notes modal > machine bound to current model. Set machineId = machine.id -->
 																						
 																					
 																					</tbody>
@@ -823,7 +825,7 @@
 		
 		$.ajax({
 			type: 'POST',
-			url: '/machines/addNotes?machineId=' + id,
+			url: '/machines/addNotes/bind?machineId=' + id,
 			success : function(data) {
 				var nomArea = data;
 				
@@ -907,7 +909,7 @@
                 ele.setAttribute('value', '');
                 
                 if(c == 2) {
-                	ele.setAttribute('style', 'width : 400px;');
+                	ele.setAttribute('style', 'width : 100%;');
                 	
                 	td.appendChild(ele);
 
@@ -920,8 +922,6 @@
 
             }
         }
-		
-		
 	}
 	
 	function removeRow(oButton) {
@@ -944,7 +944,7 @@
 
                 if (child.nodeType == 1) {
                 	
-                	if(c == 1) {
+                	if(c == 1) { //we're in the date selector cell
                 		var t = $("#notes-date-input");
             			console.log('notes date input : ' + t.val());
                         values.push("'" + t.val() + "'");
@@ -960,12 +960,23 @@
             }
         }
         
+        var mId = document.getElementById('notes-modal-machine-id').getAttribute('value');
         
+        $.ajax({
+        	type : 'POST',
+        	url : '/machines/addNotes?date=' + values[0] + '&note=' + values[1] + '&machineId=' + mId,
+        	success : function(data) {
+        		window.location = '/bettingAreas/list';
+        		
+        	},
+        	error : function(data) {
+        		alert('Notes cannot be null!');
+        	}
+        	
+        	
+        });
         
-        
-        
-			
-		
+    	
     }
 	
 	function createEmptyNotesTable() {

@@ -9,7 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.luv2code.springboot.thymeleafdemo.entity.Notes;
+import com.luv2code.springboot.thymeleafdemo.entity.Note;
 
 @Repository
 public class NotesDAOHibernateImpl implements NotesDAO {
@@ -33,19 +33,19 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	}
 
 	@Override
-	public Notes getByPrimaryId(int id) {
+	public Note getByPrimaryId(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Query theQuery = currentSession.createQuery("from notes where id=:idParam");
 		theQuery.setParameter("idParam", id);
 		
-		Notes note = (Notes) theQuery.uniqueResult();
+		Note note = (Note) theQuery.uniqueResult();
 		
 		return note;
 	}
 
 	@Override
-	public void save(String noteToAdd) {
+	public void save(Note noteToAdd) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		currentSession.save(noteToAdd);
@@ -53,13 +53,13 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	}
 
 	@Override
-	public List<Notes> getNotes(int machineId) {
+	public List<Note> getNotes(int machineId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<Notes> theQuery = 
-				currentSession.createQuery("from notes", Notes.class);
+		Query<Note> theQuery = 
+				currentSession.createQuery("from notes", Note.class);
 		
-		List<Notes> notes = theQuery.getResultList();
+		List<Note> notes = theQuery.getResultList();
 		return notes;
 	}
 

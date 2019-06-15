@@ -3,6 +3,7 @@ package com.luv2code.springboot.thymeleafdemo.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,25 +13,28 @@ import javax.persistence.Table;
 
 @Entity(name="notes")
 @Table(name="notes")
-public class Notes {
+public class Note {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private int id;
 	
 	@Column(name="note")
 	private String note;
 	
-	@ManyToOne(targetEntity = Machine.class)
-	@JoinColumn(name="mid", nullable = false)
-	private int machineId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="machineid")
+	private Machine machineId;
 	
-	public Notes() {}
+	@Column(name="date")
+	private String date;
+	
+	public Note() {}
 
-	public Notes(int id, String note) {
+	public Note(int id, String note, String date) {
 		this.id = id;
 		this.note = note;
+		this.date = date;
 	}
 
 	public int getId() {
@@ -49,19 +53,30 @@ public class Notes {
 		this.note = note;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	public int getMachineId() {
+	public Machine getMachineId() {
 		return machineId;
 	}
 
-	public void setMachineId(int machineId) {
+	public void setMachineId(Machine machineId) {
 		this.machineId = machineId;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	@Override
 	public String toString() {
-		return "Notes [id=" + id + ", note=" + note + "]";
+		return "Notes [id=" + id + ", note=" + note + ", machineId=" + machineId + ", date=" + date + "]";
 	}
+	
+	
+	
+	
 	
 	
 	
