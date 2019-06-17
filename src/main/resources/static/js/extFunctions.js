@@ -107,6 +107,10 @@ function receiveId(id) {
 
 function deleteBettingArea(id) {
 	if(window.confirm("Are you sure?")) {
+		
+		// need to check if notes input and date haven't been edited. if so, delete without sending ajax request.
+		var 
+		
 
 		$.ajax({
 			type : 'GET',
@@ -156,9 +160,7 @@ function addRow() {
 			saveButton.setAttribute('style', 'color : white; cursor : pointer;');
 			saveButton.setAttribute('onclick', 'submit()');
 			saveButton.setAttribute('id', 'notes-save-button');
-			
-
-
+	
 			var v = document.createTextNode('Save');
 			saveButton.appendChild(v);
 
@@ -191,6 +193,7 @@ function addRow() {
 				break;
 			case 2:
 				ele.setAttribute('style', 'width : 100%;');
+				ele.setAttribute('id', 'notes-add-new-input');
 
 				td.appendChild(ele);
 				break;
