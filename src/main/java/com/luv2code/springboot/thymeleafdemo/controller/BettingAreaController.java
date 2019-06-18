@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,6 +100,8 @@ public class BettingAreaController {
 		machine.setBettingArea(bettingAreaId);
 		test = bettingAreaId;
 		
+		logger.warn("test = bettingAreaId: " + test);
+		
 		theModel.addAttribute("machine", machine);
 		
 	}
@@ -106,13 +109,15 @@ public class BettingAreaController {
 	@GetMapping("/bind")
 	public String finalSaveMachine(@RequestParam("lsnNumber") int lsnNumber,
 									@RequestParam("serialNumber") String serialNumber,
-									@ModelAttribute("machine") Machine theMachine) {
+									@ModelAttribute("machine") Machine theMachine,
+									@RequestParam(value="machineId", required = false) int theId) {
 		
-		logger.warn("/bind   lsnNumber = " + lsnNumber + " :: serialNumber = " + serialNumber);
+		logger.warn("/bind   lsnNumber = " + lsnNumber + " :: serialNumber = " + serialNumber + " :: the machine id = " + theId);
 		
 		theMachine.setLsnNumber(lsnNumber);
 		theMachine.setSerialNumber(serialNumber);
 		theMachine.setBettingArea(test);
+		theMachine.setMachineId(theId);
 		logger.warn("bind machine to save: " + theMachine.toString());
 		machineService.save(theMachine);
 		

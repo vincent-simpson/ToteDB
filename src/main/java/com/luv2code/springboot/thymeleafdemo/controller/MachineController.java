@@ -64,7 +64,7 @@ public class MachineController {
 		machine2.setBettingArea(
 				temp.getId());
 		
-		machine2.setId(id);
+		machine2.setMachineId(id);
 		
 		model.addAttribute("machine", machine2);
 		
@@ -101,6 +101,8 @@ public class MachineController {
 	@PostMapping("/edit")
 	public String editMachine(@RequestParam("machineId") int id, Model model) {
 		
+		logger.warn("/edit mapping id request param = " + id);
+		
 		if(id == -1) {
 			model.addAttribute("machine", new Machine());
 			
@@ -124,7 +126,7 @@ public class MachineController {
 			
 			logger.warn("MACHINEID IS -1");
 			
-			List<Note> notes = notesService.getNotes(machine.getId());
+			List<Note> notes = notesService.getNotes(machine.getMachineId());
 			
 			theModel.addAttribute("notes", notes);
 			
@@ -134,9 +136,9 @@ public class MachineController {
 			theModel.addAttribute("machine", machine);	
 			
 			logger.warn("MACHINE ID IS NOT -1: " + id);
-			logger.warn("MACHINE ID : " + machine.getId());
+			logger.warn("MACHINE ID : " + machine.getMachineId());
 			
-			List<Note> notes = notesService.getNotes(machine.getId());
+			List<Note> notes = notesService.getNotes(machine.getMachineId());
 			
 			theModel.addAttribute("notes", notes);
 			

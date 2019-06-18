@@ -83,7 +83,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Query theQuery = currentSession.createQuery("update Machines set lsn_number =:lsnNumber where id =:machineId");
 		theQuery.setParameter("lsnNumber", LSN);
-		theQuery.setParameter("machineId", machine.getId());
+		theQuery.setParameter("machineId", machine.getMachineId());
 		
 		theQuery.executeUpdate();		
 		
@@ -96,7 +96,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Query theQuery = currentSession.createQuery("update Machines set lsn_number =:lsnNumber where id =:machineId");
 		theQuery.setParameter("lsnNumber", null);
-		theQuery.setParameter("machineId", machine.getId());
+		theQuery.setParameter("machineId", machine.getMachineId());
 		
 		theQuery.executeUpdate();
 		
@@ -109,7 +109,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Query theQuery = currentSession.createQuery("update Machines set betting_area =:bettingArea where id =:machineId");
 		theQuery.setParameter("bettingArea", bettingArea);
-		theQuery.setParameter("machineId", machine.getId());
+		theQuery.setParameter("machineId", machine.getMachineId());
 		
 		theQuery.executeUpdate();
 		
@@ -120,14 +120,20 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 		Query theQuery = currentSession.createQuery("from machines where id=:machineId");
-		theQuery.setParameter("machineId", machine.getId());
+		theQuery.setParameter("machineId", machine.getMachineId());
 		
 		Machine machine2;
 		
 		try {
-			machine2 = (Machine) theQuery.getSingleResult();
+			
+			Query updateQuery = currentSession.createNativeQuery("UPDATE machines SET lsn_number=:lsnParam, serial_number=:serialParam WHERE machineId=:machineIdParam");
+			updateQuery.setParameter("lsnParam", machine.getLsnNumber());
+			updateQuery.setParameter("serialParam", machine.getSerialNumber());
+			updateQuery.setParameter("machineIdParam", machine.getMachineId());
+			
+			machine2 = (Machine) theQuery.getSingleResult(); //throws NoResultException
 			currentSession.evict(machine2);
-			currentSession.update(machine);
+			updateQuery.executeUpdate();
 		} catch (NoResultException e) {
 			Logger logger = LoggerFactory.getLogger(this.getClass());
 			logger.warn("saving machine... : " + machine.toString());

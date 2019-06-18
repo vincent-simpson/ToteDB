@@ -60,12 +60,12 @@ public class Machine {
 		this.notes = notes;
 	}
 
-	public int getId() {
+	public int getMachineId() {
 		return machineId;
 	}
 
-	public void setId(int id) {
-		this.machineId = id;
+	public void setMachineId(int machineId) {
+		this.machineId = machineId;
 	}
 
 	public int getLsnNumber() {

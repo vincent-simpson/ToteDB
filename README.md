@@ -1,4 +1,4 @@
 # MonmouthParkDispatcher
 
 
-TODO: When click on add new note button, need to populate the modal with all notes that exist already.
+TODO: Need to edit Javascript functions to correctly submit the value in the Date input box to server.

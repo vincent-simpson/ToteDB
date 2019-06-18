@@ -509,7 +509,7 @@
 																			style="border: 0; border-left-width: 0px; border-left-style: solid; padding-left: 5px; padding-right: 5px;">
 																			<div class="form-group  flex-fill "
 																				style="float: none; margin: auto;">
-																			<input type="hidden" id="notes-modal-machine-id" th:value="${machine.id}">
+																			<input type="hidden" id="notes-modal-machine-id" th:value="${machine.machineId}">
 
 
 																				<div id="cont"></div>
@@ -572,12 +572,15 @@
 																	</div>
 																	<!-- @{/machines/save(machineId2=${machine.id})} -->
 																	<form action="#" th:object="${machine}"
-																		th:action="@{/bettingAreas/bind(lsnNumber=${machine.lsnNumber}, serialNumber=${machine.serialNumber})}">
+																		th:action="@{/bettingAreas/bind(lsnNumber=${machine.lsnNumber}, serialNumber=${machine.serialNumber}, machineId=${machine.machineId})}">
 
 																		<div class="form-row">
 																			<div
 																				class="form-group col-md-6 justify-content-center cold-md-offset-3"
 																				style="float: none; margin: auto;">
+																				
+																				<input type="hidden" th:field="*{machineId}">
+																				
 																				<input type="text" th:field="*{lsnNumber}"
 																					id="addMachine-lsnNumber" class="form-control"><label
 																					data-error="wrong" data-success="right"
@@ -640,22 +643,22 @@
 
 																	<tr th:each="tempMachine : ${machines}"
 																		th:if="${tempMachine.bettingArea == tempBettingArea.id}">
-																		<td th:text="${tempMachine.id}" />
+																		<td th:text="${tempMachine.machineId}" />
 																		<td th:text="${tempMachine.lsnNumber}" />
 																		<td th:text="${tempBettingArea.areaName}" />
 																		<td th:text="${tempMachine.serialNumber}" />
 																		<td><a href="#" class="btn btn-primary btn-sm"
 																			id="addNotesButton"
-																			th:onclick="'javascript:openNotesModal(\'' + ${tempMachine.id} + '\'); createEmptyNotesTable();'">
+																			th:onclick="'javascript:openNotesModal(\'' + ${tempMachine.machineId} + '\'); createEmptyNotesTable();'">
 																				<i class="material-icons">&#xE89C;</i>
 
 																		</a></td>
 																		<td><a href="#" class="btn btn-primary btn-sm"
 																			id="editMachineButton"
-																			th:onclick="'javascript:openMachineModal(\'' + ${tempMachine.id} + '\');'">
+																			th:onclick="'javascript:openMachineModal(\'' + ${tempMachine.machineId} + '\');'">
 																				<i class="material-icons">&#xE254;</i>
 																		</a> <a
-																			th:href="@{/machines/delete(machineId=${tempMachine.id})}"
+																			th:href="@{/machines/delete(machineId=${tempMachine.machineId})}"
 																			class="btn btn-danger btn-sm"
 																			onclick="if (!(confirm('Are you sure you want to delete?'))) return false">
 																				<i class="material-icons">&#xE872;</i>

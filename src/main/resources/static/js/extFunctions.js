@@ -109,7 +109,7 @@ function deleteBettingArea(id) {
 	if(window.confirm("Are you sure?")) {
 		
 		// need to check if notes input and date haven't been edited. if so, delete without sending ajax request.
-		var 
+		
 		
 
 		$.ajax({
@@ -182,8 +182,11 @@ function addRow() {
 				var yyyy = today.getFullYear();
 				var todayFormatted = mm + '-' + dd + '-' + yyyy;
 				console.log('todayFormatted : ' + todayFormatted);
+								
+				var x = '<div class="form-group row"> <div class="col-10"> <input class="form-control type="date" id="notes-date-input" data-date-format="MM-dd-yyyy" value="' + todayFormatted + '">' +
+				'</div> </div>';
 				
-				document.getElementById('notes-date-input').value = todayFormatted;
+				document.getElementById('blockOfHtml').innerHTML = x;
 				
 				console.log(document.getElementById('blockOfHtml').innerHTML);
 								
@@ -239,9 +242,10 @@ function submit() {
 			if (child.nodeType == 1) {
 
 				if(c == 1) { // we're in the date selector cell
-					var t = $("#notes-date-input");
-					console.log('notes date input : ' + t.val());
-					values.push("" + t.val() + "");
+					var t = document.querySelector('input[type="date"]');
+					console.log(t);
+					console.log('notes date input : ' + t.value);
+					values.push("" + t.value + "");
 				} else {
 					var t = element.childNodes[0];
 					values.push("" + element.childNodes[0].value + "");
