@@ -160,7 +160,11 @@ public class MachineController {
 			
 			notesService.save(noteObj);
 			
-			return new ResponseEntity("redirect:/machines/list", HttpStatus.OK) ;
+			List<String> dateAndNote = new ArrayList<String>();
+			dateAndNote.add(date);
+			dateAndNote.add(note);
+			
+			return ResponseEntity.ok(dateAndNote) ;
 		} else {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}

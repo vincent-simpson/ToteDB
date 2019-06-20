@@ -128,13 +128,17 @@ function deleteBettingArea(id) {
 	}
 }
 
-function addRow() {
+function addRow(isSubmittedRow, date, note) {
 	var empTab = document.getElementById("notesTable");
 
 	var rowCnt = empTab.rows.length;        // GET TABLE ROW COUNT.
 	var colCnt = 3;
-	var tr = empTab.insertRow(rowCnt);      // TABLE ROW.
-	tr = empTab.insertRow(rowCnt);
+	var tr;
+	if(isSubmittedRow) {
+		tr = empTab.insertRow(-1);
+	} else {
+		tr = empTab.insertRow(rowCnt);      // TABLE ROW.
+	}
 
 	for (var c = 0; c < colCnt; c++) {
 		var td = document.createElement('td');          // TABLE DEFINITION.
@@ -169,26 +173,33 @@ function addRow() {
 		else {
 			// CREATE AND ADD TEXTBOX IN EACH CELL.
 			switch(c) {
-			case 1:				
-				var today = new Date();
-				var dd = today.getDate();
-				var mm = today.getMonth()+1;
-				var yyyy = today.getFullYear();
+			case 1:
 				var blockOfHtml = document.getElementById('blockOfHtml');
-				
-				if(mm < 10) {
-					mm = "0" + mm;
+				var x;
+
+				if(isSubmittedRow) {
+					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="date" id="notes-date-input" value="' + date + '">' +
+					'</div> </div>';
+				} else {
+					var today = new Date();
+					var dd = today.getDate();
+					var mm = today.getMonth()+1;
+					var yyyy = today.getFullYear();
+					
+					if(mm < 10) {
+						mm = "0" + mm;
+					}
+					
+					var todayFormatted = mm + '-' + dd + '-' + yyyy;
+					console.log('todayFormatted : ' + todayFormatted);
+									
+					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="date" id="notes-date-input" value="' + todayFormatted + '">' +
+					'</div> </div>';
 				}
-				
-				var todayFormatted = mm + '-' + dd + '-' + yyyy;
-				console.log('todayFormatted : ' + todayFormatted);
-								
-				var x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="date" id="notes-date-input" value="' + todayFormatted + '">' +
-				'</div> </div>';
 				
 				blockOfHtml.innerHTML = x;
 				
-				console.log(blockOfHtml.innerHTML);
+				console.log('blockOfHtml inner HTML' + blockOfHtml.innerHTML);
 				
 				blockOfHtml.setAttribute('style', 'hidden : false;');
 								
@@ -218,7 +229,6 @@ function removeRow(oButton, id) {
 		type: 'POST',
 		url : '/machines/deleteNotes?noteId=' + id,
 		success : function(data) {
-			alert('Note deleted successfully');
 		},
 		error : function(data) {
 			alert('Cannot delete note!');
@@ -247,7 +257,9 @@ function submit() {
 					var t = document.getElementById('notes-date-input');
 					console.log('notes date input : ' + t.value);
 					values.push("" + t.value + "");
+					console.log('values push date input : ' + t.value);
 				} else {
+					console.log("c is not 1");
 					values.push("" + element.childNodes[0].value + "");
 				}
 
@@ -264,7 +276,9 @@ function submit() {
 		type : 'POST',
 		url : '/machines/addNotes?date=' + values[0] + '&note=' + values[1] + '&machineId=' + mId,
 		success : function(data) {
-			window.location = '/bettingAreas/list';
+			console.log("add notes success data: " + data);
+			//window.location = '/bettingAreas/list';
+			addRow(true, values[0], values[1]);
 
 		},
 		error : function(data) {
