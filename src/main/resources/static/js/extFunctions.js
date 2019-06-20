@@ -168,33 +168,36 @@ function addRow() {
 		}
 		else {
 			// CREATE AND ADD TEXTBOX IN EACH CELL.
-			var ele = document.createElement('input');
-			ele.setAttribute('type', 'text');
-			ele.setAttribute('value', '');
-			
 			switch(c) {
-			case 1:
-				var div = document.createElement('div');
-				
+			case 1:				
 				var today = new Date();
 				var dd = today.getDate();
 				var mm = today.getMonth()+1;
 				var yyyy = today.getFullYear();
+				var blockOfHtml = document.getElementById('blockOfHtml');
+				
+				if(mm < 10) {
+					mm = "0" + mm;
+				}
+				
 				var todayFormatted = mm + '-' + dd + '-' + yyyy;
 				console.log('todayFormatted : ' + todayFormatted);
 								
-				var x = '<div class="form-group row"> <div class="col-10"> <input class="form-control type="date" id="notes-date-input" data-date-format="MM-dd-yyyy" value="' + todayFormatted + '">' +
+				var x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="date" id="notes-date-input" value="' + todayFormatted + '">' +
 				'</div> </div>';
 				
-				document.getElementById('blockOfHtml').innerHTML = x;
+				blockOfHtml.innerHTML = x;
 				
-				console.log(document.getElementById('blockOfHtml').innerHTML);
+				console.log(blockOfHtml.innerHTML);
+				
+				blockOfHtml.setAttribute('style', 'hidden : false;');
 								
-				div.innerHTML = document.getElementById('blockOfHtml').innerHTML;
-
-				td.appendChild(div)
+				td.appendChild(blockOfHtml);
 				break;
 			case 2:
+				var ele = document.createElement('input');
+				ele.setAttribute('type', 'text');
+				ele.setAttribute('value', '');
 				ele.setAttribute('style', 'width : 100%;');
 				ele.setAttribute('id', 'notes-add-new-input');
 
@@ -227,13 +230,12 @@ function removeRow(oButton, id) {
 
 // EXTRACT AND SUBMIT TABLE DATA.
 function submit() {
-	console.log('submit');
 	var myTab = document.getElementById('notesTable');
 	var values = new Array();
 
 	// LOOP THROUGH EACH ROW OF THE TABLE.
-	for (row = 1; row < myTab.rows.length - 1; row++) {
-		for (c = 1; c < myTab.rows[row].cells.length; c++) {   // EACH CELL
+	for (var row = 1; row < myTab.rows.length - 1; row++) {
+		for (var c = 1; c < myTab.rows[row].cells.length; c++) {   // EACH CELL
 			// IN A ROW.
 
 			var element = myTab.rows.item(row).cells[c];
@@ -242,12 +244,10 @@ function submit() {
 			if (child.nodeType == 1) {
 
 				if(c == 1) { // we're in the date selector cell
-					var t = document.querySelector('input[type="date"]');
-					console.log(t);
+					var t = document.getElementById('notes-date-input');
 					console.log('notes date input : ' + t.value);
 					values.push("" + t.value + "");
 				} else {
-					var t = element.childNodes[0];
 					values.push("" + element.childNodes[0].value + "");
 				}
 
