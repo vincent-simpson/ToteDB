@@ -207,6 +207,7 @@ function addRow(isSubmittedRow, date, note) {
 					ele.setAttribute('id', 'notes-add-new-input');
 				} else {
 					ele = document.createElement('td');
+					ele.setAttribute('style', 'border-style: hidden;');
 					ele.innerHTML = "<td>" + note + "</td>";
 				}
 				
