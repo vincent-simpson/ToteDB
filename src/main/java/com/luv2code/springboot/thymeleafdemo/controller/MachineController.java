@@ -156,7 +156,7 @@ public class MachineController {
 			Note noteObj = new Note();
 			noteObj.setDate(date);
 			noteObj.setNote(note);
-			noteObj.setMachineId(new Machine(id));
+			noteObj.setMachineId(machineService.getByPrimaryId(id));
 			
 			notesService.save(noteObj);
 			

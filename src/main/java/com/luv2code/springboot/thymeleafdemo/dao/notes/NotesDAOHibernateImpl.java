@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,7 @@ import com.luv2code.springboot.thymeleafdemo.entity.Note;
 public class NotesDAOHibernateImpl implements NotesDAO {
 	
 	private EntityManager entityManager;
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	public NotesDAOHibernateImpl(EntityManager entityManager) {
@@ -48,7 +51,7 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	@Override
 	public void save(Note noteToAdd) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+		logger.warn("note to add = " + noteToAdd);
 		currentSession.save(noteToAdd);
 		
 	}
