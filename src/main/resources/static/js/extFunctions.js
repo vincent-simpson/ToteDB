@@ -126,53 +126,55 @@ function addRow(isSubmittedRow, date, note) {
 	var empTab = document.getElementById("notesTable");
 	console.log("issubmittedrow = " + isSubmittedRow);
 
-	var rowCnt = empTab.rows.length; // GET TABLE ROW COUNT.
-	var colCnt = 3;
-	var tr;
-	tr = empTab.insertRow(-1); // TABLE ROW.
+	if (!isSubmittedRow) {
+		var tr = empTab.insertRow(-1); // TABLE ROW.
+		var rowCnt = empTab.rows.length; // GET TABLE ROW COUNT.
+		var colCnt = 3;
 
+		for (var c = 0; c < colCnt; c++) {
+			var td = document.createElement('td'); // TABLE DEFINITION.
+			td = tr.insertCell(c);
 
-	for (var c = 0; c < colCnt; c++) {
-		var td = document.createElement('td'); // TABLE DEFINITION.
-		td = tr.insertCell(c);
+			if (c == 0) { // FIRST COLUMN.
+				// ADD A BUTTON.
+				var removeButton = document.createElement('input');
 
-		if (c == 0) { // FIRST COLUMN.
-			// ADD A BUTTON.
-			var removeButton = document.createElement('input');
+				// SET INPUT ATTRIBUTE.
+				removeButton.setAttribute('type', 'button');
+				removeButton.setAttribute('value', 'Remove');
+				removeButton.setAttribute('class', 'btn btn-primary btn-sm');
+				removeButton.setAttribute('style', 'margin-bottom : 5px;');
 
-			// SET INPUT ATTRIBUTE.
-			removeButton.setAttribute('type', 'button');
-			removeButton.setAttribute('value', 'Remove');
-			removeButton.setAttribute('class', 'btn btn-primary btn-sm');
-			removeButton.setAttribute('style', 'margin-bottom : 5px;');
+				// ADD THE BUTTON's 'onclick' EVENT.
+				removeButton.setAttribute('onclick', 'removeRow(this)');
 
-			// ADD THE BUTTON's 'onclick' EVENT.
-			removeButton.setAttribute('onclick', 'removeRow(this)');
+				td.appendChild(removeButton);
 
-			td.appendChild(removeButton);
+				var saveButton = document.createElement('a');
+				saveButton.setAttribute('class', 'btn btn-primary btn-sm');
+				saveButton.setAttribute('style',
+						'color : white; cursor : pointer;');
+				saveButton.setAttribute('onclick', 'submit()');
+				saveButton.setAttribute('id', 'notes-save-button');
 
-			var saveButton = document.createElement('a');
-			saveButton.setAttribute('class', 'btn btn-primary btn-sm');
-			saveButton
-					.setAttribute('style', 'color : white; cursor : pointer;');
-			saveButton.setAttribute('onclick', 'submit()');
-			saveButton.setAttribute('id', 'notes-save-button');
+				var v = document.createTextNode('Save');
+				saveButton.appendChild(v);
 
-			var v = document.createTextNode('Save');
-			saveButton.appendChild(v);
+				td.appendChild(saveButton);
+			} else {
+				// CREATE AND ADD TEXTBOX IN EACH CELL.
+				switch (c) {
+				case 1:
+					var blockOfHtml = document.getElementById('blockOfHtml');
+					if(blockOfHtml == null) {
+						blockOfHtml = document.createElement('div');
+						var htmlToAdd = "<div id='blockOfHtml' style='display: none;'>";
+						blockOfHtml.innerHtml = htmlToAdd;
+						console.log(blockOfHtml.innerHtml);
+					}
+					
+					var x;
 
-			td.appendChild(saveButton);
-		} else {
-			// CREATE AND ADD TEXTBOX IN EACH CELL.
-			switch (c) {
-			case 1:
-				var blockOfHtml = document.getElementById('blockOfHtml');
-				var x;
-
-				if (isSubmittedRow) {
-					console.log('date is = ' + date);
-					x = '<div class="form-group row"> <div class="col-10"> <td>' + date + '</td> </div> </div>';
-				} else {
 					var today = new Date();
 					var dd = today.getDate();
 					var mm = today.getMonth() + 1;
@@ -186,48 +188,68 @@ function addRow(isSubmittedRow, date, note) {
 					console.log('todayFormatted : ' + todayFormatted);
 
 					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="text" id="notes-date-input" value="'
-							+ todayFormatted + '">' + '<small>Enter as Month/Day/Year</small></div> </div>';
-				}
+							+ todayFormatted
+							+ '">'
+							+ '<small id="date-label">Enter as Month/Day/Year</small></div> </div>';
 
-				blockOfHtml.innerHTML = x;
+					blockOfHtml.innerHTML = x;
 
-				console.log('blockOfHtml inner HTML' + blockOfHtml.innerHTML);
+					console.log('blockOfHtml inner HTML'
+							+ blockOfHtml.innerHTML);
 
-				blockOfHtml.setAttribute('style', 'hidden : false;');
+					blockOfHtml.setAttribute('style', 'hidden : false;');
 
-				td.appendChild(blockOfHtml);
-				break;
-			case 2:
-				var ele;
-				if(!isSubmittedRow) {
+					td.appendChild(blockOfHtml);
+
+					break;
+				case 2:
+					var ele;
 					ele = document.createElement('input');
 					ele.setAttribute('type', 'text');
 					ele.setAttribute('value', '');
 					ele.setAttribute('style', 'width : 100%;');
 					ele.setAttribute('id', 'notes-add-new-input');
-				} else {
-					ele = document.createElement('td');
-					ele.setAttribute('style', 'border-style: hidden;');
-					ele.innerHTML = "<td>" + note + "</td>";
+					td.appendChild(ele);
+
+					// ele = document.createElement('td');
+					// ele.setAttribute('style', 'border-style: hidden;');
+					// ele.innerHTML = "<td>" + note + "</td>";
+
+					break;
+
 				}
-				
-
-				td.appendChild(ele);
-				break;
-
 			}
 		}
+
+	} else {
+		console.log('date is = ' + date);
+		// x = '<div class="form-group row"> <div class="col-10"> <td
+		// id="date_td">' + date + '</td> </div> </div>';
+
+		$("#notes-date-input").replaceWith("<td style='border-style: hidden;' id='notes-date-input'>" + date + "</td>");
+		$("#date-label").remove();
+		$("#notes-save-button").remove();
+
+		$("#notes-add-new-input").replaceWith(
+				"<td style='border-style: hidden;' id='notes-add-new-input'>" + note + "</td>");
+
 	}
+
 }
 
 function removeRow(oButton, id) {
 	var empTab = document.getElementById('notesTable');
 	empTab.deleteRow(oButton.parentNode.parentNode.rowIndex);
+	
+	var delId = id;
+	
+	if(delId == null) { //this means that the thymeleaf id passed is not valid. Meaning the row was generated by a submit action
+		delId = $("#note-id-holder").val();
+	}
 
 	$.ajax({
-
 		type : 'POST',
-		url : '/machines/deleteNotes?noteId=' + id,
+		url : '/machines/deleteNotes?noteId=' + delId,
 		success : function(data) {
 		},
 		error : function(data) {
@@ -248,7 +270,7 @@ function submit() {
 	console.log('notes date input : ' + t.value);
 	values.push("" + t.value + "");
 	console.log('values push date input : ' + t.value);
-	
+
 	var notes = document.getElementById('notes-add-new-input');
 	values.push("" + notes.value + "");
 
@@ -261,13 +283,21 @@ function submit() {
 				+ '&machineId=' + mId,
 		dataType : 'json',
 		success : function(data) {
-			console.log("add notes success data: " + data);
-			// window.location = '/bettingAreas/list';
-			addRow(true, values[0], values[1]);
+			var data_json = JSON.stringify(data);
+			console.log("add notes success data: " + data_json + "    " + typeof data_json);
+			
+			var data_formatted = {
+				date : data[0],
+				note : data[1],
+				noteId: data[2]
+			};
+			
+			addRow(true, data_formatted.date, data_formatted.note);
+			$("#note-id-holder").val(data_formatted.noteId);
 
 		},
 		error : function(data) {
-			alert('Notes cannot be null!');
+			alert('Notes cannot be empty!');
 		}
 
 	});

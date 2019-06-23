@@ -34,8 +34,8 @@ public class NotesServiceImpl implements NotesService {
 
 	@Override
 	@Transactional
-	public void save(Note noteToAdd) {
-		notesDAO.save(noteToAdd);
+	public int save(Note noteToAdd) {
+		return notesDAO.save(noteToAdd);
 	}
 
 	@Override

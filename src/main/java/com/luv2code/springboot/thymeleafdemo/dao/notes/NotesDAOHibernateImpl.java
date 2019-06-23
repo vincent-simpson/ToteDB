@@ -49,11 +49,12 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	}
 
 	@Override
-	public void save(Note noteToAdd) {
+	public int save(Note noteToAdd) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		logger.warn("note to add = " + noteToAdd);
-		currentSession.save(noteToAdd);
+		int id = (int) currentSession.save(noteToAdd);
 		
+		return id;
 	}
 
 	@Override

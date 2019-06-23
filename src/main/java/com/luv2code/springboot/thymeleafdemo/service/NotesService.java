@@ -10,7 +10,7 @@ public interface NotesService  {
 	
 	public Note getByPrimaryId(int id);
 	
-	public void save(Note noteToAdd);
+	public int save(Note noteToAdd);
 	
 	public List<Note> getNotes(int machineId);
 	

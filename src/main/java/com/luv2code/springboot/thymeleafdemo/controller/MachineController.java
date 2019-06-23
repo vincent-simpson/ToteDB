@@ -1,7 +1,9 @@
 package com.luv2code.springboot.thymeleafdemo.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,11 +160,12 @@ public class MachineController {
 			noteObj.setNote(note);
 			noteObj.setMachineId(machineService.getByPrimaryId(id));
 			
-			notesService.save(noteObj);
+			int idSaved = notesService.save(noteObj);
 			
 			List<String> dateAndNote = new ArrayList<String>();
 			dateAndNote.add(date);
 			dateAndNote.add(note);
+			dateAndNote.add(idSaved + "");
 			
 			return ResponseEntity.ok(dateAndNote) ;
 		} else {

@@ -86,7 +86,6 @@
 					data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<a class="collapse-item" href="/employees/list">Employee List</a>
-						<a class="collapse-item" href="cards">Cards</a>
 					</div>
 				</div></li>
 
@@ -512,6 +511,8 @@
 
 
 																				<div id="cont"></div>
+																				
+																				<input type="hidden" id="note-id-holder" value="">
 
 																				<table id="notesTable" class="table" width="100%"
 																					>
@@ -525,7 +526,6 @@
 																					</thead>
 																					<tbody>
 																						<!-- Open notes modal > machine bound to current model. Set machineId = machine.id -->
-
 																						<tr th:each="tempNote : ${notes}">
 																							<td><input type="button" value="Remove"
 																								class="btn btn-primary btn-sm"
@@ -535,8 +535,7 @@
 																							<td th:text="${tempNote.date}" />
 																							<td th:text="${tempNote.note}" />
 																						</tr>
-
-
+														
 																					</tbody>
 
 																				</table>
@@ -629,7 +628,6 @@
 
 																<thead>
 																	<tr>
-																		<th>Id</th>
 																		<th>LSN</th>
 																		<th>Betting Area</th>
 																		<th>Serial Number</th>
@@ -642,7 +640,6 @@
 
 																	<tr th:each="tempMachine : ${machines}"
 																		th:if="${tempMachine.bettingArea == tempBettingArea.id}">
-																		<td th:text="${tempMachine.machineId}" />
 																		<td th:text="${tempMachine.lsnNumber}" />
 																		<td th:text="${tempBettingArea.areaName}" />
 																		<td th:text="${tempMachine.serialNumber}" />
