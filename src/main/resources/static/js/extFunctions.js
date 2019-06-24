@@ -256,7 +256,7 @@ function submit() {
 
 	$.ajax({
 		type : 'POST',
-		url : '/machines/addNotes?date=' + values[0] + '&note=' + values[1]
+		url : '/machines/addNotes?date=' + values[0].trim() + '&note=' + values[1]
 				+ '&machineId=' + mId,
 		dataType : 'json',
 		success : function(data) {
