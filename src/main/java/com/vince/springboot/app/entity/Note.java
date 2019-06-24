@@ -23,7 +23,7 @@ public class Note {
 	private String note;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="machineid")
+	@JoinColumn(name="machine_id")
 	private Machine machineId;
 	
 	@Column(name="date")
