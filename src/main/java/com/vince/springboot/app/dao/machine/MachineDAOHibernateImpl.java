@@ -135,8 +135,6 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 			currentSession.evict(machine2);
 			updateQuery.executeUpdate();
 		} catch (NoResultException e) {
-			Logger logger = LoggerFactory.getLogger(this.getClass());
-			logger.warn("saving machine... : " + machine.toString());
 			currentSession.save(machine);
 		}		
 		
@@ -156,8 +154,9 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-//		setUpSequences.executeUpdate();
+		//comment these two lines below in/out if local or heroku
+		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+		setUpSequences.executeUpdate();
 		
 		Query<Machine> theQuery = 
 				currentSession.createQuery("from machines", Machine.class);
@@ -182,8 +181,9 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		List<Machine> temp = emptyTableQuery.getResultList();
 		
 		if(temp.isEmpty()) {
-//			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_id_seq RESTART WITH 1");
-//			autoIncrementZero.executeUpdate();
+			//comment these two lines in/out if local or heroku
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_id_seq RESTART WITH 1");
+			autoIncrementZero.executeUpdate();
 		} else {
 			Logger logger = LoggerFactory.getLogger(this.getClass());
 			logger.warn(temp.toString());

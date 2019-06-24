@@ -32,8 +32,9 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-//		setUpSequences.executeUpdate();
+		//comment these two lines in/out depending on if local or heroku
+		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+		setUpSequences.executeUpdate();
 //		
 		Query<BettingArea> theQuery = 
 				currentSession.createQuery("from betting_areas", BettingArea.class);
@@ -113,10 +114,9 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		List<BettingArea> temp = emptyTableQuery.getResultList();
 		
 		if (temp.isEmpty()) {
-			logger.warn("in if statement");
-			
-//			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE betting_areas_id_seq RESTART WITH 1");
-//			autoIncrementZero.executeUpdate();
+			//comment these two lines in/out depending on if local or heroku
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE betting_areas_id_seq RESTART WITH 1");
+			autoIncrementZero.executeUpdate();
 		} else {
 			logger.warn(emptyTableQuery.getResultList().toString());
 		}
