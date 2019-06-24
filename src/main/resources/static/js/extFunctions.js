@@ -246,7 +246,8 @@ function submit() {
 	// LOOP THROUGH EACH ROW OF THE TABLE.
 
 	var t = document.getElementById('notes-date-input');
-	values.push("" + t.value + "");
+	values.push("" + t.value.trim() + "");
+	console.log(t.value.trim());
 
 	var notes = document.getElementById('notes-add-new-input');
 	values.push("" + notes.value + "");
@@ -256,7 +257,7 @@ function submit() {
 
 	$.ajax({
 		type : 'POST',
-		url : '/machines/addNotes?date=' + values[0].trim() + '&note=' + values[1]
+		url : '/machines/addNotes?date=' + values[0] + '&note=' + values[1]
 				+ '&machineId=' + mId,
 		dataType : 'json',
 		success : function(data) {
