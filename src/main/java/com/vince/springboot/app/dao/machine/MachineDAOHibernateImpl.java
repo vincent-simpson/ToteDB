@@ -81,7 +81,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("update Machines set lsn_number =:lsnNumber where id =:machineId");
+		Query theQuery = currentSession.createQuery("update machines set lsn_number =:lsnNumber where machine_id =:machineId");
 		theQuery.setParameter("lsnNumber", LSN);
 		theQuery.setParameter("machineId", machine.getMachineId());
 		
@@ -94,7 +94,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("update Machines set lsn_number =:lsnNumber where id =:machineId");
+		Query theQuery = currentSession.createQuery("update machines set lsn_number =:lsnNumber where machine_id =:machineId");
 		theQuery.setParameter("lsnNumber", null);
 		theQuery.setParameter("machineId", machine.getMachineId());
 		
@@ -107,7 +107,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("update Machines set betting_area =:bettingArea where id =:machineId");
+		Query theQuery = currentSession.createQuery("update machines set betting_area =:bettingArea where machine_id =:machineId");
 		theQuery.setParameter("bettingArea", bettingArea);
 		theQuery.setParameter("machineId", machine.getMachineId());
 		
@@ -119,14 +119,14 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public void save(Machine machine) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("from machines where id=:machineId");
+		Query theQuery = currentSession.createQuery("from machines where machine_id=:machineId");
 		theQuery.setParameter("machineId", machine.getMachineId());
 		
 		Machine machine2;
 		
 		try {
 			
-			Query updateQuery = currentSession.createNativeQuery("UPDATE machines SET lsn_number=:lsnParam, serial_number=:serialParam WHERE machineId=:machineIdParam");
+			Query updateQuery = currentSession.createNativeQuery("UPDATE machines SET lsn_number=:lsnParam, serial_number=:serialParam WHERE machine_id=:machineIdParam");
 			updateQuery.setParameter("lsnParam", machine.getLsnNumber());
 			updateQuery.setParameter("serialParam", machine.getSerialNumber());
 			updateQuery.setParameter("machineIdParam", machine.getMachineId());
@@ -172,7 +172,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public void delete(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("delete from machines where id=:machineId");
+		Query theQuery = currentSession.createQuery("delete from machines where machine_id=:machineId");
 		theQuery.setParameter("machineId", id);
 		
 		theQuery.executeUpdate();
@@ -195,7 +195,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public String getNotesById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("SELECT notes FROM machines WHERE id=:machineId");
+		Query theQuery = currentSession.createQuery("SELECT notes FROM machines WHERE machine_id=:machineId");
 		theQuery.setParameter("machineId", id);
 		
 		

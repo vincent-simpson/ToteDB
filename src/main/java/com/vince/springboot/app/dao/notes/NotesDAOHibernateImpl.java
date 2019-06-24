@@ -33,7 +33,7 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
 		setUpSequences.executeUpdate();
 		
-		Query theQuery = currentSession.createQuery("update notes set machineId =:machineIdParam");
+		Query theQuery = currentSession.createQuery("update notes set machine_id =:machineIdParam");
 		theQuery.setParameter("machineIdParam", machineId);
 		
 		theQuery.executeUpdate();
@@ -74,7 +74,7 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 		setUpSequences.executeUpdate();
 		
 		Query<Note> theQuery = 
-				currentSession.createQuery("from notes where machineId =:machineIdParam", Note.class);
+				currentSession.createQuery("from notes where machine_id =:machineIdParam", Note.class);
 		
 		theQuery.setParameter("machineIdParam", new Machine(machineId));
 		
