@@ -16,8 +16,7 @@ import javax.persistence.Table;
 public class Note {
 	
 	@Id
-	@Column(name="id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	@Column(name="note")
