@@ -40,8 +40,6 @@ function openBettingAreaModal(id) {
 
 function bindParentButtonText(id) {
 
-	console.log('id ' + id);
-
 	if (id == 0) {
 		id = -1;
 	}
@@ -52,7 +50,6 @@ function bindParentButtonText(id) {
 		type : 'POST',
 		url : "/bettingAreas/bindToModel?bettingAreaId=" + id,
 		success : function(data) {
-			console.log('success');
 		}
 
 	});
@@ -96,10 +93,6 @@ function openNotesModal(id) {
 	});
 }
 
-function receiveId(id) {
-	console.log(id);
-}
-
 function deleteBettingArea(id) {
 	if (window.confirm("Are you sure?")) {
 
@@ -124,7 +117,6 @@ function deleteBettingArea(id) {
 
 function addRow(isSubmittedRow, date, note) {
 	var empTab = document.getElementById("notesTable");
-	console.log("issubmittedrow = " + isSubmittedRow);
 
 	if (!isSubmittedRow) {
 		var tr = empTab.insertRow(-1); // TABLE ROW.
@@ -170,7 +162,6 @@ function addRow(isSubmittedRow, date, note) {
 						blockOfHtml = document.createElement('div');
 						var htmlToAdd = "<div id='blockOfHtml' style='display: none;'>";
 						blockOfHtml.innerHtml = htmlToAdd;
-						console.log(blockOfHtml.innerHtml);
 					}
 					
 					var x;
@@ -185,7 +176,6 @@ function addRow(isSubmittedRow, date, note) {
 					}
 
 					var todayFormatted = mm + '-' + dd + '-' + yyyy;
-					console.log('todayFormatted : ' + todayFormatted);
 
 					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="text" id="notes-date-input" value="'
 							+ todayFormatted
@@ -194,8 +184,6 @@ function addRow(isSubmittedRow, date, note) {
 
 					blockOfHtml.innerHTML = x;
 
-					console.log('blockOfHtml inner HTML'
-							+ blockOfHtml.innerHTML);
 
 					blockOfHtml.setAttribute('style', 'hidden : false;');
 
@@ -210,11 +198,6 @@ function addRow(isSubmittedRow, date, note) {
 					ele.setAttribute('style', 'width : 100%;');
 					ele.setAttribute('id', 'notes-add-new-input');
 					td.appendChild(ele);
-
-					// ele = document.createElement('td');
-					// ele.setAttribute('style', 'border-style: hidden;');
-					// ele.innerHTML = "<td>" + note + "</td>";
-
 					break;
 
 				}
@@ -222,10 +205,6 @@ function addRow(isSubmittedRow, date, note) {
 		}
 
 	} else {
-		console.log('date is = ' + date);
-		// x = '<div class="form-group row"> <div class="col-10"> <td
-		// id="date_td">' + date + '</td> </div> </div>';
-
 		$("#notes-date-input").replaceWith("<td style='border-style: hidden;' id='notes-date-input'>" + date + "</td>");
 		$("#date-label").remove();
 		$("#notes-save-button").remove();
@@ -267,9 +246,7 @@ function submit() {
 	// LOOP THROUGH EACH ROW OF THE TABLE.
 
 	var t = document.getElementById('notes-date-input');
-	console.log('notes date input : ' + t.value);
 	values.push("" + t.value + "");
-	console.log('values push date input : ' + t.value);
 
 	var notes = document.getElementById('notes-add-new-input');
 	values.push("" + notes.value + "");
@@ -284,7 +261,6 @@ function submit() {
 		dataType : 'json',
 		success : function(data) {
 			var data_json = JSON.stringify(data);
-			console.log("add notes success data: " + data_json + "    " + typeof data_json);
 			
 			var data_formatted = {
 				date : data[0],
@@ -305,7 +281,6 @@ function submit() {
 }
 
 function createEmptyNotesTable() {
-	console.log('createEmptyNotesTable');
 	var arrHead = new Array();
 	arrHead = [ '', 'Date', 'Note' ];
 
