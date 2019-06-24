@@ -16,6 +16,7 @@ import javax.persistence.Table;
 public class Note {
 	
 	@Id
+	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
