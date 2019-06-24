@@ -159,7 +159,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		setUpSequences.executeUpdate();
 		
 		Query<Machine> theQuery = 
-				currentSession.createQuery("from machines", Machine.class);
+				currentSession.createQuery("select machineId, lsn_number, betting_area, serial_number, notes from machines", Machine.class);
 		
 		List<Machine> machines = theQuery.getResultList();
 		
