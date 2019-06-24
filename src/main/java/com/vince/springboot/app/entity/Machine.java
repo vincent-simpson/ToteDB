@@ -17,7 +17,7 @@ import javax.persistence.Table;
 public class Machine {
 	
 	@Id
-	@Column(name="`machineId`")
+	@Column
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int machineId;
 	
