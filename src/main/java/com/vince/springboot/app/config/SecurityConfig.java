@@ -78,9 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().accessDeniedPage("/access-denied");
 
 	}
-	
-	//define bean for datasource
-	
+		
 	@Bean
 	public DataSource securityDataSource() {
 		
