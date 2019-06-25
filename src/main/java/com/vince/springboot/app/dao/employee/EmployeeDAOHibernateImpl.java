@@ -31,9 +31,9 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		//comment these two lines in/out depending on if local or heroku
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
+//		//comment these two lines in/out depending on if local or heroku
+//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+//		setUpSequences.executeUpdate();
 //		
 //		// create a query
 		Query<Employee> theQuery = 

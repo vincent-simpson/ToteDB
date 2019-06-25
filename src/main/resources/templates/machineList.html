@@ -9,6 +9,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
 <title>Dispatcher</title>
 
@@ -159,8 +161,7 @@
 
 					<!-- Topbar Search -->
 					<form
-						class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-						action="">
+						class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
 						<div class="input-group">
 							<input type="text" class="form-control bg-light border-0 small"
 								placeholder="Search for..." aria-label="Search"
@@ -185,7 +186,7 @@
 							<div
 								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
 								aria-labelledby="searchDropdown">
-								<form class="form-inline mr-auto w-100 navbar-search" action="">
+								<form class="form-inline mr-auto w-100 navbar-search">
 									<div class="input-group">
 										<input type="text"
 											class="form-control bg-light border-0 small"
@@ -256,7 +257,7 @@
 							aria-expanded="false"> <span
 								class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie
 									Luna</span> <img class="img-profile rounded-circle"
-								src="https://source.unsplash.com/QAB-WJcbgJk/60x60" alt="">
+								src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
 						</a> <!-- Dropdown - User Information -->
 							<div
 								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -378,7 +379,7 @@
 															<!-- 	th:href="@{/bettingAreas/delete(bettingAreaId=${tempBettingArea.id})}" -->
 
 															<a class="btn btn-danger btn-sm"
-																style="float: right; color: white; cursor:pointer;"
+																style="float: right; color: white; cursor: pointer;"
 																id="#deleteBettingAreaButton"
 																th:onclick="|deleteBettingArea('${tempBettingArea.id}')|">
 
@@ -403,8 +404,7 @@
 															<div class="form-group row">
 																<div class="col-10">
 																	<input class="form-control" type="text"
-																		id="notes-date-input"																		
-																		value="">
+																		id="notes-date-input" value="">
 																</div>
 															</div>
 														</div>
@@ -422,7 +422,8 @@
 																	<div class="modal-header text-center">
 																		<h4 id="add-notes-title"
 																			class="modal-title w-100 font-weight-bold">
-																			Add Notes <a onclick="addRow(false, null, null); addNewNoteButtonClicked();"
+																			Add Notes <a
+																				onclick="addRow(false, null, null); addNewNoteButtonClicked();"
 																				class="btn btn-success btn-sm"
 																				style="color: white; cursor: pointer;"
 																				id="addDateButton"> <i class="material-icons">note_add</i>
@@ -436,15 +437,15 @@
 																			style="border: 0; border-left-width: 0px; border-left-style: solid; padding-left: 5px; padding-right: 5px;">
 																			<div class="form-group  flex-fill "
 																				style="float: none; margin: auto;">
-																			<input type="hidden" id="notes-modal-machine-id" th:value="${machine.machineId}">
+																				<input type="hidden" id="notes-modal-machine-id"
+																					th:value="${machine.machineId}">
 
 
 																				<div id="cont"></div>
-																				
+
 																				<input type="hidden" id="note-id-holder" value="">
 
-																				<table id="notesTable" class="table" width="100%"
-																					>
+																				<table id="notesTable" class="table" width="100%">
 																					<thead>
 																						<tr>
 																							<th width="10%">
@@ -464,7 +465,7 @@
 																							<td th:text="${tempNote.date}" />
 																							<td th:text="${tempNote.note}" />
 																						</tr>
-														
+
 																					</tbody>
 
 																				</table>
@@ -505,9 +506,9 @@
 																			<div
 																				class="form-group col-md-6 justify-content-center cold-md-offset-3"
 																				style="float: none; margin: auto;">
-																				
+
 																				<input type="hidden" th:field="*{machineId}">
-																				
+
 																				<input type="text" th:field="*{lsnNumber}"
 																					id="addMachine-lsnNumber" class="form-control"><label
 																					data-error="wrong" data-success="right"
@@ -657,23 +658,24 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" href="login.html">Logout</a>
+					<form method="POST" th:action="@{/logout}">
+						<button type="submit" class="btn btn-primary">Logout</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Bootstrap core JavaScript-->
-	<script th:src="@{/vendor/jquery/jquery.min.js}" type="text/javascript"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"
-		type="text/javascript"></script>
+	<script src="vendor/jquery/jquery.min.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 	<!-- Core plugin JavaScript-->
-	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"
-		type="text/javascript"></script>
+	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
 
 	<!-- Custom scripts for all pages-->
-	<script th:src="@{/js/sb-admin-2.min.js}" type="text/javascript"></script>
+	<script src="js/sb-admin-2.min.js"></script>
 	<script th:src=@{/js/extFunctions.js} type="text/javascript"></script>
 
 	<!-- Page level plugins -->
@@ -684,64 +686,6 @@
 
 	<!-- Page level custom scripts -->
 	<script th:src="@{/js/demo/datatables-demo.js}" type="text/javascript"></script>
-	
-	<script  type="text/javascript">
-	
-	function addNewNoteButtonClicked() {
-		var date = document.getElementById('notes-date-input');
-
-		function checkValue(str, max) {
-		  if (str.charAt(0) !== '0' || str == '00') {
-		    var num = parseInt(str);
-		    if (isNaN(num) || num <= 0 || num > max) num = 1;
-		    str = num > parseInt(max.toString().charAt(0)) && num.toString().length == 1 ? '0' + num : num.toString();
-		  };
-		  return str;
-		};
-
-		date.addEventListener('input', function(e) {
-		  this.type = 'text';
-		  var input = this.value;
-		  if (/\D\/$/.test(input)) input = input.substr(0, input.length - 3);
-		  var values = input.split('/').map(function(v) {
-		    return v.replace(/\D/g, '')
-		  });
-		  if (values[0]) values[0] = checkValue(values[0], 12);
-		  if (values[1]) values[1] = checkValue(values[1], 31);
-		  var output = values.map(function(v, i) {
-		    return v.length == 2 && i < 2 ? v + ' / ' : v;
-		  });
-		  this.value = output.join('').substr(0, 14);
-		});
-
-		date.addEventListener('blur', function(e) {
-		  this.type = 'text';
-		  var input = this.value;
-		  var values = input.split('/').map(function(v, i) {
-		    return v.replace(/\D/g, '')
-		  });
-		  var output = '';
-		  
-		  if (values.length == 3) {
-		    var year = values[2].length !== 4 ? parseInt(values[2]) + 2000 : parseInt(values[2]);
-		    var month = parseInt(values[0]) - 1;
-		    var day = parseInt(values[1]);
-		    var d = new Date(year, month, day);
-		    if (!isNaN(d)) {
-		      var dates = [d.getMonth() + 1, d.getDate(), d.getFullYear()];
-		      output = dates.map(function(v) {
-		        v = v.toString();
-		        return v.length == 1 ? '0' + v : v;
-		      }).join(' / ');
-		    };
-		  };
-		  this.value = output;
-		});
-	}
-	
-	
-	
-	</script>
 
 
 

@@ -29,9 +29,9 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	public void bindToMachine(int machineId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		//comment these two lines in/out depending on if local or heroku
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
+//		//comment these two lines in/out depending on if local or heroku
+//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+//		setUpSequences.executeUpdate();
 		
 		Query theQuery = currentSession.createQuery("update notes set machine_id =:machineIdParam");
 		theQuery.setParameter("machineIdParam", machineId);
@@ -44,9 +44,9 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	public Note getByPrimaryId(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		//comment these two lines in/out depending on if local or heroku
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
+//		//comment these two lines in/out depending on if local or heroku
+//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+//		setUpSequences.executeUpdate();
 		
 		Query theQuery = currentSession.createQuery("from notes where id=:idParam");
 		theQuery.setParameter("idParam", id);
@@ -69,10 +69,10 @@ public class NotesDAOHibernateImpl implements NotesDAO {
 	public List<Note> getNotes(int machineId) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		//comment these two lines in/out depending on if local or heroku
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
-		
+//		//comment these two lines in/out depending on if local or heroku
+//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+//		setUpSequences.executeUpdate();
+//		
 		Query<Note> theQuery = 
 				currentSession.createQuery("from notes where machine_id =:machineIdParam", Note.class);
 		

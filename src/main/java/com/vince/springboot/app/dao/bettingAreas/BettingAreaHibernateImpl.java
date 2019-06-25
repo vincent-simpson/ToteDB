@@ -32,9 +32,9 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		//comment these two lines in/out depending on if local or heroku
-		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
-		setUpSequences.executeUpdate();
+//		//comment these two lines in/out depending on if local or heroku
+//		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
+//		setUpSequences.executeUpdate();
 //		
 		Query<BettingArea> theQuery = 
 				currentSession.createQuery("from betting_areas", BettingArea.class);

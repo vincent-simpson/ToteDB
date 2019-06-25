@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="employee", schema="monmouth")
+@Table(name="employee")
 public class Employee {
 	
 	// define fields
