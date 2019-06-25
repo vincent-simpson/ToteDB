@@ -182,7 +182,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		if(temp.isEmpty()) {
 			//comment these two lines in/out if local or heroku
-			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_id_seq RESTART WITH 1");
+			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_machine_id_seq RESTART WITH 1");
 			autoIncrementZero.executeUpdate();
 		} else {
 			Logger logger = LoggerFactory.getLogger(this.getClass());
