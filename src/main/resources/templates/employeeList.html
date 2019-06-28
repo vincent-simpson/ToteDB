@@ -554,7 +554,9 @@
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
 						data-dismiss="modal">Cancel</button>
-					<a class="btn btn-primary" th:href="@{/logout}">Logout</a>
+					<form method="POST" th:action="@{/logout}">
+						<button type="submit" class="btn btn-primary">Logout</button>
+					</form>
 				</div>
 			</div>
 		</div>
