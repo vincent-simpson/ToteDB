@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 @Configuration
 @EnableWebSecurity
-@PropertySource("classpath:application.properties.local")
+@PropertySource("classpath:application.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired

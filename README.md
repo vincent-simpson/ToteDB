@@ -7,3 +7,5 @@ TODO:
     work to be done, there is no way of keeping track of them.
     May need to simply unbind the betting area value from the machine and rebind off a master list.
     
+Also, use javascript function instead of thymeleaf mapping to make an ajax call and delete the entry on success.
+    
