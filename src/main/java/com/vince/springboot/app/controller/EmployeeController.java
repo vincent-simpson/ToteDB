@@ -32,10 +32,6 @@ public class EmployeeController {
 	
 	@RequestMapping("/save")
 	public String saveEmployee(@ModelAttribute("employee") Employee employee, @RequestParam("employeeId2") int id) {
-		
-		logger.warn("employee controller employee id: " + employee);
-		logger.warn("id: " + id);
-		
 		employee.setId(id);
 		
 		employeeService.save(employee);
@@ -77,11 +73,8 @@ public class EmployeeController {
 			
 			return "employeeList :: modalEditEmployee";
 		} else {
-			logger.warn("The employee id is not negative 1: " + id);
-			
 			Employee employee = employeeService.findById(id);
-			logger.warn("employee service employee id: " + employee.getId());
-			
+
 			model.addAttribute("employee", employee);
 			
 			return "employeeList :: modalEditEmployee";

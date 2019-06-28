@@ -28,25 +28,17 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 	@Override
 	public List<Employee> getAll() {
 		
-		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 		
 //		//comment these two lines in/out depending on if local or heroku
 //		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
 //		setUpSequences.executeUpdate();
 //		
-//		// create a query
-		Query<Employee> theQuery = 
+		Query<Employee> theQuery =
 				currentSession.createQuery("from Employee", Employee.class);
 		
-		// execute query and get result list
 		List<Employee> employees = theQuery.list();
-		
-		
-		
-		
-		// return the results
-		
+
 		return employees;
 	}
 
@@ -112,7 +104,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		
 		if(temp.isEmpty()) {
 			//comment these two lines in/out depending on if local or heroku
-			Query autoIncrementZero = currentSession.createNativeQuery("ALTER SEQUENCE employee_auto_increment RESTART WITH 1");
+			Query autoIncrementZero = currentSession.createNativeQuery("ALTER SEQUENCE employee_id_seq RESTART WITH 1");
 			autoIncrementZero.executeUpdate();
 		}
 		

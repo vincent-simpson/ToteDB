@@ -9,6 +9,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
 <title>Dispatcher</title>
 
@@ -381,9 +383,9 @@
 
 					<!-- Content Row -->
 
-					<div class="row">
+					<div class="row w-100">
 
-						<div class="card shadow mb-4">
+						<div class="card shadow mb-4 w-100">
 							<div class="card-header py-3">
 								<h6 class="m-0 font-weight-bold text-primary">Employees</h6>
 							</div>
@@ -613,6 +615,18 @@
 
 		});
 
+		$(function() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+				if (options.type === "POST") {
+					xhr.setRequestHeader(header, token);
+					console.log('CSRF POST');
+				}
+			});
+		});
+
+
 		function openEmployeeModal(id) {
 			$.ajax({
 				type : 'POST',
@@ -621,9 +635,20 @@
 					var nomArea = data;
 
 					$("#employeeModalHolder").html(nomArea);
+
+					var s1;
+					var s2;
+					var negOne = -1;
+					if(id.toString() === negOne.toString()) { // id is negative one if we're adding a new employee
+						s1 = "Add";
+						s2 = "Add Employee";
+					} else {
+						s1 = "Save";
+						s2 = "Edit Employee";
+					}
 					
-					$("#employeeModalHolder #add-employee-button").html("Save");
-					$("#employeeModalHolder #add-employee-title").html("Edit Employee");
+					$("#employeeModalHolder #add-employee-button").html(s1);
+					$("#employeeModalHolder #add-employee-title").html(s2);
 					
 					$("#modalEmployeeForm").modal("show");
 					
