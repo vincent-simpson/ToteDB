@@ -54,11 +54,6 @@
             src="//cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TimelineMax.min.js"
             type="text/javascript"></script>
 
-    <script type="text/javascript">
-
-    </script>
-
-
 </head>
 
 <body id="page-top">
@@ -480,8 +475,8 @@
                                 <h4 class="modal-title w-100 font-weight-bold" id="add-employee-title">Add
                                     Employee</h4>
                             </div>
-                            <form action="#"
-                                  th:action="@{/employees/save(employeeId2=${employee.id})}"
+                            <form
+                                  th:action="@{/employees/save}"
                                   th:method="POST"
                                   th:object="${employee}">
                                 <div class="form-row">
@@ -650,9 +645,7 @@
             type: 'POST',
             url: "/employees/edit?employeeId=" + id,
             success: function (data) {
-                var nomArea = data;
-
-                $("#employeeModalHolder").html(nomArea);
+                $("#employeeModalHolder").html(data);
 
                 var s1;
                 var s2;
@@ -673,7 +666,7 @@
 
             }
         });
-    };
+    }
 </script>
 
 </body>

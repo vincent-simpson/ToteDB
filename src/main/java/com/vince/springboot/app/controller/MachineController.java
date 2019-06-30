@@ -46,20 +46,11 @@ public class MachineController {
 	}
 
 	@PostMapping("/save")
-	public String saveMachine(@ModelAttribute("machine") Machine machine,
-							  @RequestParam("machineId2") int id,
-							  @RequestParam("bettingAreaButtonText") String bettingAreaButtonText,
-							  Model model) {
-
-		Machine machine2 = bindMachineToModel(machine, id, bettingAreaButtonText);
-
-		machine2.setMachineId(id);
-
-		model.addAttribute("machine", machine2);
-
+	public String saveMachine(@ModelAttribute("machine") Machine machine, HttpServletRequest request)
+	{
 		machineService.save(machine);
 
-		return "redirect:/bettingAreas/list";
+		return "redirect:" + request.getHeader("Referer");
 
 	}
 
@@ -134,8 +125,6 @@ public class MachineController {
 			Machine machine = new Machine();
 			theModel.addAttribute("machine", machine);
 
-			logger.warn("MACHINEID IS -1");
-
 			List<Note> notes = notesService.getNotes(machine.getMachineId());
 
 			theModel.addAttribute("notes", notes);
@@ -144,9 +133,6 @@ public class MachineController {
 		} else {
 			Machine machine = machineService.getByPrimaryId(id);
 			theModel.addAttribute("machine", machine);
-
-			logger.warn("MACHINE ID IS NOT -1: " + id);
-			logger.warn("MACHINE ID : " + machine.getMachineId());
 
 			List<Note> notes = notesService.getNotes(machine.getMachineId());
 

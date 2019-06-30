@@ -5,19 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.vince.springboot.app.entity.BettingArea;
 import com.vince.springboot.app.entity.Machine;
@@ -33,7 +28,7 @@ public class BettingAreaController {
     private BettingAreaService bettingAreaService;
     private MachineService machineService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private int test;
+    private int bettingAreaGlobal;
 
     @Autowired
     public BettingAreaController(BettingAreaService bettingAreaService, MachineService machineService) {
@@ -41,6 +36,13 @@ public class BettingAreaController {
         this.machineService = machineService;
     }
 
+    /**
+     * Mapping that retrieves all of the machines and betting areas that exist in the database and binds them
+     * to the {@param theModel}
+     *
+     * @param theModel the model to bind the machines and betting areas to.
+     * @return a String that represents the view to resolve. In this case, machineList.html
+     */
     @GetMapping("/list")
     public String bettingAreaList(Model theModel) {
         List<BettingArea> bettingAreas = bettingAreaService.getAll();
@@ -57,16 +59,26 @@ public class BettingAreaController {
         return "machineList";
     }
 
+    /**
+     * A mapping that is responsible for saving a betting area to the database.
+     *
+     * @param bettingArea the model attribute representing the betting area to be saved.
+     * @return a String representing a mapping to bettingAreas/list to refresh the page.
+     */
     @PostMapping("/save")
-    public String saveBettingArea(@ModelAttribute("bettingArea") BettingArea bettingArea,
-                                  @RequestParam("bettingAreaId2") int id) {
-        bettingArea.setId(id);
-
+    public String saveBettingArea(@ModelAttribute("bettingArea") BettingArea bettingArea)
+    {
         bettingAreaService.save(bettingArea);
 
         return "redirect:/bettingAreas/list";
     }
 
+    /**
+     * The mapping responsible for handling delete requests.
+     *
+     * @param id the id of the bettingArea to delete.
+     * @return a String representing a mapping to bettingAreas/list to refresh the page
+     */
     @GetMapping("/delete")
     public String delete(@RequestParam("bettingAreaId") int id) {
 
@@ -76,7 +88,14 @@ public class BettingAreaController {
         return "redirect:/bettingAreas/list";
     }
 
-
+    /**
+     * The mapping responsible for handling edit requests. This request is made when clicking the edit button.
+     * The main purpose of this mapping is to pre-fill the input boxes with the already existing data.
+     *
+     * @param id the id of the bettingArea that is being edited.
+     * @param model the model to bind the betting area data retrieved to.
+     * @return a thymeleaf fragment modal.
+     */
     @PostMapping("/edit")
     public String editBettingArea(@RequestParam("bettingAreaId") int id, Model model) {
 
@@ -94,6 +113,15 @@ public class BettingAreaController {
 
     }
 
+    /**
+     * This mapping is called via an Ajax request from the function "bindParentButtonText" in extFunctions.js.
+     * When the "Add Machine" button is clicked, the betting area id that we're binding the machine to is set in this
+     * function below. The machine with the new betting area is then bound back to the model.
+     *
+     * @param bettingAreaId the id of the betting area that the machine is being added to.
+     * @param machine the machine to bind to the betting area.
+     * @param theModel the model that the machine is then added to.
+     */
     @PostMapping("/bindToModel")
     public @ResponseBody void bindToModel(@RequestParam("bettingAreaId") int bettingAreaId,
                                           @ModelAttribute("machine") Machine machine,
@@ -103,28 +131,27 @@ public class BettingAreaController {
         logger.warn("bindToModel bettingAreaId = " + bettingAreaId);
 
         machine.setBettingArea(bettingAreaId);
-        test = bettingAreaId;
-
-        logger.warn("test = bettingAreaId: " + test);
+        bettingAreaGlobal = bettingAreaId;
 
         theModel.addAttribute("machine", machine);
 
     }
 
+    /**
+     * This mapping is called from the modal that is responsible for handling the addition/editing of machines.
+     * Its purpose is to take the id of the betting area that was added as a global variable in
+     * {@link BettingAreaController#bindToModel(int, Machine, Model)} and bind it to the machine that we're saving.
+     *
+     * @param theMachine the model attribute representing the machine to be saved after addition/editing
+     * @param request the {@link HttpServletRequest} object that is used to get the header representing the referring page
+     * @return a redirect to the page that initially requested this mapping.
+     */
     @GetMapping("/bind")
-    public String finalSaveMachine(@RequestParam("lsnNumber") int lsnNumber,
-                                   @RequestParam("serialNumber") String serialNumber,
-                                   @ModelAttribute("machine") Machine theMachine,
-                                   @RequestParam(value = "machineId", required = false) int theId,
+    public String finalSaveMachine(@ModelAttribute("machine") Machine theMachine,
                                     HttpServletRequest request)
     {
 
-        logger.warn("/bind   lsnNumber = " + lsnNumber + " :: serialNumber = " + serialNumber + " :: the machine id = " + theId);
-
-        theMachine.setLsnNumber(lsnNumber);
-        theMachine.setSerialNumber(serialNumber);
-        theMachine.setBettingArea(test);
-        theMachine.setMachineId(theId);
+        theMachine.setBettingArea(bettingAreaGlobal);
         logger.warn("bind machine to save: " + theMachine.toString());
         machineService.save(theMachine);
 

@@ -34,9 +34,7 @@ function openBettingAreaModal(id) {
 		type : 'POST',
 		url : "/bettingAreas/edit?bettingAreaId=" + id,
 		success : function(data) {
-			var nomArea = data;
-
-			$("#bettingAreaModalHolder").html(nomArea);
+			$("#bettingAreaModalHolder").html(data);
 
 			$("#bettingAreaModalHolder #add-bettingArea-button").html("Save");
 			$("#bettingAreaModalHolder #add-bettingArea-title").html(
@@ -70,9 +68,7 @@ function openMachineModal(id) {
 		type : 'POST',
 		url : "/machines/edit?machineId=" + id,
 		success : function(data) {
-			var nomArea = data;
-
-			$("#machineModalHolder").html(nomArea);
+			$("#machineModalHolder").html(data);
 
 			$("#machineModalHolder #add-machine-button").html("Save");
 			$("#machineModalHolder #add-machine-title").html("Edit Machine");
@@ -89,9 +85,7 @@ function openNotesModal(id) {
 		type : 'POST',
 		url : '/machines/addNotes/bind?machineId=' + id,
 		success : function(data) {
-			var nomArea = data;
-
-			$('#notesModalHolder').html(nomArea);
+			$('#notesModalHolder').html(data);
 
 			$("#modalAddNotesForm").modal("show");
 		},
@@ -170,8 +164,7 @@ function addRow(isSubmittedRow, date, note) {
 					var blockOfHtml = document.getElementById('blockOfHtml');
 					if (blockOfHtml == null) {
 						blockOfHtml = document.createElement('div');
-						var htmlToAdd = "<div id='blockOfHtml' style='display: none;'>";
-						blockOfHtml.innerHtml = htmlToAdd;
+						blockOfHtml.innerHtml = "<div id='blockOfHtml' style='display: none;'>";
 					}
 
 					var x;
@@ -255,7 +248,7 @@ function removeRow(oButton, id) {
 // EXTRACT AND SUBMIT TABLE DATA.
 function submit() {
 	var myTab = document.getElementById('notesTable');
-	var values = new Array();
+	var values = [];
 
 	// LOOP THROUGH EACH ROW OF THE TABLE.
 
@@ -296,7 +289,7 @@ function submit() {
 }
 
 function createEmptyNotesTable() {
-	var arrHead = new Array();
+	var arrHead = [];
 	arrHead = [ '', 'Date', 'Note' ];
 
 	var emptyTable = document.createElement('table');
@@ -322,10 +315,9 @@ function addNewNoteButtonClicked() {
 	    var num = parseInt(str);
 	    if (isNaN(num) || num <= 0 || num > max) num = 1;
 	    str = num > parseInt(max.toString().charAt(0)) && num.toString().length == 1 ? '0' + num : num.toString();
-	  };
-	  return str;
-	};
-
+	  }
+		return str;
+	}
 	date.addEventListener('input', function(e) {
 	  this.type = 'text';
 	  var input = this.value;
@@ -360,8 +352,8 @@ function addNewNoteButtonClicked() {
 	        v = v.toString();
 	        return v.length == 1 ? '0' + v : v;
 	      }).join(' / ');
-	    };
-	  };
+	    }
+	  }
 	  this.value = output;
 	});
 }

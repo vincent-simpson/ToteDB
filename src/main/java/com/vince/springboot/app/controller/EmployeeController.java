@@ -31,9 +31,7 @@ public class EmployeeController {
 	}
 	
 	@RequestMapping("/save")
-	public String saveEmployee(@ModelAttribute("employee") Employee employee, @RequestParam("employeeId2") int id) {
-		employee.setId(id);
-		
+	public String saveEmployee(@ModelAttribute("employee") Employee employee) {
 		employeeService.save(employee);
 		
 		return "redirect:/employees/list";
@@ -49,16 +47,12 @@ public class EmployeeController {
 	
 	@GetMapping("/list")
 	public String employeeList(Model theModel) {
-		
-		logger.warn("In list mapping");
-		
+
 		List<Employee> employees = employeeService.findAll();
 		Employee employee = new Employee();
 		
 		theModel.addAttribute("employees", employees);
 		theModel.addAttribute("employee", employee);
-		
-		
 		
 		return "employeeList";
 	}
@@ -78,11 +72,7 @@ public class EmployeeController {
 			model.addAttribute("employee", employee);
 			
 			return "employeeList :: modalEditEmployee";
-		}	
-		
-		
+		}
 	}
-
-	
 
 }

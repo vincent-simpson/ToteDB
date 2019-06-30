@@ -24,14 +24,21 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+/*
+This is the configuration file for Spring Security.
+ */
 @Configuration
 @EnableWebSecurity
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.properties") //The application.properties file that holds values to be used
+													//for configuration.
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private Environment env;	
-	
+	private final Environment env;
+
+	public SecurityConfig(Environment env) {
+		this.env = env;
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(securityDataSource());
@@ -43,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 		.authorizeRequests()
+				//antMatchers for resource files.
 			.antMatchers("/css/**", "/js/**", "/img/**", "/scss/**", "/vendor/**").permitAll()
 			.anyRequest().authenticated()
 		.and()
@@ -51,15 +59,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginProcessingUrl("/authenticateUser")
 			.permitAll()
 			.successHandler(new AuthenticationSuccessHandler() {
-				
+				// if authentication succeeds, send request to controller for main dashboard
 				@Override
 				public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 						Authentication authentication) throws IOException, ServletException {
-					response.sendRedirect("/");
+					response.sendRedirect("/"); // "/" is the request that maps to the main dashboard.
 				}
 			})
 			.failureHandler(new AuthenticationFailureHandler() {
-				
+				//if authentication fails, print the exception stack trace.
 				@Override
 				public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 						AuthenticationException exception) throws IOException, ServletException {
@@ -76,7 +84,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().accessDeniedPage("/access-denied");
 
 	}
-		
+
+	/**
+	 * Datasource that defines the properties of the database source.
+	 * @return a {@link DataSource} object containing the database connection information.
+	 */
 	@Bean
 	public DataSource securityDataSource() {
 		

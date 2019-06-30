@@ -5,13 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.vince.springboot.app.service.EmployeeService;
 
+/**
+ * Controller responsible for handling the main page request mappings.
+ */
 @Controller
-public class DispatchController {
+public class MainController {
 	
 	private EmployeeService employeeService;
 	
 	@Autowired
-	public DispatchController(EmployeeService employeeService) {
+	public MainController(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 	
