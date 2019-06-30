@@ -3,7 +3,6 @@ package com.vince.springboot.app.dao.machine;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -123,20 +122,23 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		theQuery.setParameter("machineId", machine.getMachineId());
 		
 		Machine machine2;
-		
-		try {
-			
-			Query updateQuery = currentSession.createNativeQuery("UPDATE machines SET lsn_number=:lsnParam, serial_number=:serialParam WHERE machine_id=:machineIdParam");
-			updateQuery.setParameter("lsnParam", machine.getLsnNumber());
-			updateQuery.setParameter("serialParam", machine.getSerialNumber());
-			updateQuery.setParameter("machineIdParam", machine.getMachineId());
-			
-			machine2 = (Machine) theQuery.getSingleResult(); //throws NoResultException
-			currentSession.evict(machine2);
-			updateQuery.executeUpdate();
-		} catch (NoResultException e) {
-			currentSession.save(machine);
-		}		
+
+		currentSession.saveOrUpdate(machine);
+
+
+//		try {
+//
+//			Query updateQuery = currentSession.createNativeQuery("UPDATE machines SET lsn_number=:lsnParam, serial_number=:serialParam WHERE machine_id=:machineIdParam");
+//			updateQuery.setParameter("lsnParam", machine.getLsnNumber());
+//			updateQuery.setParameter("serialParam", machine.getSerialNumber());
+//			updateQuery.setParameter("machineIdParam", machine.getMachineId());
+//
+//			machine2 = (Machine) theQuery.getSingleResult(); //throws NoResultException
+//			currentSession.evict(machine2);
+//			updateQuery.executeUpdate();
+//		} catch (NoResultException e) {
+//			currentSession.save(machine);
+//		}
 		
 	}
 

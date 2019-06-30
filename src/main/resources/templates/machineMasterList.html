@@ -74,7 +74,7 @@
 			<div class="sidebar-brand-icon rotate-n-15">
 				<i class="fas fa-laugh-wink"></i>
 			</div>
-			<div class="sidebar-brand-text mx-3">Dispatcher</div>
+			<div class="sidebar-brand-text mx-3">Tote DB</div>
 		</a>
 
 		<!-- Divider -->
@@ -333,13 +333,15 @@
 									<tbody>
 									<tr th:each="tempMachine : ${machines}">
 										<td th:text="${tempMachine.lsnNumber}" />
-										<td th:text="${tempMachine.bettingArea == 0} ? 'No betting area bound' : ${tempMachine.bettingArea}" />
+										<td th:text="${tempMachine.bettingArea == 0} ? 'No betting area bound' :
+											${tempMachine.bettingArea}" />
 										<td th:text="${tempMachine.serialNumber}" />
 										<td> <a
 												class="btn btn-primary btn-sm"
 												href="#"
 												id="editEmployeeButton"
-												th:onclick="'javascript:openMachineModal(\'' + ${tempMachine.machineId} + '\');'">
+												th:onclick="'javascript:openMachineModal(\'' +
+													${tempMachine.machineId} + '\');'">
 											<i class="material-icons">&#xE254;</i>
 										</a>
 
@@ -473,6 +475,15 @@
 													   th:field="*{serialNumber}" type="text"><label
 													data-error="wrong" data-success="right"
 													for="addMachine-serialNumber">Serial Number</label>
+
+												<select class="form-control" id="selectBettingArea"
+												name="bettingAreaName">
+													<option th:each="bettingArea : ${bettingAreas}"
+															th:value="${bettingArea.areaName}"
+															th:text="${bettingArea.areaName}"></option>
+												</select>
+												<label data-error="wrong" data-success="right"
+													   for="selectBettingArea">Betting Area</label>
 
 											</div>
 

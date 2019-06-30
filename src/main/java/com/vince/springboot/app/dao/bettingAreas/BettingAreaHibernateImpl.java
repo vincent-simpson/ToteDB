@@ -40,39 +40,31 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		List<BettingArea> bettingAreas = theQuery.getResultList();
 		
-		
-		
 		return bettingAreas;
 	}
 
 	@Override
 	public BettingArea getByName(String name) {
-		
-		Logger logger = LoggerFactory.getLogger(this.getClass());
 
-		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		NativeQuery theQuery = currentSession.createSQLQuery("SELECT * FROM betting_areas where area_name = " + name);
-		theQuery.addEntity(BettingArea.class);	
-				
-		BettingArea theBettingArea = (BettingArea) theQuery.uniqueResult();
-		
-		logger.warn(theBettingArea + " inside getByName()");
-		
-		return theBettingArea;
+		NativeQuery theQuery = currentSession.createSQLQuery("SELECT * FROM betting_areas " +
+				"where area_name = " + "'" + name + "'");
+		theQuery.addEntity(BettingArea.class);
+
+		return (BettingArea) theQuery.uniqueResult();
 	}
 
 	@Override
 	public void save(BettingArea bettingArea) {
-		
+
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<BettingArea> theQuery = currentSession.createQuery("from betting_areas where id=:bettingAreaId");
+		Query theQuery = currentSession.createQuery("from betting_areas where id=:bettingAreaId");
 		theQuery.setParameter("bettingAreaId", bettingArea.getId());
 		
 		try {
-			BettingArea bettingArea2 = theQuery.getSingleResult();
+			BettingArea bettingArea2 = (BettingArea) theQuery.getSingleResult();
 			
 			currentSession.evict(bettingArea2);
 			currentSession.update(bettingArea);
@@ -100,7 +92,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query<BettingArea> theQuery = currentSession.createQuery("delete from betting_areas where id=:machineId");
+		Query theQuery = currentSession.createQuery("delete from betting_areas where id=:machineId");
 		theQuery.setParameter("machineId", theId);
 		try {
 			theQuery.executeUpdate();
@@ -125,11 +117,8 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 	@Override
 	public BettingArea getById(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		BettingArea bettingArea = currentSession.get(BettingArea.class, id);
-		
-		
-		return bettingArea;
+
+		return currentSession.get(BettingArea.class, id);
 	}	
 
 }

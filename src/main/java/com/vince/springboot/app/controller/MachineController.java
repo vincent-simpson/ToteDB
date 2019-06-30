@@ -46,11 +46,20 @@ public class MachineController {
 	}
 
 	@PostMapping("/save")
-	public String saveMachine(@ModelAttribute("machine") Machine machine, HttpServletRequest request)
+	public String saveMachine(@ModelAttribute("machine") Machine machine, HttpServletRequest request,
+							  @RequestParam(value = "bettingAreaName", required = false) String bettingAreaName)
 	{
+		logger.warn("betting area name in /save mapping: " + bettingAreaName);
+		machine.setBettingArea(bettingAreaService.getByName(bettingAreaName).getId());
 		machineService.save(machine);
 
-		return "redirect:" + request.getHeader("Referer");
+		String s = request.getHeader("Referer");
+		if(s.toLowerCase().contains("master")) {
+			logger.warn("machine betting area id: " + machine.getBettingArea());
+			return "redirect:/machines/machineMasterList";
+		} else {
+			return "redirect:/machines/list";
+		}
 
 	}
 
@@ -100,20 +109,29 @@ public class MachineController {
 	}
 
 	@PostMapping("/edit")
-	public String editMachine(@RequestParam("machineId") int id, Model model) {
+	public String editMachine(@RequestParam("machineId") int id, Model model, HttpServletRequest request) {
 
 		logger.warn("/edit mapping id request param = " + id);
+		List<BettingArea> bettingAreas = bettingAreaService.getAll();
+		model.addAttribute("bettingAreas", bettingAreas);
+
+		Machine machine;
 
 		if(id == -1) {
-			model.addAttribute("machine", new Machine());
+			machine = new Machine();
+		} else {
+			machine = machineService.getByPrimaryId(id);
+		}
 
+		model.addAttribute("machine", machine);
+
+		String s = request.getHeader("Referer").toLowerCase();
+		if(s.contains("masterlist")) {
+			return "machineMasterList :: modalAddMachine";
+		} else if(s.contains("machinelist")) {
 			return "machineList :: modalAddMachine";
 		} else {
-			Machine machine = machineService.getByPrimaryId(id);
-
-			model.addAttribute("machine", machine);
-
-			return "machineList :: modalAddMachine";
+			throw new RuntimeException("Referer not recognized");
 		}
 	}
 
@@ -207,7 +225,13 @@ public class MachineController {
 	@GetMapping("/machineMasterList")
 	public String getMachineMasterList(Model model) {
 
+		List<BettingArea> bettingAreas = bettingAreaService.getAll();
+
+		model.addAttribute("bettingAreas", bettingAreas);
+
 		List<Machine> masterList = machineService.getAll();
+		logger.warn("master list first machine betting area: " + masterList.get(0).getBettingArea());
+
 		model.addAttribute("machines", masterList);
 		model.addAttribute("machine", new Machine());
 
