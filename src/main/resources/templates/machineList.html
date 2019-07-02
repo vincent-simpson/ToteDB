@@ -379,6 +379,8 @@
 												<div class="card">
 													<div class="card-header" id="headingTwo">
 														<h5 class="mb-0">
+															<input type="hidden" th:value="${tempBettingArea.id}"
+																   id="tempBettingArea-holder">
 															<button class="btn btn-link" type="button"
 																id="betting-area-header" data-toggle="collapse"
 																th:attr="data-target=${'#accordian_' + tempBettingArea.id}, aria-controls=${'accordian_' + tempBettingArea.id}"
@@ -415,18 +417,6 @@
 																		id="notes-date-input" value="">
 																</div>
 															</div>
-														</div>
-
-														<div style="display: none;" id="betting-area-button-holder">
-															<button  class="btn btn-primary btn-md"
-																	data-target="#modalAddMachineForm" data-toggle="modal"
-																	th:onclick="|bindParentButtonText('${tempBettingArea.id}')|"
-																	id="betting-area-add-new-machine-button">Add New Machine</button>
-
-															<button class="btn btn-primary btn-md"
-																	data-target="#modalAddMachineForm" data-toggle="modal"
-																	th:onclick="|bindParentButtonText('${tempBettingArea.id}')|"
-																	id="betting-area-add-existing-machine-button">Add Existing Machine</button>
 														</div>
 
 														<div id="notesModalHolder" th:fragment="modalAddNotes"></div>
@@ -768,19 +758,28 @@
 		rh.mq.attachEventHandlers = function () {
 			$("#betting-area-add-machine-button").click(function() {
 
-				var s = "${tempBettingArea.id}"
+				var s = $("#tempBettingArea-holder").val();
 				$(this).replaceWith( '<button class="btn btn-primary btn-md" ' +
 						'data-target="#modalAddMachineForm" data-toggle="modal" ' +
-						'th:onclick="|bindParentButtonText(' + s + ')|" ' +
+						'onclick="bindParentButtonText(' + s + ')" ' +
 						'style="margin-right: 5px;" ' +
 						'id="betting-area-add-new-machine-button"> Add New Machine </button>',
 
 						'<button class="btn btn-primary btn-md"' +
 						'data-target="#modalAddMachineForm" data-toggle="modal"' +
-						'th:onclick="|bindParentButtonText(' + s + ')|" ' +
+						'onclick="bindParentButtonText(' + s + ')" ' +
 						'id="betting-area-add-existing-machine-button">Add Existing Machine</button>'
 				);
 				attachExistingMachineEventHandler();
+			});
+		};
+
+		var attachNewMachineEventHandler = function() {
+			$("#betting-area-add-new-machine-button").click(function() {
+				//TODO: finish this
+				$("#select-serial-number").replaceWith('<input id=');
+
+
 			});
 		};
 
@@ -794,17 +793,17 @@
 					success : function(data) {
 						var s = JSON.stringify(data);
 						var q = JSON.parse(s);
-						console.log(q[0] + " q at 0");
-						console.log(q.length + " q length");
-						console.log(q[0].serialNumber + " q at 0 serial number");
-
-						var html = '<select class="form-control" id="select-lsn-number" ' +
-						 		'name="serialNumber">'
+						var html = '<select class="form-control" id="select-serial-number" ' +
+						 		'name="serialNumber">';
+						console.log(q);
 
 						for (var t = 0; t < q.length; t ++) {
 							var r = q[t].serialNumber;
-							html += '<option value="' + r + '" ' +
-									'name="serialNumber">' + r + '</option>';
+							if(q[t].bettingArea === 0) {
+								html += '<option value="' + r + '" ' +
+										'name="serialNumber">' + r + '</option>';
+							}
+
 						}
 
 						$("#addMachine-serialNumber").replaceWith(html);
