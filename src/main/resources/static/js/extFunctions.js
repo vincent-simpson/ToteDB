@@ -52,12 +52,11 @@ function bindParentButtonText(id) {
 		id = -1;
 	}
 
-	// var id = -1;
-
 	$.ajax({
 		type : 'POST',
 		url : "/bettingAreas/bindToModel?bettingAreaId=" + id,
 		success : function(data) {
+			console.log("inside of bindParentButtonText ajax: " + data);
 		}
 
 	});
@@ -107,8 +106,6 @@ function deleteBettingArea(id) {
 			type : 'GET',
 			url : "/bettingAreas/delete?bettingAreaId=" + id,
 			success : function(result) {
-
-				alert('Deleted!');
 				window.location = '/bettingAreas/list';
 			},
 			error : function(result) {

@@ -32,4 +32,6 @@ public interface MachineDAO {
 	
 	public String getNotesByLSN(int LSN);
 
+	public void unbindFromBettingArea(int machineId);
+
 }

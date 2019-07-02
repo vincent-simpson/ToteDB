@@ -215,4 +215,13 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		return (String) theQuery.uniqueResult();
 	}
 
+	@Override
+	public void unbindFromBettingArea(int machineId) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query theQuery = currentSession.createQuery("UPDATE machines SET betting_area = 0 WHERE machine_id =:machineId");
+		theQuery.setParameter("machineId", machineId);
+		theQuery.executeUpdate();
+	}
+
 }

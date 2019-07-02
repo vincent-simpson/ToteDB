@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.w3c.dom.html.HTMLBodyElement;
 
 import com.vince.springboot.app.entity.BettingArea;
 import com.vince.springboot.app.entity.Machine;
@@ -134,7 +135,6 @@ public class BettingAreaController {
         bettingAreaGlobal = bettingAreaId;
 
         theModel.addAttribute("machine", machine);
-
     }
 
     /**
@@ -148,10 +148,12 @@ public class BettingAreaController {
      */
     @GetMapping("/bind")
     public String finalSaveMachine(@ModelAttribute("machine") Machine theMachine,
+                                    @RequestParam("serialNumber") int serialNumber,
                                     HttpServletRequest request)
     {
 
         theMachine.setBettingArea(bettingAreaGlobal);
+        theMachine.setSerialNumber(serialNumber + "");
         logger.warn("bind machine to save: " + theMachine.toString());
         machineService.save(theMachine);
 

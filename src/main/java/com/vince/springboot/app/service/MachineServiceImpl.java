@@ -97,4 +97,10 @@ public class MachineServiceImpl implements MachineService {
 		return machineDAO.getNotesByLSN(LSN);
 	}
 
+	@Override
+	@Transactional
+	public void unbindFromBettingArea(int machineId) {
+		machineDAO.unbindFromBettingArea(machineId);
+	}
+
 }

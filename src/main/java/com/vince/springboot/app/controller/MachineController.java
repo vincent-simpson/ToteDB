@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.vince.springboot.app.entity.BettingArea;
@@ -108,6 +109,14 @@ public class MachineController {
 		return "redirect:" + httpServletRequest.getHeader("Referer");
 	}
 
+	@RequestMapping(value = "/unbind", method = {RequestMethod.GET, RequestMethod.POST})
+	public String unbindMachineFromBettingArea(@RequestParam("machineId") int id, HttpServletRequest request) {
+		logger.warn("UNBIND id param: " + id);
+		machineService.unbindFromBettingArea(id);
+
+		return "redirect:" + request.getHeader("Referer");
+	}
+
 	@PostMapping("/edit")
 	public String editMachine(@RequestParam("machineId") int id, Model model, HttpServletRequest request) {
 
@@ -128,9 +137,10 @@ public class MachineController {
 		String s = request.getHeader("Referer").toLowerCase();
 		if(s.contains("masterlist")) {
 			return "machineMasterList :: modalAddMachine";
-		} else if(s.contains("machinelist")) {
+		} else if(s.contains("machinelist") || s.contains("bettingAreas".toLowerCase())) {
 			return "machineList :: modalAddMachine";
 		} else {
+			logger.warn("Referer is: " + s);
 			throw new RuntimeException("Referer not recognized");
 		}
 	}

@@ -6,30 +6,32 @@ import com.vince.springboot.app.entity.Machine;
 
 public interface MachineService {
 	
-	public Machine getByPrimaryId(int id);
+	Machine getByPrimaryId(int id);
 	
-	public Machine getBySerialNumber(String serialNumber);
+	Machine getBySerialNumber(String serialNumber);
 	
-	public List<Machine> getByBettingArea(String bettingAreaName);
+	List<Machine> getByBettingArea(String bettingAreaName);
 	
-	public Machine getByLSN(int LSN);
+	Machine getByLSN(int LSN);
 	
-	public void assignToLSN(Machine machine, int LSN);
+	void assignToLSN(Machine machine, int LSN);
 	
-	public void removeFromLSN(Machine machine, int LSN);
+	void removeFromLSN(Machine machine, int LSN);
 	
-	public void assignBettingArea(Machine machine, String bettingArea);
+	void assignBettingArea(Machine machine, String bettingArea);
 	
-	public void save(Machine machine);
+	void save(Machine machine);
 	
-	public void save(List<Machine> machines);
+	void save(List<Machine> machines);
 	
-	public List<Machine> getAll();
+	List<Machine> getAll();
 	
-	public void delete(int id);
+	void delete(int id);
 	
-	public String getNotesById(int id);
+	String getNotesById(int id);
 	
-	public String getNotesByLSN(int LSN);
+	String getNotesByLSN(int LSN);
+
+	void unbindFromBettingArea(int machineId);
 
 }
