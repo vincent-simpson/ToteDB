@@ -495,61 +495,6 @@
 														</div>
 
 														<div class="modal fade" id="modalAddMachineForm"
-															tabindex="-1" role="dialog"
-															aria-labelledby="modalAddMachine" aria-hidden="true"
-															th:fragment="modalAddMachine">
-
-															<div class="modal-dialog" role="document">
-
-																<div class="modal-content">
-
-																	<div class="modal-header text-center">
-																		<h4 id="add-machine-title"
-																			class="modal-title w-100 font-weight-bold">Add
-																			Machine</h4>
-																	</div>
-																	<form action="#" th:object="${machine}"
-																		th:action="@{/bettingAreas/bind}">
-
-																		<div class="form-row">
-																			<div
-																				class="form-group col-md-6 justify-content-center cold-md-offset-3"
-																				style="float: none; margin: auto;">
-
-																				<input type="hidden" th:field="*{machineId}">
-
-																				<input type="text" th:field="*{lsnNumber}"
-																					id="addMachine-lsnNumber" class="form-control"><label
-																					data-error="wrong" data-success="right"
-																					for="addMachine-lsnNumber" id="addMachine-lsnNumber-label">LSN Number</label>
-
-																				<input type="text" th:field="*{serialNumber}"
-																					id="addMachine-serialNumber" class="form-control"><label
-																					data-error="wrong" data-success="right"
-																					for="addMachine-serialNumber">Serial Number</label>
-
-
-																			</div>
-
-																		</div>
-																		<div
-																			class="modal-footer d-flex justify-content-center">
-																			<button type="submit" class="btn btn-primary"
-																				id="add-machine-button">Add</button>
-																			<button class="btn btn-primary" data-dismiss="modal"
-																				aria-label="Close">Cancel</button>
-																		</div>
-
-																		<!-- javascript:openMachineModal('-1');  -->
-
-
-																	</form>
-																</div>
-															</div>
-
-														</div>
-
-														<div class="modal fade" id="modalAddMachineForm"
 															 tabindex="-1" role="dialog"
 															 aria-labelledby="modalAddMachine" aria-hidden="true"
 															 th:fragment="modalAddMachine">
@@ -575,12 +520,14 @@
 
 																				<input type="text" th:field="*{lsnNumber}"
 																					   id="addMachine-lsnNumber" class="form-control"><label
+																					id="addMachine-lsnNumber-label"
 																					data-error="wrong" data-success="right"
 																					for="addMachine-lsnNumber">LSN Number</label>
 
 																				<input type="text" th:field="*{serialNumber}"
 																					   id="addMachine-serialNumber" class="form-control"><label
 																					data-error="wrong" data-success="right"
+																					id="addMachine-serialNumber-label"
 																					for="addMachine-serialNumber">Serial Number</label>
 
 
@@ -771,14 +718,25 @@
 						'id="betting-area-add-existing-machine-button">Add Existing Machine</button>'
 				);
 				attachExistingMachineEventHandler();
+				attachNewMachineEventHandler();
 			});
 		};
 
 		var attachNewMachineEventHandler = function() {
 			$("#betting-area-add-new-machine-button").click(function() {
 				//TODO: finish this
-				$("#select-serial-number").replaceWith('<input id=');
+				var t = $('#select-serial-number');
+				if (t !== null) {
+					t.replaceWith('<input id="addMachine-lsnNumber" ' +
+							'class="form-control" type="text" name="lsnNumber">' +
+							'<label id="addMachine-lsnNumber-label" data-error="wrong" ' +
+							'data-success="right" for="addMachine-lsnNumber">LSN Number</label>' +
+							'<input id="addMachine-serialNumber" class="form-control" ' +
+							'type="text" name="serialNumber"><label id="addMachine-serialNumber-label" ' +
+							'data-error="wrong" data-success="right" for="addMachine-serialNumber">' +
+							'</label>');
 
+				}
 
 			});
 		};
