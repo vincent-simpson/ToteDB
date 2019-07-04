@@ -175,11 +175,10 @@ function addRow(isSubmittedRow, date, note) {
 						mm = "0" + mm;
 					}
 
-					var todayFormatted = mm + '-' + dd + '-' + yyyy;
+					var todayFormatted = mm + '/' + dd + '/' + yyyy;
 
-					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="text" id="notes-date-input" value="'
-							+ todayFormatted
-							+ '">'
+					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="text" ' +
+						'id="notes-date-input" value="Enter Date">'
 							+ '<small id="date-label">Enter as Month/Day/Year</small></div> </div>';
 
 					blockOfHtml.innerHTML = x;
@@ -353,5 +352,28 @@ function addNewNoteButtonClicked() {
 	  }
 	  this.value = output;
 	});
+}
+
+function getBettingAreaForMasterList(id) {
+	var s;
+	var td = $("#master-list-betting-area");
+	console.log('inside getBettingAreaForMasterList');
+
+	if (id == 0) {
+		td.text('Betting area not bound');
+	} else {
+		$.ajax({
+
+			type: 'GET',
+			url : '/api/machines/' + id,
+			dataType : 'json',
+			success : function(data) {
+
+				console.log('JSON STRINGIFY ' + JSON.stringify(data));
+
+			}
+
+		})
+	}
 }
 

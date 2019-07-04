@@ -137,9 +137,11 @@ public class MachineController {
 		String s = request.getHeader("Referer").toLowerCase();
 		if(s.contains("masterlist")) {
 			return "machineMasterList :: modalAddMachine";
-		} else if(s.contains("machinelist") || s.contains("bettingAreas".toLowerCase())) {
+		}
+		else if(s.contains("machinelist") || s.contains("bettingAreas".toLowerCase())) {
 			return "machineList :: modalAddMachine";
-		} else {
+		}
+		else {
 			logger.warn("Referer is: " + s);
 			throw new RuntimeException("Referer not recognized");
 		}
@@ -216,39 +218,24 @@ public class MachineController {
 								  @RequestParam("machineId") int id,
 								  Model model) {
 
-		logger.warn("inside bind function " + "::: " + buttonText + "::: " + id + "::: " + machine.toString());
-
-
 		Machine machine2 = bindMachineToModel(machine, id, buttonText);
-
 		model.addAttribute("machine", machine2);
-
-		logger.warn("machine = " + machine2.toString());
 
 		machineService.save(machine2);
 
 		return "redirect:/bettingAreas/list";
-
-
 	}
 
 	@GetMapping("/machineMasterList")
 	public String getMachineMasterList(Model model) {
 
 		List<BettingArea> bettingAreas = bettingAreaService.getAll();
+		List<Machine> masterList = machineService.getAll();
 
 		model.addAttribute("bettingAreas", bettingAreas);
-
-		List<Machine> masterList = machineService.getAll();
-		logger.warn("master list first machine betting area: " + masterList.get(0).getBettingArea());
-
 		model.addAttribute("machines", masterList);
 		model.addAttribute("machine", new Machine());
 
 		return "machineMasterList";
 	}
-
-
-
-
 }
