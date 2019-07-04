@@ -331,6 +331,7 @@
 									<tr th:each="tempMachine : ${machines}">
 										<td th:text="${tempMachine.lsnNumber}" />
 										<td id="master-list-betting-area"
+											style="visibility: hidden;"
 											th:text="${tempMachine.bettingArea}">
 
 										</td>
@@ -584,10 +585,10 @@
 	});
 
 	function masterListBettingAreaListener() {
-		var s;
-		var td = $("#master-list-betting-area");
+		let s;
+		let td = $("#master-list-betting-area");
 		console.log('inside getBettingAreaForMasterList');
-		var id = td.text();
+		let id = td.text();
 
 		console.log(id);
 
@@ -597,12 +598,14 @@
 			$.ajax({
 
 				type: 'GET',
-				url : '/api/machines/' + id,
+				url : '/api/bettingAreas/' + id,
 				dataType : 'json',
 				success : function(data) {
-
-					console.log('JSON STRINGIFY ' + JSON.stringify(data));
-
+					td.text(data["areaName"]);
+					td.setAttribute("style", "visibility : visible;")
+				},
+				failure : function(data) {
+					console.log('inside failure handler');
 				}
 
 			})
