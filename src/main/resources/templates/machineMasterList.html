@@ -330,7 +330,7 @@
 									<tbody>
 									<tr th:each="tempMachine : ${machines}">
 										<td th:text="${tempMachine.lsnNumber}" />
-										<td id="master-list-betting-area"
+										<td class="machineGroup"
 											style="visibility: hidden;"
 											th:text="${tempMachine.bettingArea}">
 
@@ -630,36 +630,35 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function () {
-		masterListBettingAreaListener();
+	$(document).ready(function() {
+		getBettingArea();
 	});
 
-	function masterListBettingAreaListener() {
-		let s;
-		let td = $("#master-list-betting-area");
-		console.log('inside getBettingAreaForMasterList');
-		let id = td.text();
+	function getBettingArea() {
+		$('.machineGroup').each(function(i, obj) {
+			let txt = $(this).text();
+			let td = $(this);
 
-		console.log(id);
+			if (txt == 0) {
+				td.text('No betting area bound');
+				td.attr("style", "visibility : visible;");
+			} else {
+				console.log('inside getBettingArea');
+				$.ajax({
+					type: 'GET',
+					url : '/api/bettingAreas/' + txt,
+					dataType : 'json',
+					success : function(data) {
+						td.text(data["areaName"]);
+						td.attr("style", "visibility : visible;");
+					},
+					failure : function(data) {
+						console.log('inside failure handler');
+					}
 
-		if (id == 0) {
-			td.text('Betting area not bound');
-		} else {
-			$.ajax({
-
-				type: 'GET',
-				url : '/api/bettingAreas/' + id,
-				dataType : 'json',
-				success : function(data) {
-					td.text(data["areaName"]);
-					td.attr("style", "visibility : visible;")
-				},
-				failure : function(data) {
-					console.log('inside failure handler');
-				}
-
-			})
-		}
+				})
+			}
+		});
 	}
 
 

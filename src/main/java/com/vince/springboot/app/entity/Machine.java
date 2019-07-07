@@ -31,6 +31,8 @@ public class Machine {
 	
 	@Column(name="serial_number")
 	private String serialNumber;
+
+	private String bettingAreaAsName;
 	
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = Note.class, orphanRemoval = true, mappedBy = "machineId")
 	@JsonIgnore
@@ -95,6 +97,14 @@ public class Machine {
 
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
+	}
+
+	public String getBettingAreaAsName() {
+		return this.bettingAreaAsName;
+	}
+
+	public void setBettingAreaAsName(String s) {
+		this.bettingAreaAsName = s;
 	}
 
 	@Override

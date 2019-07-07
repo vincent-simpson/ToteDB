@@ -27,11 +27,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public Machine getByPrimaryId(int id) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		Machine theMachine = 
-				currentSession.get(Machine.class, id);
-		
-		return theMachine;
+		return 	currentSession.get(Machine.class, id);
 	}
 
 	@Override
@@ -162,12 +158,8 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Query<Machine> theQuery = 
 				currentSession.createQuery("from machines", Machine.class);
-		
-		List<Machine> machines = theQuery.getResultList();
-		
-		
-		
-		return machines;
+
+		return theQuery.getResultList();
 	}
 
 	@Override
