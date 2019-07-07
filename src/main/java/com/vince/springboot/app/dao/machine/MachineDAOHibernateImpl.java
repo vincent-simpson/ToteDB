@@ -9,6 +9,8 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.vince.springboot.app.entity.Machine;
@@ -163,26 +165,34 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	}
 
 	@Override
-	public void delete(int id) {
+	public ResponseEntity delete(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		Query theQuery = currentSession.createQuery("delete from machines where machine_id=:machineId");
-		theQuery.setParameter("machineId", id);
-		
-		theQuery.executeUpdate();
-		
-		Query emptyTableQuery = currentSession.createQuery("from machines");
-		List<Machine> temp = emptyTableQuery.getResultList();
-		
-		if(temp.isEmpty()) {
-			//comment these two lines in/out if local or heroku
-			Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_machine_id_seq RESTART WITH 1");
-			autoIncrementZero.executeUpdate();
-		} else {
-			Logger logger = LoggerFactory.getLogger(this.getClass());
-			logger.warn(temp.toString());
-		}
-		
+		Query machineQuery = currentSession.createQuery("delete from machines where machine_id=:machineId");
+		Query notesQuery = currentSession.createQuery("delete from notes where machine_id=:machineId");
+
+		machineQuery.setParameter("machineId", id);
+		notesQuery.setParameter("machineId", id);
+
+//		try {
+			notesQuery.executeUpdate();
+			machineQuery.executeUpdate();
+
+			Query emptyTableQuery = currentSession.createQuery("from machines");
+			List temp = emptyTableQuery.getResultList();
+
+			if(temp.isEmpty()) {
+				//comment these two lines in/out if local or heroku
+				Query autoIncrementZero = currentSession.createSQLQuery("ALTER SEQUENCE machines_machine_id_seq RESTART WITH 1");
+				autoIncrementZero.executeUpdate();
+			} else {
+				Logger logger = LoggerFactory.getLogger(this.getClass());
+				logger.warn(temp.toString());
+			}
+			return new ResponseEntity(HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		//}
 	}
 
 	@Override

@@ -3,35 +3,36 @@ package com.vince.springboot.app.dao.machine;
 import java.util.List;
 
 import com.vince.springboot.app.entity.Machine;
+import org.springframework.http.ResponseEntity;
 
 public interface MachineDAO {
 
-	public Machine getByPrimaryId(int id);
+	Machine getByPrimaryId(int id);
 
-	public Machine getBySerialNumber(String serialNumber);
+	Machine getBySerialNumber(String serialNumber);
 
-	public List<Machine> getByBettingArea(String bettingAreaName);
+	List<Machine> getByBettingArea(String bettingAreaName);
 
-	public Machine getByLSN(int LSN);
+	Machine getByLSN(int LSN);
 
-	public void assignToLSN(Machine machine, int LSN);
+	void assignToLSN(Machine machine, int LSN);
 
-	public void removeFromLSN(Machine machine, int LSN);
+	void removeFromLSN(Machine machine, int LSN);
 
-	public void assignBettingArea(Machine machine, String bettingArea);
+	void assignBettingArea(Machine machine, String bettingArea);
 
-	public void save(Machine machine);
+	void save(Machine machine);
 
-	public void save(List<Machine> machines);
+	void save(List<Machine> machines);
 
-	public List<Machine> getAll();
+	List<Machine> getAll();
 
-	public void delete(int id);
+	ResponseEntity delete(int id);
 	
-	public String getNotesById(int id);
+	String getNotesById(int id);
 	
-	public String getNotesByLSN(int LSN);
+	String getNotesByLSN(int LSN);
 
-	public void unbindFromBettingArea(int machineId);
+	void unbindFromBettingArea(int machineId);
 
 }
