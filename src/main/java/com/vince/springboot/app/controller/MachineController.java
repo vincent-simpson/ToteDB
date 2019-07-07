@@ -147,29 +147,38 @@ public class MachineController {
 		}
 	}
 
+	private String getReferer(HttpServletRequest request) {
+		String s = request.getHeader("Referer").toLowerCase();
+		if(s.contains("masterlist")) {
+			return "machineMasterList";
+		}
+		else if(s.contains("machinelist") || s.contains("bettingareas")) {
+			return "machineList";
+		}
+		else {
+			logger.warn("Referer is: " + s);
+			throw new RuntimeException("Referer not recognized");
+		}
+	}
+
 	@PostMapping("/addNotes/bind")
 	public String addNotes(@RequestParam("machineId") int id,
-						   Model theModel) {
+						   Model theModel,
+						   HttpServletRequest request) {
+		Machine machine;
+		List<Note> notes;
 
 		if (id == -1) {
-			Machine machine = new Machine();
-			theModel.addAttribute("machine", machine);
-
-			List<Note> notes = notesService.getNotes(machine.getMachineId());
-
-			theModel.addAttribute("notes", notes);
-
-			return "machineList :: modalAddNotes";
+			machine = new Machine();
 		} else {
-			Machine machine = machineService.getByPrimaryId(id);
-			theModel.addAttribute("machine", machine);
-
-			List<Note> notes = notesService.getNotes(machine.getMachineId());
-
-			theModel.addAttribute("notes", notes);
-
-			return "machineList :: modalAddNotes";
+			machine = machineService.getByPrimaryId(id);
 		}
+
+		theModel.addAttribute("machine", machine);
+		notes = notesService.getNotes(machine.getMachineId());
+		theModel.addAttribute("notes", notes);
+
+		return getReferer(request) + " :: modalAddNotes";
 
 	}
 
@@ -201,19 +210,15 @@ public class MachineController {
 	@PostMapping("/deleteNotes")
 	public ResponseEntity deleteNotes(@RequestParam("noteId") int id) {
 
-		if(id != 0) {
 			notesService.deleteById(id);
 
 			return new ResponseEntity(HttpStatus.OK);
-		} else {
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
 	}
 
 
 
 	@PostMapping("/bind")
-	public String bindButttonText(@ModelAttribute("machine") Machine machine,
+	public String bindButtonText(@ModelAttribute("machine") Machine machine,
 								  @RequestParam("bettingAreaButtonText") String buttonText,
 								  @RequestParam("machineId") int id,
 								  Model model) {

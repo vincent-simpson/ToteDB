@@ -418,14 +418,64 @@
 														<div class="modal-header text-center">
 															<h4 class="modal-title w-100 font-weight-bold"
 																id="add-notes-title">
-																Add Notes <a
+																Add Notes <button
 																	class="btn btn-success btn-sm"
 																	id="addDateButton"
 																	onclick="addRow(false, null, null); addNewNoteButtonClicked();"
-																	style="color: white; cursor: pointer;"> <i class="material-icons">note_add</i>
-															</a>
+																	style="color: white;">New Note
+															</button>
+																<button
+																	class="btn btn-sm" data-dismiss="modal"
+																	aria-label="Close">
+																	Close
+																</button>
 															</h4>
 														</div>
+
+														<form th:object="${notes}">
+
+															<div class="form-row"
+																 style="border: 0; border-left-width: 0px; border-left-style: solid; padding-left: 5px; padding-right: 5px;">
+																<div class="form-group  flex-fill "
+																	 style="float: none; margin: auto;">
+																	<input type="hidden" id="notes-modal-machine-id"
+																		   th:value="${machine.machineId}">
+
+
+																	<div id="cont"></div>
+
+																	<input type="hidden" id="note-id-holder" value="">
+
+																	<table id="notesTable" class="table" width="100%">
+																		<thead>
+																		<tr>
+																			<th width="10%">
+																			<th width="30%">Date</th>
+																			<th class="text-center" width="60%">Notes</th>
+																		</tr>
+
+																		</thead>
+																		<tbody>
+																		<!-- Open notes modal > machine bound to current model. Set machineId = machine.id -->
+																		<tr th:each="tempNote : ${notes}">
+																			<td><input type="button" value="Remove"
+																					   class="btn btn-primary btn-sm"
+																					   style="margin-bottom: 5px;"
+																					   th:onclick="|removeRow(this, '${tempNote.id}')|">
+																			</td>
+																			<td th:text="${tempNote.date}" ></td>
+																			<td th:text="${tempNote.note}"></td>
+																		</tr>
+
+																		</tbody>
+
+																	</table>
+
+																</div>
+
+															</div>
+
+														</form>
 													</div>
 												</div>
 											</div>
@@ -602,7 +652,7 @@
 				dataType : 'json',
 				success : function(data) {
 					td.text(data["areaName"]);
-					td.setAttribute("style", "visibility : visible;")
+					td.attr("style", "visibility : visible;")
 				},
 				failure : function(data) {
 					console.log('inside failure handler');

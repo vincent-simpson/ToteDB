@@ -10,7 +10,7 @@ public interface BettingAreaDAO {
 	
 	public BettingArea getById(int id);
 	
-	public List<BettingArea> getAll();
+	public List getAll();
 	
 	public void save(BettingArea bettingArea);
 	

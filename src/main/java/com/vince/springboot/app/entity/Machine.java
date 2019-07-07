@@ -1,5 +1,7 @@
 package com.vince.springboot.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,6 +33,7 @@ public class Machine {
 	private String serialNumber;
 	
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = Note.class, orphanRemoval = true, mappedBy = "machineId")
+	@JsonIgnore
 	private List<Note> notes;
 	
 	

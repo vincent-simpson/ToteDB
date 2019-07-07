@@ -13,7 +13,7 @@ public class BettingArea {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column
 	private int id;
 	
 	@Column(name="area_name")

@@ -3,7 +3,6 @@ package com.vince.springboot.app.dao.bettingAreas;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
@@ -27,7 +26,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 	}
 	
 	@Override
-	public List<BettingArea> getAll() {
+	public List getAll() {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
@@ -35,12 +34,11 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 //		Query setUpSequences = currentSession.createNativeQuery("SET search_path TO monmouth, public");
 //		setUpSequences.executeUpdate();
 //		
-		Query<BettingArea> theQuery = 
-				currentSession.createQuery("from betting_areas", BettingArea.class);
+		NativeQuery theQuery =
+				currentSession.createSQLQuery("select * from betting_areas");
+		theQuery.addEntity(BettingArea.class);
 		
-		List<BettingArea> bettingAreas = theQuery.getResultList();
-		
-		return bettingAreas;
+		return theQuery.getResultList();
 	}
 
 	@Override
@@ -59,18 +57,9 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 	public void save(BettingArea bettingArea) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		Query theQuery = currentSession.createQuery("from betting_areas where id=:bettingAreaId");
-		theQuery.setParameter("bettingAreaId", bettingArea.getId());
-		
-		try {
-			BettingArea bettingArea2 = (BettingArea) theQuery.getSingleResult();
-			
-			currentSession.evict(bettingArea2);
-			currentSession.update(bettingArea);
-		} catch (NoResultException e) {
-			currentSession.save(bettingArea);
-		}
+		Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.warn(bettingArea.toString());
+		currentSession.saveOrUpdate(bettingArea);
 				
 	}
 
@@ -101,7 +90,7 @@ public class BettingAreaHibernateImpl implements BettingAreaDAO {
 		}
 		
 		
-		Query<BettingArea> emptyTableQuery = currentSession.createQuery("from betting_areas");
+		Query<BettingArea> emptyTableQuery = currentSession.createSQLQuery("select * from betting_areas");
 		List<BettingArea> temp = emptyTableQuery.getResultList();
 		
 		if (temp.isEmpty()) {
