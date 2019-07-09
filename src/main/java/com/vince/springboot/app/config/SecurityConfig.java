@@ -21,6 +21,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -45,9 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		Logger logger = LoggerFactory.getLogger(this.getClass());
-		
+	protected void configure(HttpSecurity http) throws Exception {		
 		http
 		.authorizeRequests()
 				//antMatchers for resource files.
@@ -100,6 +100,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		dataSource.setUsername(env.getProperty("spring.datasource.username"));
 		
 		return dataSource;
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 	
 	
