@@ -150,7 +150,13 @@ public class BettingAreaController {
                                     @RequestParam("serialNumber") int serialNumber,
                                     HttpServletRequest request)
     {
-
+    	Machine temp = machineService.getBySerialNumber(serialNumber + "");
+    	if (temp == null) {
+    		// service returned non-unique result
+    		return "404";
+    	}
+    	
+    	theMachine.setMachineId(machineService.getBySerialNumber(serialNumber + "").getMachineId());
         theMachine.setBettingArea(bettingAreaGlobal);
         theMachine.setSerialNumber(serialNumber + "");
         logger.warn("bind machine to save: " + theMachine.toString());

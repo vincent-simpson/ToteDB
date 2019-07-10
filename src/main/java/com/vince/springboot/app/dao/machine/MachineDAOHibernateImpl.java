@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import com.vince.springboot.app.entity.Machine;
 public class MachineDAOHibernateImpl implements MachineDAO {
 	
 	private EntityManager entityManager;
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	public MachineDAOHibernateImpl(EntityManager theEntityManager) {
@@ -39,10 +41,15 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 		
 		Query theQuery = currentSession.createQuery("from machines where serial_number=:serialNumber");
 		theQuery.setParameter("serialNumber", serialNumber);
+
+		Machine machine;
 		
-		Machine theMachine = (Machine) theQuery.uniqueResult();		
-		
-		return theMachine;
+		try {
+			machine = (Machine) theQuery.uniqueResult();
+		} catch (NonUniqueResultException exception) {
+			machine = null;
+		}
+		return machine;
 	}
 
 	@Override
@@ -115,29 +122,8 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	@Override
 	public void save(Machine machine) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
-		Query theQuery = currentSession.createQuery("from machines where machine_id=:machineId");
-		theQuery.setParameter("machineId", machine.getMachineId());
-		
-		Machine machine2;
-
+		logger.warn("machine id = " + machine.getMachineId());
 		currentSession.saveOrUpdate(machine);
-
-
-//		try {
-//
-//			Query updateQuery = currentSession.createNativeQuery("UPDATE machines SET lsn_number=:lsnParam, serial_number=:serialParam WHERE machine_id=:machineIdParam");
-//			updateQuery.setParameter("lsnParam", machine.getLsnNumber());
-//			updateQuery.setParameter("serialParam", machine.getSerialNumber());
-//			updateQuery.setParameter("machineIdParam", machine.getMachineId());
-//
-//			machine2 = (Machine) theQuery.getSingleResult(); //throws NoResultException
-//			currentSession.evict(machine2);
-//			updateQuery.executeUpdate();
-//		} catch (NoResultException e) {
-//			currentSession.save(machine);
-//		}
-		
 	}
 
 	@Override
