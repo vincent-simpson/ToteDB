@@ -158,7 +158,7 @@ public class BettingAreaController {
     	
     	theMachine.setMachineId(machineService.getBySerialNumber(serialNumber + "").getMachineId());
         theMachine.setBettingArea(bettingAreaGlobal);
-        theMachine.setSerialNumber(serialNumber + "");
+        theMachine.setSerialNumber(serialNumber);
         logger.warn("bind machine to save: " + theMachine.toString());
         machineService.save(theMachine);
 

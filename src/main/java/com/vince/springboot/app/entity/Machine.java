@@ -1,11 +1,7 @@
 package com.vince.springboot.app.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cascade;
-
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +13,9 @@ import javax.persistence.Table;
 @Entity(name="machines")
 @Table(name="machines")
 public class Machine extends Throwable {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name="machine_id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,17 +28,17 @@ public class Machine extends Throwable {
 	private int bettingArea;
 	
 	@Column(name="serial_number")
-	private String serialNumber;
+	private int serialNumber;
 
 	private String bettingAreaAsName;
 	
-	@OneToMany(targetEntity = Note.class, orphanRemoval = true, mappedBy = "machineId")
+	@OneToMany(targetEntity = Note.class, mappedBy = "machineId")
 	private List<Note> notes;
 	
 	
 	public Machine() {}
 	
-	public Machine(int id, int lsnNumber, int bettingArea, String serialNumber) {
+	public Machine(int id, int lsnNumber, int bettingArea, int serialNumber) {
 		this.machineId = id;
 		this.lsnNumber = lsnNumber;
 		this.bettingArea = bettingArea;
@@ -51,7 +49,7 @@ public class Machine extends Throwable {
 		this.machineId = id;
 	}
 	
-	public Machine(int lsnNumber, String serialNumber) {
+	public Machine(int lsnNumber, int serialNumber) {
 		this.lsnNumber = lsnNumber;
 		this.serialNumber = serialNumber;
 	}
@@ -61,7 +59,8 @@ public class Machine extends Throwable {
 	}
 
 	public void setNotes(List<Note> notes) {
-		this.notes = notes;
+		this.notes.clear();
+		this.notes.addAll(notes);
 	}
 
 	public int getMachineId() {
@@ -85,16 +84,14 @@ public class Machine extends Throwable {
 	}
 
 	public void setBettingArea(int bettingArea) {
-		
-		
 		this.bettingArea = bettingArea;
 	}
 
-	public String getSerialNumber() {
+	public Integer getSerialNumber() {
 		return serialNumber;
 	}
 
-	public void setSerialNumber(String serialNumber) {
+	public void setSerialNumber(int serialNumber) {
 		this.serialNumber = serialNumber;
 	}
 

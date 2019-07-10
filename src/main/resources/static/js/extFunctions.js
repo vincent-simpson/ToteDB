@@ -1,3 +1,4 @@
+
 $(function() {
     let token = $("meta[name='_csrf']").attr("content");
     let header = $("meta[name='_csrf_header']").attr("content");
@@ -8,7 +9,7 @@ $(function() {
     });
 });
 
-attachEventHandlers = function() {
+let attachEventHandlers = function() {
 	$("#addBettingAreaForm").on('shown.bs.modal', function() {
 		$("#defaultForm-betting-area").focus();
 
@@ -116,7 +117,6 @@ function addRow(isSubmittedRow, date, note) {
 
 	if (!isSubmittedRow) {
 		let tr = empTab.insertRow(-1); // TABLE ROW.
-		let rowCnt = empTab.rows.length; // GET TABLE ROW COUNT.
 		let colCnt = 3;
 
 		for (let c = 0; c < colCnt; c++) {
@@ -160,20 +160,7 @@ function addRow(isSubmittedRow, date, note) {
 						blockOfHtml.innerHtml = "<div id='blockOfHtml' style='display: none;'>";
 					}
 
-					let x;
-
-					let today = new Date();
-					let dd = today.getDate();
-					let mm = today.getMonth() + 1;
-					let yyyy = today.getFullYear();
-
-					if (mm < 10) {
-						mm = "0" + mm;
-					}
-
-					let todayFormatted = mm + '/' + dd + '/' + yyyy;
-
-					x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="text" ' +
+					let x = '<div class="form-group row"> <div class="col-10"> <input class="form-control" type="text" ' +
 						'id="notes-date-input" value="Enter Date">'
 							+ '<small id="date-label">Enter as Month/Day/Year</small></div> </div>';
 
@@ -235,7 +222,6 @@ function removeRow(oButton, id) {
 }
 
 function submit() {
-	let myTab = document.getElementById('notesTable');
 	let values = [];
 	let t = document.getElementById('notes-date-input');
 	values.push("" + t.value.trim() + "");
@@ -253,8 +239,6 @@ function submit() {
 				+ '&machineId=' + mId,
 		dataType : 'json',
 		success : function(data) {
-			let data_json = JSON.stringify(data);
-
 			let data_formatted = {
 				date : data[0],
 				note : data[1],
@@ -344,7 +328,6 @@ function addNewNoteButtonClicked() {
 }
 
 function getBettingAreaForMasterList(id) {
-	let s;
 	let td = $("#master-list-betting-area");
 	console.log('inside getBettingAreaForMasterList');
 

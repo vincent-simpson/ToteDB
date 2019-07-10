@@ -123,7 +123,8 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	public void save(Machine machine) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		logger.warn("machine id = " + machine.getMachineId());
-		currentSession.saveOrUpdate(machine);
+		currentSession.merge(machine);
+		//currentSession.saveOrUpdate(machine);
 	}
 
 	@Override

@@ -50,8 +50,11 @@ public class MachineController {
 	public String saveMachine(@ModelAttribute("machine") Machine machine, HttpServletRequest request,
 							  @RequestParam(value = "bettingAreaName", required = false) String bettingAreaName)
 	{
-		logger.warn("betting area name in /save mapping: " + bettingAreaName);
-		machine.setBettingArea(bettingAreaService.getByName(bettingAreaName).getId());
+		if(bettingAreaName.toLowerCase().contains("no betting area")) {
+			machine.setBettingArea(0);
+		} else {
+			machine.setBettingArea(bettingAreaService.getByName(bettingAreaName).getId());
+		}
 		machineService.save(machine);
 
 		String s = request.getHeader("Referer");
