@@ -151,10 +151,7 @@ public class BettingAreaController {
                                     HttpServletRequest request)
     {
     	Machine temp = machineService.getBySerialNumber(serialNumber + "");
-    	if (temp == null) {
-    		// service returned non-unique result
-    		return "404";
-    	}
+    	
     	
     	theMachine.setMachineId(machineService.getBySerialNumber(serialNumber + "").getMachineId());
         theMachine.setBettingArea(bettingAreaGlobal);
