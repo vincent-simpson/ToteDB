@@ -151,9 +151,10 @@ public class BettingAreaController {
                                     HttpServletRequest request)
     {
     	Machine temp = machineService.getBySerialNumber(serialNumber + "");
+    	if (temp != null) {
+        	theMachine.setMachineId(temp.getMachineId());
+    	}
     	
-    	
-    	theMachine.setMachineId(machineService.getBySerialNumber(serialNumber + "").getMachineId());
         theMachine.setBettingArea(bettingAreaGlobal);
         theMachine.setSerialNumber(serialNumber);
         logger.warn("bind machine to save: " + theMachine.toString());
