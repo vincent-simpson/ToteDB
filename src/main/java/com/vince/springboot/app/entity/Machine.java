@@ -108,8 +108,4 @@ public class Machine extends Throwable {
 		return "Machine [id=" + machineId + ", lsnNumber=" + lsnNumber + ", bettingArea=" + bettingArea + ", serialNumber="
 				+ serialNumber + "]";
 	}
-	
-	
-	
-
 }
