@@ -115,34 +115,6 @@
 			</div></li>
 
 		<!-- Divider -->
-		<hr class="sidebar-divider">
-
-		<!-- Heading -->
-		<div class="sidebar-heading">Addons</div>
-
-		<!-- Nav Item - Pages Collapse Menu -->
-		<li class="nav-item"><a aria-controls="collapsePages" aria-expanded="true"
-								class="nav-link collapsed" data-target="#collapsePages"
-								data-toggle="collapse" href="#"> <i
-				class="fas fa-fw fa-folder"></i> <span>Pages</span>
-		</a>
-			<div aria-labelledby="headingPages" class="collapse"
-				 data-parent="#accordionSidebar" id="collapsePages">
-				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Login Screens:</h6>
-					<a class="collapse-item" href="login.html">Login</a> <a
-						class="collapse-item" href="register.html">Register</a> <a
-						class="collapse-item" href="forgot-password.html">Forgot
-					Password</a>
-					<div class="collapse-divider"></div>
-					<h6 class="collapse-header">Other Pages:</h6>
-					<a class="collapse-item" href="404.html">404 Page</a> <a
-						class="collapse-item" href="blank.html">Blank Page</a>
-				</div>
-			</div></li>
-
-
-		<!-- Divider -->
 		<hr class="sidebar-divider d-none d-md-block">
 
 		<!-- Sidebar Toggler (Sidebar) -->
@@ -368,132 +340,12 @@
 							</div>
 						</div>
 					</div>
-
-
-
 				</div>
 
 				<!-- Content Row -->
 				<div class="row">
 
-					<div class="col-lg-6">
-
-						<!-- Overflow Hidden -->
-						<div class="card mb-4">
-
-
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-
 					<div class="col-lg-12">
-
-						<table cellspacing="0" class="table table-bordered"
-							   id="bettingAreaTable" width="100%">
-
-							<tbody>
-							<tr th:each="machine : ${machines}">
-								<td>
-									<div class="card">
-										<div class="card-header" id="headingTwo">
-
-											<div id="blockOfHtml" style="display: none;">
-												<div class="form-group row">
-													<div class="col-10">
-														<input class="form-control" id="notes-date-input"
-															   type="text" value="">
-													</div>
-												</div>
-											</div>
-
-											<div id="notesModalHolder" th:fragment="modalAddNotes"></div>
-
-											<div aria-hidden="true" aria-labelledby="modalAddNotes"
-												 class="modal fade" id="modalAddNotesForm"
-												 role="dialog" tabindex="-1"
-												 th:fragment="modalAddNotes">
-
-												<div class="modal-dialog modal-lg" role="document">
-
-													<div class="modal-content">
-														<div class="modal-header text-center">
-															<h4 class="modal-title w-100 font-weight-bold"
-																id="add-notes-title">
-																Add Notes <button
-																	class="btn btn-success btn-sm"
-																	id="addDateButton"
-																	onclick="addRow(false, null, null); addNewNoteButtonClicked();"
-																	style="color: white;">New Note
-															</button>
-																<button
-																	class="btn btn-sm" data-dismiss="modal"
-																	aria-label="Close">
-																	Close
-																</button>
-															</h4>
-														</div>
-
-														<form th:object="${notes}">
-
-															<div class="form-row"
-																 style="border: 0; border-left-width: 0px; border-left-style: solid; padding-left: 5px; padding-right: 5px;">
-																<div class="form-group  flex-fill "
-																	 style="float: none; margin: auto;">
-																	<input type="hidden" id="notes-modal-machine-id"
-																		   th:value="${machine.machineId}">
-
-
-																	<div id="cont"></div>
-
-																	<input type="hidden" id="note-id-holder" value="">
-
-																	<table id="notesTable" class="table" width="100%">
-																		<thead>
-																		<tr>
-																			<th width="10%">
-																			<th width="30%">Date</th>
-																			<th class="text-center" width="60%">Notes</th>
-																		</tr>
-
-																		</thead>
-																		<tbody>
-																		<!-- Open notes modal > machine bound to current model. Set machineId = machine.id -->
-																		<tr th:each="tempNote : ${notes}">
-																			<td><input type="button" value="Remove"
-																					   class="btn btn-primary btn-sm"
-																					   style="margin-bottom: 5px;"
-																					   th:onclick="|removeRow(this, '${tempNote.id}')|">
-																			</td>
-																			<td th:text="${tempNote.date}" ></td>
-																			<td th:text="${tempNote.note}"></td>
-																		</tr>
-
-																		</tbody>
-
-																	</table>
-
-																</div>
-
-															</div>
-
-														</form>
-													</div>
-												</div>
-											</div>
-
-											<div id="machineModalHolder" th:fragment="modalAddMachine">
-											</div>
-
-										</div>
-									</div>
-								</td>
-							</tr>
-
-							</tbody>
-
-						</table>
 
 						<div aria-hidden="true" aria-labelledby="modalAddMachine"
 							 class="modal fade" id="modalAddMachineForm"
