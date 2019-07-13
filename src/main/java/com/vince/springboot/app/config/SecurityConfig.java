@@ -67,11 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				}
 			})
 			.failureHandler(new AuthenticationFailureHandler() {
-				//if authentication fails, print the exception stack trace.
 				@Override
 				public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 						AuthenticationException exception) throws IOException, ServletException {
-					exception.printStackTrace();
+					response.sendRedirect("/login");
 				}
 			})
 			.permitAll()
