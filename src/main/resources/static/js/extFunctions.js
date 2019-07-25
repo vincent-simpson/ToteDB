@@ -65,8 +65,8 @@ function openMachineModal(id) {
 		success : function(data) {
 			$("#machineModalHolder").html(data);
 
-			$("#machineModalHolder #add-machine-button").html("Save");
-			$("#machineModalHolder #add-machine-title").html("Edit Machine");
+			$("#modalAddMachineForm #add-machine-button").html("Save");
+			$("#modalAddMachineForm #add-machine-title").html("Edit Machine");
 
 			$("#modalAddMachineForm").modal("show");
 

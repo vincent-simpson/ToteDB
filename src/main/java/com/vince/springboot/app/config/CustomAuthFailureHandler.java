@@ -18,9 +18,4 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
 			AuthenticationException exception) throws IOException, ServletException {
 		getRedirectStrategy().sendRedirect(request, response, "/login.html?error=true");
 	}
-	
-	
-	
-	
-
 }
