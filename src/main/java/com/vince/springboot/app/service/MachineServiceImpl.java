@@ -29,7 +29,7 @@ public class MachineServiceImpl implements MachineService {
 
 	@Override
 	@Transactional
-	public Machine getBySerialNumber(String serialNumber) {
+	public Machine getBySerialNumber(int serialNumber) {
 		return machineDAO.getBySerialNumber(serialNumber);
 	}
 

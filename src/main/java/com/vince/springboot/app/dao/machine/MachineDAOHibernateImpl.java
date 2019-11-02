@@ -35,7 +35,7 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 	}
 
 	@Override
-	public Machine getBySerialNumber(String serialNumber) {
+	public Machine getBySerialNumber(int serialNumber) {
 		
 		Session currentSession = entityManager.unwrap(Session.class);
 		

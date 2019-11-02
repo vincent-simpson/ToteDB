@@ -150,7 +150,7 @@ public class BettingAreaController {
                                     @RequestParam("serialNumber") int serialNumber,
                                     HttpServletRequest request)
     {
-    	Machine temp = machineService.getBySerialNumber(serialNumber + "");
+    	Machine temp = machineService.getBySerialNumber(serialNumber);
     	if (temp != null) {
         	theMachine.setMachineId(temp.getMachineId());
     	}

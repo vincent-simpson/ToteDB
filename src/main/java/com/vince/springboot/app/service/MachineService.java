@@ -8,7 +8,7 @@ public interface MachineService {
 	
 	Machine getByPrimaryId(int id);
 	
-	Machine getBySerialNumber(String serialNumber);
+	Machine getBySerialNumber(int serialNumber);
 	
 	List<Machine> getByBettingArea(String bettingAreaName);
 	
