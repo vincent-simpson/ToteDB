@@ -146,9 +146,9 @@ public class MachineDAOHibernateImpl implements MachineDAO {
 //		setUpSequences.executeUpdate();
 		
 		Query<Machine> theQuery = 
-				currentSession.createQuery("from machines", Machine.class);
+				currentSession.createNativeQuery("select * from machines", Machine.class);
 
-		return theQuery.getResultList();
+		return theQuery.list();
 	}
 
 	@Override

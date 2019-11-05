@@ -3,7 +3,8 @@ package com.vince.springboot.app.rest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.vince.springboot.app.entity.Employee;
 import com.vince.springboot.app.service.EmployeeService;
@@ -32,19 +32,18 @@ public class EmployeeRestController {
 	public List<Employee> findAll() {
 		return employeeService.findAll();
 	}
-	
-	// add mapping for GET /employees/{employeeId}
-	
+		
 	@GetMapping("/employees/{employeeId}")
-	public Employee getEmployee(@PathVariable int employeeId) {
+	public ResponseEntity<?> getEmployee(@PathVariable int employeeId) {
 		
 		Employee theEmployee = employeeService.findById(employeeId);
 		
 		if(theEmployee == null) {
-			throw new RuntimeException("Employee id not found - " + employeeId);
+			return new ResponseEntity<String>("No employee matching that ID", HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<Employee>(theEmployee, HttpStatus.OK);
 		}
 		
-		return theEmployee;
 	}
 	
 	// add mapping for POST /employees - add new employee

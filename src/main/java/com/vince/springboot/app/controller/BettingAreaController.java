@@ -39,7 +39,7 @@ public class BettingAreaController {
     /**
      * Mapping that retrieves all of the machines and betting areas that exist in the database and binds them
      * to the {@param theModel}
-     *
+     * 
      * @param theModel the model to bind the machines and betting areas to.
      * @return a String that represents the view to resolve. In this case, machineList.html
      */
