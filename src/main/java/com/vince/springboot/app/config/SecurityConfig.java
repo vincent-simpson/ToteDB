@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -44,34 +43,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.jdbcAuthentication().dataSource(securityDataSource());
 	}
 
+	/**
+	 * NOTE: LOGIN CREDENTIALS:
+	 * username: john
+	 * password: test123
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
 				//antMatchers for resource files.
-			.antMatchers("/css/**", "/js/**", "/img/**", "/scss/**", "/vendor/**").permitAll();
-//		.and()
-//		.formLogin()
-//			.loginPage("/login")
-//			.loginProcessingUrl("/authenticateUser")
-//			.permitAll()
-//			.successHandler(new AuthenticationSuccessHandler() {
-//				// if authentication succeeds, send request to controller for main dashboard
-//				@Override
-//				public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-//						Authentication authentication) throws IOException, ServletException {
-//					response.sendRedirect("/"); // "/" is the request that maps to the main dashboard.
-//				}
-//			})
-//			.failureHandler(customAuthFailureHandler)
-//			.permitAll()
-//			.and()
-//			.logout()
-//			.logoutUrl("/logout")
-//			.logoutSuccessUrl("/login")
-//			.permitAll()
-//			.and()
-//			.exceptionHandling().accessDeniedPage("/access-denied");
+			.antMatchers("/css/**", "/js/**", "/img/**", "/scss/**", "/vendor/**").permitAll()
+		.and()
+		.formLogin()
+			.loginPage("/login")
+			.loginProcessingUrl("/authenticateUser")
+			.permitAll()
+			.successHandler(new AuthenticationSuccessHandler() {
+				// if authentication succeeds, send request to controller for main dashboard
+				@Override
+				public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+						Authentication authentication) throws IOException, ServletException {
+					response.sendRedirect("/"); // "/" is the request that maps to the main dashboard.
+				}
+			})
+			.failureHandler(customAuthFailureHandler)
+			.permitAll()
+			.and()
+			.logout()
+			.logoutUrl("/logout")
+			.logoutSuccessUrl("/login")
+			.permitAll()
+			.and()
+			.exceptionHandling().accessDeniedPage("/access-denied");
 
 	}
 
